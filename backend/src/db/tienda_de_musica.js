@@ -1,4 +1,3 @@
-const e = require('express');
 const { Pool } = require('pg');
 
 // Levantar Base de Datos (Necesaria Dependencia Postgresql instalada)
@@ -57,6 +56,75 @@ async function obtenerVentas ( ) {
 
 
 // Agregar filas a una entidad (POST).
+// INSTRUMENTOS
+
+// Agregar un instrumento
+async function agregarInstrumento (
+    tipo,
+    nombre,
+    marca,
+    modelo,
+    precio,
+    sucursal,
+    disponible
+) {
+    const resultado = await dbCliente.query(
+        'INSERT INTO instrumentos(tipo, nombre, marca, modelo, precio, sucursal, disponible) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+        [tipo, nombre, marca, modelo, precio, sucursal, disponible]);
+    if (resultado.rowCount === 0) {
+        return undefined
+    } else {
+        return resultado.rows[0];
+    }
+}
+
+/*
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"tipo":"Guitarra eléctrica","nombre":"x", "marca":"Fender", "modelo":"California", "precio":""}' \
+  http://localhost:3030/productos/agregarInstrumento
+
+*/
+// VENDEDORES
+// Agregar vendedor.
+
+async function agregarVendedor (
+    turno,
+    nombre,
+    ventas,
+    sucursal,
+    calificacion,
+    disponible,
+) {
+    const resultado = await dbCliente.query(
+        'INSERT INTO vendedores(turno, nombre, ventas, sucursal, calificacion, disponible) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+        [turno, nombre, ventas, sucursal, calificacion, disponible]);
+    if (resultado.rowCount === 0) {
+        return undefined
+    } else {
+        return resultado.rows[0];
+    }
+}
+
+// MERCHANDISING
+// Agregar merch.
+
+async function agregarMerchandising (
+    tipo,
+    nombre,
+    marca,
+    sucursal,
+    disponible,
+) {
+    const resultado = await dbCliente.query(
+        'INSERT INTO merchandising(tipo, nombre, marca, sucursal, disponible) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [tipo, nombre, marca, sucursal, disponible]);
+    if (resultado.rowCount === 0) {
+        return undefined
+    } else {
+        return resultado.rows[0];
+    }
+}
 
 // VENTAS_CONCRETADAS
 // Crear una nueva venta_concretada
@@ -69,15 +137,13 @@ async function crearVentaConcretada (
     turno
 ) {
     const resultado = await dbCliente.query(
-        'INSERT INTO venta_concretada(tipo, vendedor_id, instrumento_id, merch_id, precio_real_venta, turno) VALUES ($1, $2, $3, $4, $5, $6)',
+        'INSERT INTO ventas_concretadas(tipo, vendedor_id, instrumento_id, merch_id, precio_real_venta, turno) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
         [tipo, vendedor_id, instrumento_id, merch_id, precio_real_venta, turno]);
     if (resultado.rowCount === 0) {
         return undefined
     } else {
         return resultado.rows[0];
     }
-
-
 }
 
 // Actualizar datos de una fila (UPDATE).
@@ -91,5 +157,8 @@ module.exports = {
     obtenerVentas,
     obtenerUnInstrumento,
     obtenerTipoDeInstrumento,
-    crearVentaConcretada
+    crearVentaConcretada,
+    agregarInstrumento,
+    agregarVendedor,
+    agregarMerchandising
 };
