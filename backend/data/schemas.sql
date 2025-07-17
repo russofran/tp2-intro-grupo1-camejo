@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXIST vendedores (
     disponible BOOLEAN NOT NULL,
 )
 
-CREATE TABLE IF NOT EXIST merch (
+CREATE TABLE IF NOT EXIST merchandising (
     id SERIAL PRIMARY KEY,
     tipo VARCHAR(50) NOT NULL,
     nombre VARCHAR(100) NOT NULL,
