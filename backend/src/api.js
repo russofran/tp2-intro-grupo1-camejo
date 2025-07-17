@@ -122,7 +122,7 @@ app.post('/admin/productos/agregarInstrumento', async (req, res) => {
 */
 
 // TABLA VENDEDORES
-
+// Agregar Vendedor
 app.post('/admin/staff/agregarVendedor', async (req, res) => {
     // En caso de que no mande nada en el INSERT
     if (!req.body.turno ||
@@ -151,7 +151,7 @@ app.post('/admin/staff/agregarVendedor', async (req, res) => {
 });
 
 // TABLA Merchandising
-
+// agregar Merch
 app.post('/admin/productos/agregarMerchandising', async (req, res) => {
     // En caso de que no mande nada en el INSERT
     if (!req.body.tipo ||
