@@ -16,16 +16,27 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 // Funciones de db
 const {
     obtenerInstrumentos,
-    obtenerVendedores,
-    obtenerMerchandising,
-    obtenerVentas,
     obtenerUnInstrumento,
     obtenerTipoDeInstrumento,
-    crearVentaConcretada,
-    agregarInstrumento,
-    agregarVendedor,
+    agregarInstrumento
+} = require('./db/instrumentos')
+
+const {
+    obtenerMerchandising,
     agregarMerchandising
-} = require('../src/db/tienda_de_musica')
+} = require('./db/merchandising')
+
+const {
+    obtenerVendedores,
+    agregarVendedor,
+
+
+} = require('./db/vendedores')
+
+const {
+    obtenerVentas,
+    crearVentaConcretada
+} = require('./db/ventas_concretadas')
 
 
 
