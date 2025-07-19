@@ -19,21 +19,26 @@ async function obtenerMerchandising ( ) {
     return resultado.rows;
 };
 
+// Solicitar 1 solo merch por id.
+async function obtenerUnMerchandising (id) {
+    const resultado = await dbCliente.query('SELECT * FROM merchandising WHERE id_merchandising=$1', [id]);
+    return resultado.rows[0];
+};
 
 // POST
 
 // Agregar merch.
 
 async function agregarMerchandising (
-    tipo,
-    nombre,
-    marca,
-    sucursal,
-    disponible,
+    tipo_merchandising,
+    nombre_merchandising,
+    marca_merchandising,
+    sucursal_merchandising,
+    disponible_merchandising,
 ) {
     const resultado = await dbCliente.query(
-        'INSERT INTO merchandising(tipo, nombre, marca, sucursal, disponible) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-        [tipo, nombre, marca, sucursal, disponible]);
+        'INSERT INTO merchandising(tipo_merchandising, nombre_merchandising, marca_merchandising, sucursal_merchandising, disponible_merchandising) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [tipo_merchandising, nombre_merchandising, marca_merchandising, sucursal_merchandising, disponible_merchandising]);
     if (resultado.rowCount === 0) {
         return undefined
     } else {
@@ -50,5 +55,6 @@ async function agregarMerchandising (
 module.exports = {
     obtenerMerchandising,
     agregarMerchandising,
+    obtenerUnMerchandising
 
 }

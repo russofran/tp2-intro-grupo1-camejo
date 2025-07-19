@@ -1,31 +1,31 @@
 CREATE TABLE IF NOT EXISTS instrumentos (
-    id SERIAL PRIMARY KEY,
-    tipo VARCHAR(50) NOT NULL,
-    nombre VARCHAR(100) NOT NULL,
-    marca VARCHAR(100) NOT NULL,
-    modelo VARCHAR(100) NOT NULL,
-    precio INT NOT NULL,
-    sucursal VARCHAR(100) NOT NULL,
-    disponible BOOLEAN NOT NULL
+    id_instrumento SERIAL PRIMARY KEY,
+    tipo_instrumento VARCHAR(50) NOT NULL,
+    nombre_instrumento VARCHAR(100) NOT NULL,
+    marca_instrumento VARCHAR(100) NOT NULL,
+    modelo_instrumento VARCHAR(100) NOT NULL,
+    precio_instrumento INT NOT NULL,
+    sucursal_instrumento VARCHAR(100) NOT NULL,
+    disponible_instrumento BOOLEAN NOT NULL
 );
 [
 CREATE TABLE IF NOT EXISTS vendedores (
-    id SERIAL PRIMARY KEY,
-    turno VARCHAR(50) NOT NULL,
-    nombre VARCHAR(100) NOT NULL,
-    ventas INT, 
-    sucursal VARCHAR(100) NOT NULL,
-    calificacion INT NOT NULL,
-    disponible BOOLEAN NOT NULL
+    id_vendedores SERIAL PRIMARY KEY,
+    turno_vendedores VARCHAR(50) NOT NULL,
+    nombre_vendedores VARCHAR(100) NOT NULL,
+    ventas_vendedores INT, 
+    sucursal_vendedores VARCHAR(100) NOT NULL,
+    calificacion_vendedores INT NOT NULL,
+    disponible_vendedores BOOLEAN NOT NULL
 );]
 
 CREATE TABLE IF NOT EXISTS merchandising (
-    id SERIAL PRIMARY KEY,
-    tipo VARCHAR(50) NOT NULL,
-    nombre VARCHAR(100) NOT NULL,
-    marca VARCHAR(100) NOT NULL,
-    sucursal VARCHAR(100) NOT NULL,
-    disponible BOOLEAN NOT NULL
+    id_merchandising SERIAL PRIMARY KEY,
+    tipo_merchandising VARCHAR(50) NOT NULL,
+    nombre_merchandising VARCHAR(100) NOT NULL,
+    marca_merchandising VARCHAR(100) NOT NULL,
+    sucursal_merchandising VARCHAR(100) NOT NULL,
+    disponible_merchandising BOOLEAN NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS ventas_concretadas (

@@ -10,9 +10,12 @@ const dbCliente = new Pool({
     database: 'tienda_de_musica',
 });
 
-const { obtenerUnInstrumento,
-    } = require('./instrumentos')
+const { obtenerUnInstrumento} = require('./instrumentos')
 
+const { obtenerUnMerchandising } = require('./merchandising')
+
+const { obtenerUnVendedor } = require('./vendedores')
+ 
 // GET
 
 // Solicita todas las ventas_concretadas.
@@ -24,8 +27,38 @@ async function obtenerVentas ( ) {
 // Solicitar una venta_concretada con detalles.
 
 async function obtenerUnaVenta (id) {
-    const resultado = await dbCliente.query('SELECT * FROM ventas_concretadas WHERE id = $1 LIMIT 1', [id]);
+    const resultado = await dbCliente.query(
+        'SELECT i.id as id_instrumento, i. i.* FROM ventas_concretadas WHERE id = $1 LIMIT 1' 
+        
+        , [id]
+    );
     
+    const venta_concretada = resultado.rows[0];
+
+    if (!venta_concretada) {
+        return undefined;
+    }
+
+    // Obtener una venta concretada con detalles.
+
+    if (venta_concretada.instrumento_id) {
+        const instrumento_detallado = await obtenerUnInstrumento(venta_concretada.instrumento_id);
+        venta_concretada.instrumento_id = instrumento_detallado || null;
+
+    }
+    if (venta_concretada.merch_id) {
+        const merchandising_detallado = await obtenerUnMerchandising(venta_concretada.merch_id);
+        venta_concretada.merch_id = merchandising_detallado.rows || null;
+
+    }
+    if (venta_concretada.vendedor_id) {
+        const vendedor_detallado = await obtenerUnVendedor(venta_concretada.vendedor_id);
+        // venta_concretada.vendedor_id = vendedor_detallado.rows || null;
+        console.log("vendedor_detallado:", vendedor_detallado);
+    }
+
+    return venta_concretada;
+
 }
 
 // POST
@@ -55,5 +88,6 @@ async function crearVentaConcretada (
 
 module.exports = {
     obtenerVentas,
+    obtenerUnaVenta,
     crearVentaConcretada,
 }

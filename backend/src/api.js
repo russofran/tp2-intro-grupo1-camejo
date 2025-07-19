@@ -35,6 +35,7 @@ const {
 
 const {
     obtenerVentas,
+    obtenerUnaVenta,
     crearVentaConcretada
 } = require('./db/ventas_concretadas')
 
@@ -89,6 +90,12 @@ app.get('/admin/vendedores', async (req, res) => {
 app.get('/admin/ventas_concretadas', async (req, res) => {
     const ventas_concretadas = await obtenerVentas();
     res.send(ventas_concretadas);
+});
+
+// Obtener una venta detallada.
+app.get('/admin/ventas_concretadas/:id', async (req, res) => {
+    const venta_concretada = await obtenerUnaVenta(req.params.id);
+    res.send(venta_concretada);
 });
 
 
@@ -216,6 +223,8 @@ app.post('/carrito/venta_concretada', async (req, res) => {
     
     res.json(venta_concretada);
 });
+
+
 
 
 

@@ -21,14 +21,14 @@ async function obtenerInstrumentos ( ) {
 };
 
 // Solicitar 1 solo instrumento.
-async function obtenerUnInstrumento (numero) {
-    const resultado = await dbCliente.query('SELECT * FROM instrumentos WHERE instrumentos.id=$1', [numero]);
+async function obtenerUnInstrumento (id) {
+    const resultado = await dbCliente.query('SELECT * FROM instrumentos WHERE id_instrumento=$1', [id]);
     return resultado.rows[0];
 };
 
 // Solicitar tipo de instrumento.
 async function obtenerTipoDeInstrumento (tipo) {
-    const resultado = await dbCliente.query('SELECT * FROM instrumentos WHERE instrumentos.tipo=$1', [tipo]);
+    const resultado = await dbCliente.query('SELECT * FROM instrumentos WHERE instrumentos.tipo_instrumento=$1', [tipo]);
     return resultado.rows;
 };
 
@@ -36,17 +36,17 @@ async function obtenerTipoDeInstrumento (tipo) {
 
 // Agregar un instrumento
 async function agregarInstrumento (
-    tipo,
-    nombre,
-    marca,
-    modelo,
-    precio,
-    sucursal,
-    disponible
+    tipo_instrumento,
+    nombre_instrumento,
+    marca_instrumento,
+    modelo_instrumento,
+    precio_instrumento,
+    sucursal_instrumento,
+    disponible_instrumento
 ) {
     const resultado = await dbCliente.query(
-        'INSERT INTO instrumentos(tipo, nombre, marca, modelo, precio, sucursal, disponible) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-        [tipo, nombre, marca, modelo, precio, sucursal, disponible]);
+        'INSERT INTO instrumentos(tipo_instrumento, nombre_instrumento, marca_instrumento, modelo_instrumento, precio_instrumento, sucursal_instrumento, disponible_instrumento) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+        [tipo_instrumento, nombre_instrumento, marca_instrumento, modelo_instrumento, precio_instrumento, sucursal_instrumento, disponible_instrumento]);
     if (resultado.rowCount === 0) {
         return undefined
     } else {
