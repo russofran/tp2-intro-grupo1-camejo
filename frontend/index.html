@@ -5,36 +5,94 @@
         <title>Música para todos</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
     <body>
+        <!--Barra de marcadores-->>
         <nav class="navbar is-light" role="navigation">
             <div class="navbar-brand">
                 <a class="navbar-item has-text-weight-bold is-size-4">Música para todos</a>
             </div>
-            <div class="navbar-menu">
+
+            <div class="navbar-menu is-flex is-align-items-center" style="flex: 1;">
+
                 <div class="navbar-start">
                     <a class="navbar-item">Instrumentos</a>
                     <a class="navbar-item">Vendedores</a>
                     <a class="navbar-item">Merch</a>
                     <a class="navbar-item">Ventas concretadas</a>
                 </div>
+
                 <div class="navbar-end">
                     <div class="navbar-item">
-                        <span class="has-text-grey">Compras solo en tienda física.</span>
+                        <span><i>Vista de administrador*</i></span>
                     </div>
                 </div>
             </div>
         </nav>
 
+        <!--Imagen portada-->
         <section class="section">
             <div class="container">
                 <figure class="image is-3by1">
-                    <img src="img/imagen_fondo.png" alt="Banner instrumentos">
+                    <img src="Img/fondo_imagen.png" alt="Banner instrumentos">
                 </figure>
+            </div>
+        </section>
+
+        <!--Información-->
+        <section class="section pt-3">
+            <div class="container">
+                <div class="columns is-multiline">
+
+                    <!--Info 1-->
+                    <div class="column is-one-quarter">
+                        <div class="box has-text-centered">
+                            <span class="icon is-large has-text-white">
+                                <i class="fas fa-star fa-2x"></i>
+                            </span>
+                            <h4 class="title is-6 mt-2">30 Años de Excelencia</h4>
+                            <p class="has-text-white">La más amplia variedad de instrumentos musicales</p>
+                        </div>
+                    </div>
+
+                    <!--Info2-->
+                    <div class="column is-one-quarter">
+                        <div class="box has-text-centered">
+                            <span class="icon is-large has-text-white">
+                                <i class="fas fa-volume-up fa-2x"></i>
+                            </span>
+                            <h4 class="title is-6 mt-2">Innovación y Calidad en Sonido</h4>
+                            <p class="has-text-white">Referentes en soluciones de audio profesional</p>
+                        </div>
+                    </div>
+                    
+                    <!--Info3-->
+                    <div class="column is-one-quarter">
+                        <div class="box has-text-centered">
+                            <span class="icon is-large has-text-white">
+                                <i class="fas fa-t-shirt fa-2x"></i>
+                            </span>
+                            <h4 class="title is-6 mt-2">Viste el Éxito</h4>
+                            <p class="has-text-white">Venta y distribución de indumentaria para llevar a la Música contigo a todas partes</p>
+                        </div>
+                    </div>
+
+                    <!--Info4-->
+                    <div class="column is-one-quarter">
+                        <div class="box has-text-centered">
+                            <span class="icon is-large has-text-white">
+                                <i class="fas fa-person fa-2x"></i>
+                            </span>
+                            <h4 class="title is-6 mt-2">Excelente Atención al Cliente</h4>
+                            <p class="has-text-white">¿Tienes alguna duda en particular? No te preocupes! Nuestros vendedores estarán con vos al instante</p>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </section>
 
         
     </body>
-
 </html>
