@@ -9,12 +9,6 @@ const dbCliente = new Pool({
     port: 5432,
     database: 'tienda_de_musica',
 });
-
-const { obtenerUnInstrumento} = require('./instrumentos')
-
-const { obtenerUnMerchandising } = require('./merchandising')
-
-const { obtenerUnVendedor } = require('./vendedores')
  
 // GET
 
@@ -28,37 +22,24 @@ async function obtenerVentas ( ) {
 
 async function obtenerUnaVenta (id) {
     const resultado = await dbCliente.query(
-        'SELECT i.id as id_instrumento, i. i.* FROM ventas_concretadas WHERE id = $1 LIMIT 1' 
-        
-        , [id]
+        'SELECT * FROM ventas_concretadas vc, instrumentos i, vendedores v, merchandising m ' +
+        'WHERE vc.id = $1', [id]
     );
-    
-    const venta_concretada = resultado.rows[0];
 
-    if (!venta_concretada) {
-        return undefined;
+    const venta_detallada = {};
+
+    // Formateo de salida.
+    venta_detallada[(resultado.rows[0].id)] = {
+        "tipo_venta": resultado.rows[0].tipo,
+        "instrumento_vendido": resultado.rows[0].nombre_instrumento,
+        "modelo instrumento": resultado.rows[0].modelo_instrumento,
+        "merch_vendido": resultado.rows[0].tipo_merchandising,
+        "modelo merch": resultado.rows[0].nombre_merchandising,
+        "vendedor": resultado.rows[0].nombre_vendedores,
+        "precio_total": resultado.rows[0].precio_real_venta
     }
-
-    // Obtener una venta concretada con detalles.
-
-    if (venta_concretada.instrumento_id) {
-        const instrumento_detallado = await obtenerUnInstrumento(venta_concretada.instrumento_id);
-        venta_concretada.instrumento_id = instrumento_detallado || null;
-
-    }
-    if (venta_concretada.merch_id) {
-        const merchandising_detallado = await obtenerUnMerchandising(venta_concretada.merch_id);
-        venta_concretada.merch_id = merchandising_detallado.rows || null;
-
-    }
-    if (venta_concretada.vendedor_id) {
-        const vendedor_detallado = await obtenerUnVendedor(venta_concretada.vendedor_id);
-        // venta_concretada.vendedor_id = vendedor_detallado.rows || null;
-        console.log("vendedor_detallado:", vendedor_detallado);
-    }
-
-    return venta_concretada;
-
+      
+    return venta_detallada
 }
 
 // POST
@@ -70,11 +51,15 @@ async function crearVentaConcretada (
     instrumento_id,
     merch_id,
     precio_real_venta,
-    turno
+
 ) {
+    // Formato Fecha exacta del insert.
+    const fecha_venta = new Date();
+
     const resultado = await dbCliente.query(
-        'INSERT INTO ventas_concretadas(tipo, vendedor_id, instrumento_id, merch_id, precio_real_venta, turno) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-        [tipo, vendedor_id, instrumento_id, merch_id, precio_real_venta, turno]);
+        'INSERT INTO ventas_concretadas(tipo, vendedor_id, instrumento_id, merch_id, precio_real_venta, fecha_venta) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+        [tipo, vendedor_id, instrumento_id, merch_id, precio_real_venta, fecha_venta]);
+
     if (resultado.rowCount === 0) {
         return undefined
     } else {
@@ -83,6 +68,18 @@ async function crearVentaConcretada (
 }
 
 // UPDATE
+
+// Actualizar Ventas de cada usuario
+
+
+/* Pseudocodigo
+
+Query> Extraer lo necesario de la base de datos.
+- Tablas
+. id_vendedores
+. 
+
+*/
 
 // DELETE
 

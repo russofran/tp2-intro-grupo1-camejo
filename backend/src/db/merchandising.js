@@ -34,11 +34,12 @@ async function agregarMerchandising (
     nombre_merchandising,
     marca_merchandising,
     sucursal_merchandising,
+    precio_merchandising,
     disponible_merchandising,
 ) {
     const resultado = await dbCliente.query(
-        'INSERT INTO merchandising(tipo_merchandising, nombre_merchandising, marca_merchandising, sucursal_merchandising, disponible_merchandising) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-        [tipo_merchandising, nombre_merchandising, marca_merchandising, sucursal_merchandising, disponible_merchandising]);
+        'INSERT INTO merchandising(tipo_merchandising, nombre_merchandising, marca_merchandising, sucursal_merchandising, precio_merchandising, disponible_merchandising) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+        [tipo_merchandising, nombre_merchandising, marca_merchandising, sucursal_merchandising, precio_merchandising, disponible_merchandising]);
     if (resultado.rowCount === 0) {
         return undefined
     } else {

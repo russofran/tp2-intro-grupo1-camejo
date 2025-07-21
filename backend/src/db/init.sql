@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS instrumentos (
     sucursal_instrumento VARCHAR(100) NOT NULL,
     disponible_instrumento BOOLEAN NOT NULL
 );
-[
+
 CREATE TABLE IF NOT EXISTS vendedores (
     id_vendedores SERIAL PRIMARY KEY,
     turno_vendedores VARCHAR(50) NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS vendedores (
     sucursal_vendedores VARCHAR(100) NOT NULL,
     calificacion_vendedores INT NOT NULL,
     disponible_vendedores BOOLEAN NOT NULL
-);]
+);
 
 CREATE TABLE IF NOT EXISTS merchandising (
     id_merchandising SERIAL PRIMARY KEY,
@@ -25,15 +25,16 @@ CREATE TABLE IF NOT EXISTS merchandising (
     nombre_merchandising VARCHAR(100) NOT NULL,
     marca_merchandising VARCHAR(100) NOT NULL,
     sucursal_merchandising VARCHAR(100) NOT NULL,
+    precio_merchandising INT NOT NULL,
     disponible_merchandising BOOLEAN NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS ventas_concretadas (
     id SERIAL PRIMARY KEY,
     tipo VARCHAR(50) NOT NULL,
-    vendedor_id INT NOT NULL REFERENCES vendedores(id) ON DELETE SET NULL,
-    instrumento_id INT REFERENCES instrumentos(id) ON DELETE SET NULL,
-    merch_id INT REFERENCES merchandising(id) ON DELETE SET NULL,
+    vendedor_id INT NOT NULL REFERENCES vendedores(id_vendedores) ON DELETE SET NULL,
+    instrumento_id INT REFERENCES instrumentos(id_instrumento) ON DELETE SET NULL,
+    merch_id INT REFERENCES merchandising(id_merchandising) ON DELETE SET NULL,
     precio_real_venta INT NOT NULL,
-    turno VARCHAR(50)
+    fecha_venta VARCHAR(50)
 );

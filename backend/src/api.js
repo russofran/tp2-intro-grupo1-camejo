@@ -28,6 +28,7 @@ const {
 
 const {
     obtenerVendedores,
+    obtenerVentasVendedores,
     agregarVendedor,
 
 
@@ -45,7 +46,7 @@ const {
 
 // GET. 
 
-// TABLA INSTRUMENTOS
+// GET TABLA INSTRUMENTOS
 // Obtener todos los instrumentos.
 app.get('/productos/instrumentos', async (req, res) => {
     const instrumentos = await obtenerInstrumentos();
@@ -71,21 +72,28 @@ app.get('/productos/instrumentos/:tipo', async (req, res) => {
 });
 
 
-// TABLA MERCHANDISING.
+// GET TABLA MERCHANDISING.
 // Obtener todo el merchandising.
 app.get('/productos/merchandising', async (req, res) => {
     const merchandising = await obtenerMerchandising();
     res.send(merchandising);
 });
 
-// TABLA VENDEDORES.
+// GET TABLA VENDEDORES.
 // Obtener todos los vendedores.
 app.get('/admin/vendedores', async (req, res) => {
     const vendedores = await obtenerVendedores();
     res.send(vendedores);
 });
 
-// TABLA VENTAS_CONCRETADAS.
+// Obtener las ventas que hizo un vendedor
+app.get('/admin/vendedores/:id', async (req, res) => {
+    const vendedores = await obtenerVentasVendedores(req.params.id);
+    res.send(vendedores);
+});
+
+
+// GET TABLA VENTAS_CONCRETADAS.
 // Obtener ventas concretadas.
 app.get('/admin/ventas_concretadas', async (req, res) => {
     const ventas_concretadas = await obtenerVentas();
@@ -105,24 +113,24 @@ app.get('/admin/ventas_concretadas/:id', async (req, res) => {
 // Agregar un instrumento
 app.post('/admin/productos/agregarInstrumento', async (req, res) => {
     // En caso de que no mande nada en el INSERT
-    if (!req.body.tipo ||
-        !req.body.nombre ||
-        !req.body.marca ||
-        !req.body.modelo ||
-        !req.body.precio ||
-        !req.body.sucursal ||
-        !req.body.disponible) {
+    if (!req.body.tipo_instrumento ||
+        req.body.nombre_instrumento === undefined ||
+        !req.body.marca_instrumento ||
+        !req.body.modelo_instrumento ||
+        req.body.precio_instrumento === undefined ||
+        !req.body.sucursal_instrumento ||
+        req.body.disponible_instrumento === undefined) {
             return res.status(400).send('Error, falta un campo obligatorio.')
         }
 
     const instrumento = await agregarInstrumento(
-        req.body.tipo,
-        req.body.nombre,
-        req.body.marca,
-        req.body.modelo,
-        req.body.precio,
-        req.body.sucursal,
-        req.body.disponible,
+        req.body.tipo_instrumento,
+        req.body.nombre_instrumento,
+        req.body.marca_instrumento,
+        req.body.modelo_instrumento,
+        req.body.precio_instrumento,
+        req.body.sucursal_instrumento,
+        req.body.disponible_instrumento,
     );
 
     if (!instrumento) {
@@ -143,22 +151,22 @@ app.post('/admin/productos/agregarInstrumento', async (req, res) => {
 // Agregar Vendedor
 app.post('/admin/staff/agregarVendedor', async (req, res) => {
     // En caso de que no mande nada en el INSERT
-    if (!req.body.turno ||
-        !req.body.nombre ||
-        req.body.ventas === undefined ||
-        !req.body.sucursal ||
-        req.body.calificacion === undefined ||
-        req.body.disponible === undefined) {
+    if (!req.body.turno_vendedores ||
+        !req.body.nombre_vendedores ||
+        req.body.ventas_vendedores === undefined ||
+        !req.body.sucursal_vendedores ||
+        req.body.calificacion_vendedores === undefined ||
+        req.body.disponible_vendedores === undefined) {
             return res.status(400).send('Error, falta un campo obligatorio.')
         }
 
     const vendedor = await agregarVendedor(
-        req.body.turno,
-        req.body.nombre,
-        req.body.ventas,
-        req.body.sucursal,
-        req.body.calificacion,
-        req.body.disponible,
+        req.body.turno_vendedores,
+        req.body.nombre_vendedores,
+        req.body.ventas_vendedores,
+        req.body.sucursal_vendedores,
+        req.body.calificacion_vendedores,
+        req.body.disponible_vendedores,
     );
 
     if (!vendedor) {
@@ -172,21 +180,23 @@ app.post('/admin/staff/agregarVendedor', async (req, res) => {
 // agregar Merch
 app.post('/admin/productos/agregarMerchandising', async (req, res) => {
     // En caso de que no mande nada en el INSERT
-    if (!req.body.tipo ||
-        !req.body.nombre ||
-        !req.body.marca ||
-        !req.body.sucursal ||
-        req.body.disponible === undefined) {
+    if (!req.body.tipo_merchandising ||
+        !req.body.nombre_merchandising ||
+        !req.body.marca_merchandising ||
+        !req.body.sucursal_merchandising ||
+        req.body.precio_merchandising === undefined ||
+        req.body.disponible_merchandising === undefined) {
             return res.status(400).send('Error, falta un campo obligatorio.')
         }
 
 
     const merch = await agregarMerchandising(
-        req.body.tipo,
-        req.body.nombre,
-        req.body.marca,
-        req.body.sucursal,
-        req.body.disponible,
+        req.body.tipo_merchandising,
+        req.body.nombre_merchandising,
+        req.body.marca_merchandising,
+        req.body.sucursal_merchandising,
+        req.body.precio_merchandising,
+        req.body.disponible_merchandising,
     );
 
     if (!merch) {
@@ -203,8 +213,7 @@ app.post('/carrito/venta_concretada', async (req, res) => {
     if (!req.body.tipo ||
         !req.body.vendedor_id ||
         (req.body.instrumento_id === undefined && req.body.merch_id === undefined) ||
-        req.body.precio_real_venta === undefined ||
-        req.body.turno === undefined) {
+        req.body.precio_real_venta === undefined) {
             return res.status(400).send('Error, falta un campo obligatorio.')
         }
 
@@ -214,9 +223,10 @@ app.post('/carrito/venta_concretada', async (req, res) => {
         req.body.instrumento_id,
         req.body.merch_id,
         req.body.precio_real_venta,
-        req.body.turno
     );
 
+    sumarVenta(req.body.vendedor_id)
+    
     if (!venta_concretada) {
         return res.status(500).json({ error: 'No se creó la venta' }) 
     }

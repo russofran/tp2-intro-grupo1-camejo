@@ -26,6 +26,39 @@ async function obtenerUnVendedor (id) {
     return resultado.rows[0];
 };
 
+// Obtener que vendió cada vendedor.
+
+async function obtenerVentasVendedores (id) {
+    const resultado = await dbCliente.query(
+        'SELECT * FROM vendedores v, ventas_concretadas vc, instrumentos i, merchandising m ' +
+        'WHERE vc.vendedor_id = v.id_vendedores AND v.id_vendedores = $1', [id]
+    );
+
+    const formateo = {};
+
+    // Formateo de salida para todas las ventas que tenga ese vendedor.
+    resultado.rows.forEach(row => {
+        if (!formateo[row.id]) {
+            formateo[(row.id)] = {
+                "Vendedor": row.nombre_vendedores,
+                "Modelo Instrumento": row.nombre_instrumento,
+                "Precio del instrumento": row.precio_instrumento,
+                "Modelo merch": row.nombre_merchandising,
+                "Precio del Merchandising": row.precio_merchandising,
+                "precio de venta acordado": row.precio_real_venta,
+                "Dia:": row.fecha_venta
+            }
+        } 
+        
+    });
+    
+      
+    return formateo;
+};
+
+
+// Obtener que vendedor vendió más.
+
 
 // POST
 
@@ -51,11 +84,14 @@ async function agregarVendedor (
 
 // UPDATE
 
+
+
 // DELETE
 
 module.exports = {
     obtenerVendedores,
     agregarVendedor,
-    obtenerUnVendedor
+    obtenerUnVendedor,
+    obtenerVentasVendedores
 
 }
