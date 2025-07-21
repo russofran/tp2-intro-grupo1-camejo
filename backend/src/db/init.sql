@@ -33,8 +33,11 @@ CREATE TABLE IF NOT EXISTS ventas_concretadas (
     id SERIAL PRIMARY KEY,
     tipo VARCHAR(50) NOT NULL,
     vendedor_id INT NOT NULL REFERENCES vendedores(id_vendedores) ON DELETE SET NULL,
+    vendedor_despedido VARCHAR(100),
     instrumento_id INT REFERENCES instrumentos(id_instrumento) ON DELETE SET NULL,
+    instrumento_borrado VARCHAR(100),
     merch_id INT REFERENCES merchandising(id_merchandising) ON DELETE SET NULL,
+    merchandising_borrado VARCHAR(100),
     precio_real_venta INT NOT NULL,
     fecha_venta VARCHAR(50)
 );

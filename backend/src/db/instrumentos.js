@@ -10,6 +10,8 @@ const dbCliente = new Pool({
     database: 'tienda_de_musica',
 });
 
+const { reemplazarInstrumentoVC } = require('./ventas_concretadas')
+
 // Querys a la db.
 
 // Obtener Información (GET).
@@ -29,7 +31,7 @@ async function obtenerUnInstrumento (id) {
 // Solicitar tipo de instrumento.
 async function obtenerTipoDeInstrumento (tipo) {
     const resultado = await dbCliente.query('SELECT * FROM instrumentos WHERE instrumentos.tipo_instrumento=$1', [tipo]);
-    return resultado.rows;
+    return resultado.rows[0];
 };
 
 // Agregar filas a una entidad (POST).
@@ -62,13 +64,43 @@ curl --header "Content-Type: application/json" \
 
 */
 
-// Actualizar datos de una fila (UPDATE).
+// Actualizar datos de una fila (PUT).
+async function actualizarInstrumento(id, valor, campo) {
+
+    const query = `
+        UPDATE ONLY instrumentos
+        SET ${campo} = $2
+        WHERE id_instrumento = $1
+        RETURNING *
+    `;
+    const resultado = await dbCliente.query(query, [id, valor]);
+    return resultado.rows[0];
+}
 
 // Borrar fila/s de una entidad (DELETE).
+
+// Borrar un instrumento.
+async function borrarInstrumento (id) {
+    const resultado = await dbCliente.query('DELETE FROM instrumentos WHERE id_instrumento=$1', [id]);
+    console.log('resultado', resultado)
+
+    if (resultado.rowCount === 0) {
+        return undefined
+    } else {
+        console.log('resultado.rowCount', resultado.rowCount)
+        return resultado.rows;
+    }
+    
+};
+
+
+
 
 module.exports = {
     obtenerInstrumentos,
     obtenerUnInstrumento,
     obtenerTipoDeInstrumento,
     agregarInstrumento,
+    borrarInstrumento,
+    actualizarInstrumento
 };

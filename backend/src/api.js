@@ -18,7 +18,9 @@ const {
     obtenerInstrumentos,
     obtenerUnInstrumento,
     obtenerTipoDeInstrumento,
-    agregarInstrumento
+    agregarInstrumento,
+    borrarInstrumento,
+    actualizarInstrumento
 } = require('./db/instrumentos')
 
 const {
@@ -37,7 +39,8 @@ const {
 const {
     obtenerVentas,
     obtenerUnaVenta,
-    crearVentaConcretada
+    crearVentaConcretada,
+    actualizarVentaConcretada
 } = require('./db/ventas_concretadas')
 
 
@@ -225,8 +228,8 @@ app.post('/carrito/venta_concretada', async (req, res) => {
         req.body.precio_real_venta,
     );
 
-    sumarVenta(req.body.vendedor_id)
-    
+    // sumarVenta(req.body.vendedor_id)
+
     if (!venta_concretada) {
         return res.status(500).json({ error: 'No se creó la venta' }) 
     }
@@ -235,6 +238,98 @@ app.post('/carrito/venta_concretada', async (req, res) => {
 });
 
 
+// UPDATE
+
+// TABLA VENTAS CONCRETADAS
+app.put('/admin/ventas_concretadas/actualizar', async (req, res) => {
+    // Validar que se manden 3 campos y que id sea >= 1.
+    if (req.body.id <= 0 || req.body.valor === undefined || !req.body.campo) {
+            return res.status(400).send('Hay un error en los campos.')
+        }
+    // Validar que no cree nuevas columnas o no deseadas a modificar.
+    const columnas_permitidas = [
+        'tipo',
+        'vendedor_despedido',
+        'instrumento_borrado',
+        'merchandising_borrado',
+        'precio_real_venta',
+        'fecha_venta']
+
+    if (!columnas_permitidas.includes(req.body.campo)) {
+        return res.status(400).json({ error: "Nombre de campo inválido." });
+    }
+    const reemplazar = await actualizarVentaConcretada(
+        req.body.id,
+        req.body.valor,
+        req.body.campo
+    );
+    
+    if (reemplazar === undefined) {
+        return res.status(500).json({ error: 'No se pudo actualizar la entidad "Venta_Concretada".' }) 
+    }
+
+    res.json(reemplazar)
+    
+
+    });
+    
+
+// TABLA INSTRUMENTOS
+app.put('/admin/instrumentos/actualizar', async (req, res) => {
+    // Validar que se manden 3 campos y que id sea >= 1.
+    if (req.body.id <= 0 || req.body.valor === undefined || !req.body.campo) {
+            return res.status(400).send('Hay un error en los campos.')
+        }
+    // Validar que no cree nuevas columnas.
+    const columnas_permitidas = [
+        'tipo_instrumento',
+        'nombre_instrumento',
+        'marca_instrumento',
+        'modelo_instrumento',
+        'precio_instrumento',
+        'sucursal_instrumento',
+        'disponible_instrumento']
+
+    if (!columnas_permitidas.includes(req.body.campo)) {
+        return res.status(400).json({ error: "Nombre de campo inválido." });
+    }
+    const reemplazar = await actualizarInstrumento(
+        req.body.id,
+        req.body.valor,
+        req.body.campo
+    );
+    
+    if (reemplazar === undefined) {
+        return res.status(500).json({ error: 'No se pudo actualizar la entidad "Instrumentos".' }) 
+    }
+
+    res.json(reemplazar)
+    
+
+    });
+
+// DELETE
+
+// TABLA INSTRUMENTOS
+// Eliminar instrumento por id.
+
+// Obtener una venta detallada.
+app.delete('/admin/instrumentos/borrar/:id', async (req, res) => {
+    const instrumento = await borrarInstrumento(req.params.id);
+    console.log(instrumento)
+    if (instrumento === undefined) {
+        return res.status(404).json({ error: "La id " + req.params.id + ' no existe'})
+    }
+
+    res.json({ status: "La id " + req.params.id + ' fue eliminada con éxito.'})
+
+});
 
 
+// NOTAS
 
+/* chequear que la id no sea negativa (de todo)
+chequear que no cree un mismo elemento dos veces (salvo que lo interprete como que hay mas de un stock)
+
+
+*/

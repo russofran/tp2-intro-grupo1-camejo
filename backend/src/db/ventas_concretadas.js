@@ -1,3 +1,4 @@
+const { application } = require('express');
 const { Pool } = require('pg');
 
 // Levantar Base de Datos (Necesaria Dependencia Postgresql instalada)
@@ -44,6 +45,7 @@ async function obtenerUnaVenta (id) {
 
 // POST
 
+
 // Crear una nueva venta_concretada
 async function crearVentaConcretada (
     tipo,
@@ -67,7 +69,20 @@ async function crearVentaConcretada (
     }
 }
 
-// UPDATE
+// PUT
+
+async function actualizarVentaConcretada(id, valor, campo) {
+
+    const query = `
+        UPDATE ONLY ventas_concretadas
+        SET ${campo} = $2
+        WHERE id = $1
+        RETURNING *
+    `;
+    const resultado = await dbCliente.query(query, [id, valor]);
+    return resultado.rows[0];
+}
+
 
 // Actualizar Ventas de cada usuario
 
@@ -83,8 +98,11 @@ Query> Extraer lo necesario de la base de datos.
 
 // DELETE
 
+
+
 module.exports = {
     obtenerVentas,
     obtenerUnaVenta,
     crearVentaConcretada,
+    actualizarVentaConcretada
 }
