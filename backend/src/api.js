@@ -16,16 +16,37 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 // Funciones de db
 const {
     obtenerInstrumentos,
-    obtenerVendedores,
-    obtenerMerchandising,
-    obtenerVentas,
     obtenerUnInstrumento,
     obtenerTipoDeInstrumento,
-    crearVentaConcretada,
     agregarInstrumento,
+    borrarInstrumento,
+    actualizarInstrumento
+} = require('./db/instrumentos')
+
+const {
+    obtenerMerchandising,
+    agregarMerchandising,
+    obtenerUnMerchandising,
+    actualizarMerchandising
+} = require('./db/merchandising')
+
+const {
+    obtenerVendedores,
     agregarVendedor,
-    agregarMerchandising
-} = require('../src/db/tienda_de_musica')
+    obtenerUnVendedor,
+    obtenerVentasVendedores,
+    actualizarVendedor,
+    borrarVendedor,
+    sumarVentaVendedor
+
+} = require('./db/vendedores')
+
+const {
+    obtenerVentas,
+    obtenerUnaVenta,
+    crearVentaConcretada,
+    actualizarVentaConcretada
+} = require('./db/ventas_concretadas')
 
 
 
@@ -33,7 +54,7 @@ const {
 
 // GET. 
 
-// TABLA INSTRUMENTOS
+// GET TABLA INSTRUMENTOS
 // Obtener todos los instrumentos.
 app.get('/productos/instrumentos', async (req, res) => {
     const instrumentos = await obtenerInstrumentos();
@@ -59,57 +80,78 @@ app.get('/productos/instrumentos/:tipo', async (req, res) => {
 });
 
 
-// TABLA MERCHANDISING.
+// GET TABLA MERCHANDISING.
 // Obtener todo el merchandising.
 app.get('/productos/merchandising', async (req, res) => {
     const merchandising = await obtenerMerchandising();
     res.send(merchandising);
 });
 
-// TABLA VENDEDORES.
+// Obtener un Merchandising.
+app.get('/productos/merchandising/:numero', async (req, res) => {
+    let merchandising = await obtenerUnMerchandising(req.params.numero);
+    if (merchandising === undefined) {
+        res.sendStatus(404);
+    };
+    res.send(merchandising);
+});
+// GET TABLA VENDEDORES.
 // Obtener todos los vendedores.
 app.get('/admin/vendedores', async (req, res) => {
     const vendedores = await obtenerVendedores();
     res.send(vendedores);
 });
 
-// TABLA VENTAS_CONCRETADAS.
+// Obtener las ventas que hizo un vendedor
+app.get('/admin/vendedores/:id', async (req, res) => {
+    const vendedores = await obtenerVentasVendedores(req.params.id);
+    res.send(vendedores);
+});
+
+
+// GET TABLA VENTAS_CONCRETADAS.
 // Obtener ventas concretadas.
 app.get('/admin/ventas_concretadas', async (req, res) => {
     const ventas_concretadas = await obtenerVentas();
     res.send(ventas_concretadas);
 });
 
+// Obtener una venta detallada.
+app.get('/admin/ventas_concretadas/:id', async (req, res) => {
+    const venta_concretada = await obtenerUnaVenta(req.params.id);
+    res.send(venta_concretada);
+});
+
 
 // POST.
 
-// TABLA INSTRUMENTOS
+// POST TABLA INSTRUMENTOS
 // Agregar un instrumento
 app.post('/admin/productos/agregarInstrumento', async (req, res) => {
     // En caso de que no mande nada en el INSERT
-    if (!req.body.tipo ||
-        !req.body.nombre ||
-        !req.body.marca ||
-        !req.body.modelo ||
-        !req.body.precio ||
-        !req.body.sucursal ||
-        !req.body.disponible) {
-            return res.status(400).send('Error, falta un campo obligatorio.')
-        }
+    if (!req.body.tipo_instrumento ||
+        req.body.nombre_instrumento === undefined ||
+        !req.body.marca_instrumento ||
+        !req.body.modelo_instrumento ||
+        req.body.precio_instrumento === undefined ||
+        !req.body.sucursal_instrumento ||
+        req.body.disponible_instrumento === undefined) {
+            return res.status(400).send('Error, falta un campo obligatorio.');
+        };
 
     const instrumento = await agregarInstrumento(
-        req.body.tipo,
-        req.body.nombre,
-        req.body.marca,
-        req.body.modelo,
-        req.body.precio,
-        req.body.sucursal,
-        req.body.disponible,
+        req.body.tipo_instrumento,
+        req.body.nombre_instrumento,
+        req.body.marca_instrumento,
+        req.body.modelo_instrumento,
+        req.body.precio_instrumento,
+        req.body.sucursal_instrumento,
+        req.body.disponible_instrumento,
     );
 
     if (!instrumento) {
-        return res.status(500).json({ error: 'No se creó el instrumento.' }) 
-    }
+        return res.status(500).json({ error: 'No se creó el instrumento.' }); 
+    };
     
     res.json(instrumento);
 });
@@ -121,74 +163,74 @@ app.post('/admin/productos/agregarInstrumento', async (req, res) => {
 
 */
 
-// TABLA VENDEDORES
+// POST TABLA VENDEDORES
 // Agregar Vendedor
 app.post('/admin/staff/agregarVendedor', async (req, res) => {
     // En caso de que no mande nada en el INSERT
-    if (!req.body.turno ||
-        !req.body.nombre ||
-        req.body.ventas === undefined ||
-        !req.body.sucursal ||
-        req.body.calificacion === undefined ||
-        req.body.disponible === undefined) {
-            return res.status(400).send('Error, falta un campo obligatorio.')
-        }
+    if (!req.body.turno_vendedores ||
+        !req.body.nombre_vendedores ||
+        req.body.ventas_vendedores === undefined ||
+        !req.body.sucursal_vendedores ||
+        req.body.calificacion_vendedores === undefined ||
+        req.body.disponible_vendedores === undefined) {
+            return res.status(400).send('Error, falta un campo obligatorio.');
+        };
 
     const vendedor = await agregarVendedor(
-        req.body.turno,
-        req.body.nombre,
-        req.body.ventas,
-        req.body.sucursal,
-        req.body.calificacion,
-        req.body.disponible,
+        req.body.turno_vendedores,
+        req.body.nombre_vendedores,
+        req.body.ventas_vendedores,
+        req.body.sucursal_vendedores,
+        req.body.calificacion_vendedores,
+        req.body.disponible_vendedores,
     );
 
     if (!vendedor) {
-        return res.status(500).json({ error: 'No se creó el vendedor.' }) 
-    }
+        return res.status(500).json({ error: 'No se creó el vendedor.' }); 
+    };
     
     res.json(vendedor);
 });
 
-// TABLA Merchandising
+// POST TABLA Merchandising
 // agregar Merch
 app.post('/admin/productos/agregarMerchandising', async (req, res) => {
     // En caso de que no mande nada en el INSERT
-    if (!req.body.tipo ||
-        !req.body.nombre ||
-        !req.body.marca ||
-        !req.body.sucursal ||
-        req.body.disponible === undefined) {
-            return res.status(400).send('Error, falta un campo obligatorio.')
-        }
-
+    if (!req.body.tipo_merchandising ||
+        !req.body.nombre_merchandising ||
+        !req.body.marca_merchandising ||
+        !req.body.sucursal_merchandising ||
+        req.body.precio_merchandising === undefined ||
+        req.body.disponible_merchandising === undefined) {
+            return res.status(400).send('Error, falta un campo obligatorio.');
+        };
 
     const merch = await agregarMerchandising(
-        req.body.tipo,
-        req.body.nombre,
-        req.body.marca,
-        req.body.sucursal,
-        req.body.disponible,
+        req.body.tipo_merchandising,
+        req.body.nombre_merchandising,
+        req.body.marca_merchandising,
+        req.body.sucursal_merchandising,
+        req.body.precio_merchandising,
+        req.body.disponible_merchandising,
     );
 
     if (!merch) {
-        return res.status(500).json({ error: 'No se creó el Merchandising.' }) 
-    }
+        return res.status(500).json({ error: 'No se creó el Merchandising.' }); 
+    };
     
     res.json(merch);
 });
 
-// TABLA VENTAS_CONCRETADAS
+// POST TABLA VENTAS_CONCRETADAS
 // Agregar venta_concretada
 app.post('/carrito/venta_concretada', async (req, res) => {
     // En caso de que no mande nada en el INSERT
     if (!req.body.tipo ||
         !req.body.vendedor_id ||
         (req.body.instrumento_id === undefined && req.body.merch_id === undefined) ||
-        req.body.precio_real_venta === undefined ||
-        req.body.turno === undefined) {
-            return res.status(400).send('Error, falta un campo obligatorio.')
-        }
+        req.body.precio_real_venta === undefined) {
+            return res.status(400).send('Error, falta un campo obligatorio.');
+        };
 
     const venta_concretada = await crearVentaConcretada(
         req.body.tipo,
@@ -196,15 +238,192 @@ app.post('/carrito/venta_concretada', async (req, res) => {
         req.body.instrumento_id,
         req.body.merch_id,
         req.body.precio_real_venta,
-        req.body.turno
     );
 
+
     if (!venta_concretada) {
-        return res.status(500).json({ error: 'No se creó la venta' }) 
-    }
+        return res.status(500).json({ error: 'No se creó la venta' });
+    };
     
+    await sumarVentaVendedor(req.body.vendedor_id);
+
     res.json(venta_concretada);
 });
 
 
+// UPDATE
 
+// TABLA VENTAS CONCRETADAS
+app.put('/admin/ventas_concretadas/actualizar', async (req, res) => {
+    // Validar que se manden 3 campos y que id sea >= 1.
+    if (req.body.id <= 0 || req.body.valor === undefined || !req.body.campo) {
+            return res.status(400).send('Hay un error en los campos.');
+        };
+    // Validar que no cree nuevas columnas o no deseadas a modificar.
+    const columnas_permitidas = [
+        'tipo',
+        'vendedor_despedido',
+        'instrumento_borrado',
+        'merchandising_borrado',
+        'precio_real_venta',
+        'fecha_venta'];
+
+    if (!columnas_permitidas.includes(req.body.campo)) {
+        return res.status(400).json({ error: "Nombre de campo inválido." });
+    };
+    const reemplazar = await actualizarVentaConcretada(
+        req.body.id,
+        req.body.valor,
+        req.body.campo
+    );
+    
+    if (reemplazar === undefined) {
+        return res.status(500).json({ error: 'No se pudo actualizar la entidad "Venta_Concretada".' });
+    }
+
+    res.json(reemplazar);
+    
+
+    });
+    
+
+// TABLA INSTRUMENTOS
+app.put('/admin/instrumentos/actualizar', async (req, res) => {
+    // Validar que se manden 3 campos y que id sea >= 1.
+    if (req.body.id <= 0 || req.body.valor === undefined || !req.body.campo) {
+            return res.status(400).send('Hay un error en los campos.');
+        };
+    // Validar que no cree nuevas columnas.
+    const columnas_permitidas = [
+        'tipo_instrumento',
+        'nombre_instrumento',
+        'marca_instrumento',
+        'modelo_instrumento',
+        'precio_instrumento',
+        'sucursal_instrumento',
+        'disponible_instrumento'];
+
+    if (!columnas_permitidas.includes(req.body.campo)) {
+        return res.status(400).json({ error: "Nombre de campo inválido." });
+    };
+    const reemplazar = await actualizarInstrumento(
+        req.body.id,
+        req.body.valor,
+        req.body.campo
+    );
+    
+    if (reemplazar === undefined) {
+        return res.status(500).json({ error: 'No se pudo actualizar la entidad "Instrumentos".' }) 
+    };
+
+    res.json(reemplazar);
+    
+
+    });
+
+// TABLA VENDEDORES
+app.put('/admin/vendedores/actualizar', async (req, res) => {
+    // Validar que se manden 3 campos y que id sea >= 1.
+    if (req.body.id <= 0 || req.body.valor === undefined || !req.body.campo) {
+            return res.status(400).send('Hay un error en los campos.')
+        };
+    // Validar que no cree nuevas columnas.
+    const columnas_permitidas = [
+        'turno_vendedores',
+        'nombre_vendedores',
+        'ventas_vendedores',
+        'calificacion_vendedores',
+        'sucursal_vendedores',
+        'disponible_vendedores' ];
+
+    if (!columnas_permitidas.includes(req.body.campo)) {
+        return res.status(400).json({ error: "Nombre de campo inválido." });
+    };
+    const reemplazar = await actualizarVendedor(
+        req.body.id,
+        req.body.valor,
+        req.body.campo
+    );
+    
+    if (reemplazar === undefined) {
+        return res.status(500).json({ error: 'No se pudo actualizar la entidad "Vendedores".' }) 
+    };
+
+    res.json(reemplazar);
+    
+
+    });
+
+// TABLA MERCHANDISING
+app.put('/admin/merchandising/actualizar', async (req, res) => {
+    // Validar que se manden 3 campos y que id sea >= 1.
+    if (req.body.id <= 0 || req.body.valor === undefined || !req.body.campo) {
+            return res.status(400).send('Hay un error en los campos.')
+        };
+    // Validar que no cree nuevas columnas.
+    const columnas_permitidas = [
+        'tipo_merchandising',
+        'nombre_merchandising',
+        'marca_merchandising',
+        'sucursal_merchandising',
+        'precio_merchandising',
+        'disponible_merchandising' ];
+
+    if (!columnas_permitidas.includes(req.body.campo)) {
+        return res.status(400).json({ error: "Nombre de campo inválido." });
+    };
+    const reemplazar = await actualizarMerchandising(
+        req.body.id,
+        req.body.valor,
+        req.body.campo
+    );
+    
+    if (reemplazar === undefined) {
+        return res.status(500).json({ error: 'No se pudo actualizar la entidad "Merchandising".' }) 
+    };
+
+    res.json(reemplazar);
+    
+
+    });
+
+
+
+// DELETE
+
+// TABLA INSTRUMENTOS
+// Eliminar instrumento por id.
+app.delete('/admin/instrumentos/borrar/:id', async (req, res) => {
+    const instrumento = await borrarInstrumento(req.params.id);
+    if (instrumento === undefined) {
+        return res.status(404).json({ error: "La id " + req.params.id + ' no existe'})
+    };
+
+    res.json({ status: "La id " + req.params.id + ' fue eliminada con éxito.'});
+
+});
+
+// TABLA VENDEDORES
+// Eliminar vendedor por id.
+app.delete('/admin/vendedores/borrar', async (req, res) => {
+    if (req.body.id < 0 || !req.body.valor) {
+        return res.status(400).send('Hay un error en los campos.');
+    }
+
+    const vendedor = await borrarVendedor(req.body.id, req.body.valor);
+    if (vendedor === undefined) {
+        return res.status(404).json({ error: "La id " + req.params.id + ' no existe'})
+    };
+
+    res.json({ status: "El vendedor " + req.body.valor + ' con la id ' + req.body.id + ' fue eliminada con éxito.'});
+
+});
+
+
+// NOTAS
+
+/* chequear que la id no sea negativa (de todo)
+chequear que no cree un mismo elemento dos veces (salvo que lo interprete como que hay mas de un stock)
+
+
+*/
