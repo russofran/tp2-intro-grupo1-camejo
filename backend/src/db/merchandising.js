@@ -47,7 +47,20 @@ async function agregarMerchandising (
     }
 }
 
-// UPDATE
+// PUT
+// Actualizar datos de una fila (PUT).
+async function actualizarMerchandising(id, valor, campo) {
+
+    const query = `
+        UPDATE ONLY merchandising
+        SET ${campo} = $2
+        WHERE id_merchandising = $1
+        RETURNING *
+    `;
+    const resultado = await dbCliente.query(query, [id, valor]);
+    return resultado.rows[0];
+}
+
 
 // DELETE
 
@@ -56,6 +69,7 @@ async function agregarMerchandising (
 module.exports = {
     obtenerMerchandising,
     agregarMerchandising,
-    obtenerUnMerchandising
+    obtenerUnMerchandising,
+    actualizarMerchandising
 
 }

@@ -1,4 +1,3 @@
-const { application } = require('express');
 const { Pool } = require('pg');
 
 // Levantar Base de Datos (Necesaria Dependencia Postgresql instalada)
@@ -10,7 +9,7 @@ const dbCliente = new Pool({
     port: 5432,
     database: 'tienda_de_musica',
 });
- 
+
 // GET
 
 // Solicita todas las ventas_concretadas.
@@ -62,6 +61,7 @@ async function crearVentaConcretada (
         'INSERT INTO ventas_concretadas(tipo, vendedor_id, instrumento_id, merch_id, precio_real_venta, fecha_venta) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
         [tipo, vendedor_id, instrumento_id, merch_id, precio_real_venta, fecha_venta]);
 
+    
     if (resultado.rowCount === 0) {
         return undefined
     } else {
@@ -77,6 +77,18 @@ async function actualizarVentaConcretada(id, valor, campo) {
         UPDATE ONLY ventas_concretadas
         SET ${campo} = $2
         WHERE id = $1
+        RETURNING *
+    `;
+    const resultado = await dbCliente.query(query, [id, valor]);
+    return resultado.rows[0];
+}
+
+async function actualizarVendedorDespedido (id, valor) {
+
+    const query = `
+        UPDATE ONLY ventas_concretadas
+        SET vendedor_despedido = $2
+        WHERE vendedor_id = $1
         RETURNING *
     `;
     const resultado = await dbCliente.query(query, [id, valor]);
@@ -104,5 +116,6 @@ module.exports = {
     obtenerVentas,
     obtenerUnaVenta,
     crearVentaConcretada,
-    actualizarVentaConcretada
+    actualizarVentaConcretada,
+    actualizarVendedorDespedido
 }

@@ -10,6 +10,7 @@ const dbCliente = new Pool({
     database: 'tienda_de_musica',
 });
 
+const { actualizarVendedorDespedido } = require('./ventas_concretadas');
 
 // GET
 
@@ -58,6 +59,12 @@ async function obtenerVentasVendedores (id) {
 
 
 // Obtener que vendedor vendió más.
+async function obtenerVendedorTop ( ) {
+    const resultado = await dbCliente.query(
+        'SELECT * FROM vendedores WHERE id_vendedores=$1', [id]
+    );
+    return resultado.rows[0];
+};
 
 
 // POST
@@ -82,16 +89,56 @@ async function agregarVendedor (
 }
 
 
-// UPDATE
+// Actualizar datos de una fila (PUT).
+async function actualizarVendedor(id, valor, campo) {
 
+    const query = `
+        UPDATE ONLY vendedores
+        SET ${campo} = $2
+        WHERE id_vendedores = $1
+        RETURNING *
+    `;
+    const resultado = await dbCliente.query(query, [id, valor]);
+    return resultado.rows[0];
+}
+
+// Sumar +1 en ventas_vendedores.
+async function sumarVentaVendedor(id) {
+
+    const query = `
+        UPDATE ONLY vendedores
+        SET ventas_vendedores = ventas_vendedores + 1
+        WHERE id_vendedores = $1
+        RETURNING *
+    `;
+    const resultado = await dbCliente.query(query, [id]);
+    return resultado.rows[0];
+}
 
 
 // DELETE
+async function borrarVendedor (id, valor) {
+    
+    await actualizarVendedorDespedido(id, valor);
+
+    const resultado = await dbCliente.query('DELETE FROM vendedores WHERE id_vendedores=$1', [id]);
+
+    if (resultado.rowCount === 0) {
+        return undefined
+    } else {
+        return resultado.rows;
+    };
+};
+
+
 
 module.exports = {
     obtenerVendedores,
     agregarVendedor,
     obtenerUnVendedor,
-    obtenerVentasVendedores
+    obtenerVentasVendedores,
+    actualizarVendedor,
+    sumarVentaVendedor,
+    borrarVendedor
 
 }
