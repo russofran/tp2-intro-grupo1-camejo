@@ -33,13 +33,13 @@ async function agregarMerchandising (
     tipo_merchandising,
     nombre_merchandising,
     marca_merchandising,
-    sucursal_merchandising,
+    imagen_merchandising,
     precio_merchandising,
     disponible_merchandising,
 ) {
     const resultado = await dbCliente.query(
-        'INSERT INTO merchandising(tipo_merchandising, nombre_merchandising, marca_merchandising, sucursal_merchandising, precio_merchandising, disponible_merchandising) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-        [tipo_merchandising, nombre_merchandising, marca_merchandising, sucursal_merchandising, precio_merchandising, disponible_merchandising]);
+        'INSERT INTO merchandising(tipo_merchandising, nombre_merchandising, marca_merchandising, imagen_merchandising, precio_merchandising, disponible_merchandising) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+        [tipo_merchandising, nombre_merchandising, marca_merchandising, imagen_merchandising, precio_merchandising, disponible_merchandising]);
     if (resultado.rowCount === 0) {
         return undefined
     } else {
@@ -63,6 +63,17 @@ async function actualizarMerchandising(id, valor, campo) {
 
 
 // DELETE
+// Borrar un merchandising.
+async function borrarMerchandising (id) {
+    const resultado = await dbCliente.query('DELETE FROM merchandising WHERE id_merchandising=$1', [id]);
+
+    if (resultado.rowCount === 0) {
+        return undefined
+    } else {
+        return resultado.rows;
+    }
+    
+};
 
 
 
@@ -70,6 +81,6 @@ module.exports = {
     obtenerMerchandising,
     agregarMerchandising,
     obtenerUnMerchandising,
-    actualizarMerchandising
-
+    actualizarMerchandising,
+    borrarMerchandising
 }

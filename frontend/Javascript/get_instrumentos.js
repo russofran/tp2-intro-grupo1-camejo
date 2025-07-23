@@ -36,14 +36,6 @@ fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
         newPrecio.innerHTML = instrumento.precio_instrumento;
         newFila.appendChild(newPrecio);
 
-        const newSucursal = document.createElement("td");
-        newSucursal.innerHTML = instrumento.sucursal_instrumento;
-        newFila.appendChild(newSucursal);
-
-        const newDisponible = document.createElement("td");
-        newDisponible.innerHTML = instrumento.disponible_instrumento;
-        newFila.appendChild(newDisponible);
-
         const newBotonVer = document.createElement("a");
         newBotonVer.className = "button is-info";
         newBotonVer.href = "/instrumento.html?id=" + instrumento.id_instrumento;

@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS instrumentos (
     marca_instrumento VARCHAR(100) NOT NULL,
     modelo_instrumento VARCHAR(100) NOT NULL,
     precio_instrumento INT NOT NULL,
-    sucursal_instrumento VARCHAR(100) NOT NULL,
+    imagen_instrumento VARCHAR(300),
     disponible_instrumento BOOLEAN NOT NULL
 );
 
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS merchandising (
     tipo_merchandising VARCHAR(50) NOT NULL,
     nombre_merchandising VARCHAR(100) NOT NULL,
     marca_merchandising VARCHAR(100) NOT NULL,
-    sucursal_merchandising VARCHAR(100) NOT NULL,
+    imagen_merchandising VARCHAR(300) NOT NULL,
     precio_merchandising INT NOT NULL,
     disponible_merchandising BOOLEAN NOT NULL
 );
