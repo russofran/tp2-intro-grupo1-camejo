@@ -1,6 +1,8 @@
 // imports
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
+
 const app = express();
 const port = 3030;
 
@@ -8,7 +10,8 @@ app.listen(port, '0.0.0.0', () => {
   console.log('Servidor corriendo en el puerto 3030');
 });
 
-app.use(express.json())
+app.use(express.json());
+app.use(cors());
 
 // Vincular la carpeta frontend
 app.use(express.static(path.join(__dirname, '../frontend')));
