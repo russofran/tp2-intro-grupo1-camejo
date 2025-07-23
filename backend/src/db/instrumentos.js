@@ -10,8 +10,6 @@ const dbCliente = new Pool({
     database: 'tienda_de_musica',
 });
 
-const { reemplazarInstrumentoVC } = require('./ventas_concretadas')
-
 // Querys a la db.
 
 // Obtener Información (GET).
@@ -43,12 +41,12 @@ async function agregarInstrumento (
     marca_instrumento,
     modelo_instrumento,
     precio_instrumento,
-    sucursal_instrumento,
+    imagen_instrumento,
     disponible_instrumento
 ) {
     const resultado = await dbCliente.query(
-        'INSERT INTO instrumentos(tipo_instrumento, nombre_instrumento, marca_instrumento, modelo_instrumento, precio_instrumento, sucursal_instrumento, disponible_instrumento) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-        [tipo_instrumento, nombre_instrumento, marca_instrumento, modelo_instrumento, precio_instrumento, sucursal_instrumento, disponible_instrumento]);
+        'INSERT INTO instrumentos(tipo_instrumento, nombre_instrumento, marca_instrumento, modelo_instrumento, precio_instrumento, imagen_instrumento, disponible_instrumento) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+        [tipo_instrumento, nombre_instrumento, marca_instrumento, modelo_instrumento, precio_instrumento, imagen_instrumento, disponible_instrumento]);
     if (resultado.rowCount === 0) {
         return undefined
     } else {
@@ -82,12 +80,10 @@ async function actualizarInstrumento(id, valor, campo) {
 // Borrar un instrumento.
 async function borrarInstrumento (id) {
     const resultado = await dbCliente.query('DELETE FROM instrumentos WHERE id_instrumento=$1', [id]);
-    console.log('resultado', resultado)
 
     if (resultado.rowCount === 0) {
         return undefined
     } else {
-        console.log('resultado.rowCount', resultado.rowCount)
         return resultado.rows;
     }
     
