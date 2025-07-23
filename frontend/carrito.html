@@ -45,41 +45,86 @@
     </header>
 
     <!-- Titulo -->
-    <h1 class="title is-2 has-text-centered" id="nombre-instrumento"></h1>
+    <h1 class="title is-2 has-text-centered" id="titulo-formulario">Ingrese la venta a concretar</h1>
   
 
     <section class="section">
-        <div class="container">
-          <div class="columns is-multiline is-flex is-justify-content-center">
-            <!-- Recuadros con categorias -->
-             
-            <div class="column is-one-quarter">
-                <div class="card" data-producto-id="Guitarra">
-                  <div class="card-image">
-                    <figure class="image is-5">
-                      <img src="" id="img-card" alt="Guitarra">
-                    </figure>
-                  </div>
-                  <div class="card-content">
-                      <p class="title is-4 has-text-centered" id="precio-card"></p>
-                      <div class="content">
-                        <button class="button" id="boton-card">
-                          <span class="icon is-small" id="texto-boton-card">
-                            <i class="fas fa-check" id="icon-boton-card"></i>
-                          </span>
-                          <a href="" id="enlace-card-comprar"></a>
-                        </button>
-                      </div>
-
-
-                  </div>
-                </div>
+      <!-- Formulario de compra -->
+      <form id="formulario_venta_concretada">
+        <!-- Primer Input, seleccione tipo de venta -->
+        <div class="field">
+          <label class="label">Tipo de venta</label>
+          <div class="control">
+            <div class="select">
+              <select name="tipo" id="select-tipo">
+                <option value="Online">Online</option>
+                <option value="Local">Local</option>
+              </select>
             </div>
           </div>
         </div>
-      </section>
+        <!-- Segundo Input tipo select, seleccione vendedor -->
+        <div class="field">
+          <label class="label">Seleccione un vendedor</label>
+          <div class="control">
+            <div class="select">
+              <select name="tipo" id="select-vendedores">
+                <option value="null">Vendedores</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- Tercer Input tipo select, seleccione instrumento -->
+        <div class="field">
+          <label class="label">Seleccione un instrumento</label>
+          <div class="control">
+            <div class="select">
+              <select name="tipo" id="select-instrumento">
+                <option value="null">Ninguno</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- Cuarto Input tipo select, seleccione merchandising -->
+        <div class="field">
+          <label class="label">Seleccione un merchandising</label>
+          <div class="control">
+            <div class="select">
+              <select name="tipo" id="select-merchandising">
+                <option value="null">Ninguno</option>
+              </select>
+            </div>
+          </div>
+        </div>
 
-      <script src="./Javascript/get_un_instrumento.js"></script>
+        <!-- Precio tipo span actualizado-->
+        <div class="field">
+          <label class="label">Precio [VER PRECIO ANTES DE COMPRAR]</label>
+          <div class="control">
+            <div class="span">
+              <p>Total: $<span id="precio-total">0</span></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sexto Input tipo boton submit o cancel.-->
+        <div class="field is-grouped">
+          <div class="control">
+            <button type="button" class="button is-info" id="price-boton">Ver Precio</button>
+          </div>
+          <div class="control">
+            <button type="submit" class="button is-link" id="submit-boton">Comprar</button>
+          </div>
+          <div class="control">
+            <button type="reset" class="button is-link is-light" id="cancel-boton">Borrar todo</button>
+          </div>
+        </div>
+      </form>
+      <div id="mensaje-respuesta" style="margin-top:10px"></div>
+
+    </section>
+
+    <script src="./Javascript/post_venta_concretada_instrumento.js"></script>
 
       <!--Footer-->
       <footer class="footer has-background-light mt-6">
