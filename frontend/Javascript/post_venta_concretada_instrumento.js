@@ -9,7 +9,6 @@ fetch(obtenerTodosLosDatos).then((respuesta) => {
     return respuesta.json();
 }).then((data) => {
     function CompletarSelectPrecio(selectId, data) {
-
         const select = document.getElementById(selectId);
 
         select.innerHTML = '<option value="">Seleccionar</option>';
@@ -84,37 +83,46 @@ function enviarVenta(e) {
         merch_id: id_merch,
         precio_real_venta: window.precioFinalVenta
     };
+
+    
+    // mientras espera el try:
     const mensaje = document.getElementById("mensaje-respuesta");
     mensaje.textContent = "Procesando venta..."; 
     mensaje.style.color = "blue";
 
-
-    try {
-        fetch(tiendaDeMusicaBackendURLPOST, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body)
-        }).then((respuesta) => {
-            console.log(respuesta);
-            if (respuesta.status === 200) {
-                mensaje.textContent = "Venta registrada con éxito ✔";
-                mensaje.style.color = "green";
-            } else if (respuesta.status === 400) {
-                mensaje.textContent = "Te olvidaste un campo (ver precio antes de comprar)";
-                mensaje.style.color = "red";
-            }
-            
-        });
-    } catch (error) {
-        console.error(error);
-        mensaje.textContent = "Error al registrar la venta ❌";
+    // validación
+    if (isNaN(body.instrumento_id) && isNaN(body.merch_id)) {
+        mensaje.textContent = "No podés registrar la venta si no seleccionás nada para comprar.";
         mensaje.style.color = "red";
+        return;
     }
+    if (!body.precio_real_venta) {
+        mensaje.textContent = "Haga click en 'Ver Precio'";
+        mensaje.style.color = "red";
+        return
+    }
+
+
+    fetch(tiendaDeMusicaBackendURLPOST, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+    }).then((respuesta) => {
+        if (respuesta.status === 200) {
+            mensaje.textContent = "Venta registrada con éxito ✔";
+            mensaje.style.color = "green";
+            window.location.replace("./index.html");
+        } else if (respuesta.status === 400) {
+            mensaje.textContent = "Click en 'ver precio' antes de comprar.";
+            mensaje.style.color = "red";
+            return
+        }
+        
+    });
+    
 };
 
-
-
-// Cargar los datos en la base de datos.
+// Intentar cargar la venta_concretada en la base de datos.
 
 document.getElementById("formulario_venta_concretada").addEventListener("submit", enviarVenta);
 

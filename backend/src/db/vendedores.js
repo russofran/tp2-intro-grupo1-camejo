@@ -61,7 +61,7 @@ async function obtenerVentasVendedores (id) {
 // Obtener que vendedor vendió más.
 async function obtenerVendedorTop ( ) {
     const resultado = await dbCliente.query(
-        'SELECT * FROM vendedores WHERE id_vendedores=$1', [id]
+        'SELECT * FROM vendedores WHERE id_vendedores=$1', [instrumento_param_id_edit]
     );
     return resultado.rows[0];
 };
