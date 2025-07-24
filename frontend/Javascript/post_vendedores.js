@@ -8,7 +8,6 @@ const tiendaDeMusicaBackendURLPOST = "https://tp2-intro-grupo1-camejo-deploy-bac
 function agregarVendedor(e) {
     e.preventDefault(); // Evita recargar la página.
 
-    const tipo_vendedores = document.getElementById("tipo-vendedores").value.trim();
     const turno_vendedores = document.getElementById("turno-vendedores").value.trim();
     const nombre_vendedores = document.getElementById("nombre-vendedores").value.trim();
     const sucursal_vendedores = document.getElementById("sucursal-vendedores").value.trim();
@@ -19,7 +18,7 @@ function agregarVendedor(e) {
     let disponible_bool = disponible === "true" || disponible === true; // asegura boolean real
     
     // Validación:
-    if (!tipo_vendedores ||
+    if (!turno_vendedores ||
         !nombre_vendedores || 
         !sucursal_vendedores) {
         alert("Por favor, completa todos los campos.");
@@ -35,7 +34,6 @@ function agregarVendedor(e) {
 
 
     const body = {
-        tipo_vendedores: tipo_vendedores,
         turno_vendedores: turno_vendedores,
         nombre_vendedores: nombre_vendedores,
         ventas_vendedores: ventas_vendedores,
