@@ -1,7 +1,7 @@
 // Get
 
 
-const tiendaDeMusicaBackendURLPOST = "http://localhost:3030/admin/productos/agregarInstrumento";
+const tiendaDeMusicaBackendURLPOST = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/admin/productos/agregarInstrumento";
 
 
 
@@ -46,8 +46,6 @@ function agregarInstrumento(e) {
         imagen_instrumento: img_instrumento,
         disponible_instrumento: disponible_bool
     };
-
-    console.log(body);
 
     // mientras espera el try:
     const mensaje = document.getElementById("mensaje-respuesta");

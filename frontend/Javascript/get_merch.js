@@ -1,7 +1,7 @@
 // Get
 
 
-const tiendaDeMusicaBackendURL = "http://localhost:3030/productos/merchandising";
+const tiendaDeMusicaBackendURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/productos/merchandising";
 
 
 
@@ -71,7 +71,7 @@ fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
 
 
 function deleteMerchandising(id_merchandising){
-    const borrarMerchandisingURL = "http://localhost:3030/admin/merchandising/borrar/" + id_merchandising;
+    const borrarMerchandisingURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/admin/merchandising/borrar/" + id_merchandising;
 
     fetch(borrarMerchandisingURL, {
         method: 'DELETE'

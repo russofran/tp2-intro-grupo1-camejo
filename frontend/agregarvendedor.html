@@ -46,23 +46,22 @@
     </header>
 
     <!-- Titulo -->
-    <h1 class="title is-2 has-text-centered" id="titulo-formulario">Ingrese el instrumento a agregar</h1>
+    <h1 class="title is-2 has-text-centered" id="titulo-formulario">Dar de alta vendedor</h1>
   
 
     <section class="section">
       <!-- Formulario de compra -->
-      <form id="formulario_agregar_instrumento">
+      <form id="formulario_agregar_vendedor">
         <!-- Primer Input -->
          
         <div class="field">
-          <label class="label">Tipo de venta</label>
+          <label class="label">Turno</label>
           <div class="control">
             <div class="select">
-              <select name="tipo" id="tipo-instrumento">
-                <option value="Guitarra Eléctrica">Guitarra Electrica</option>
-                <option value="Guitarra Acústica">Guitarra Acústica</option>
-                <option value="Batería">Bateria</option>
-                <option value="Piano">Piano</option>
+              <select name="tipo" id="turno-vendedores">
+                <option value="Mañana">Mañana</option>
+                <option value="Tarde">Tarde</option>
+                <option value="Noche">Noche</option>
               </select>
             </div>
           </div>
@@ -70,10 +69,10 @@
         <!-- Segundo Input -->
 
         <div class="field">
-          <label class="label">Nombre Instrumento</label>
+          <label class="label">Nombre Vendedor</label>
           <div class="control">
             
-            <input class="input" type="text" placeholder="Ingrese un nombre" id="nombre-instrumento"/>
+            <input class="input" type="text" placeholder="Ingrese un nombre" id="nombre-vendedores"/>
             
           </div>
         </div>
@@ -81,54 +80,35 @@
         <!-- Tercer Input-->
 
         <div class="field">
-          <label class="label">Marca Instrumento</label>
+          <label class="label">Sucursal</label>
           <div class="control">
-            
-            <input class="input" type="text" placeholder="Ingrese un nombre" id="marca-instrumento"/>
-            
+            <div class="select">
+              <select name="tipo" id="sucursal-vendedores">
+                <option value="Online">Online</option>
+                <option value="Local">Local</option>
+              </select>
+            </div>
           </div>
         </div>
 
         <!-- Cuarto Input-->
 
         <div class="field">
-          <label class="label">Modelo Instrumento</label>
+          <label class="label">calificacion_vendedores</label>
           <div class="control">
             
-            <input class="input" type="text" placeholder="Ingrese un modelo" id="modelo-instrumento"/>
+            <input class="input" type="text" placeholder="Ingrese una calificacion" id="calificacion-vendedores"/>
             
           </div>
         </div>
 
-        <!-- Quinto Input-->
-
-        <div class="field">
-          <label class="label"> Precio Instrumento</label>
-          <div class="control">
-            
-            <input class="input" type="text" placeholder="Ingrese Precio" id="precio-instrumento"/>
-            
-          </div>
-        </div>
-
-        <!-- sexto Input-->
-
-        <div class="field">
-          <label class="label"> Img Instrumento</label>
-          <div class="control">
-            
-            <input class="input" type="text" placeholder="Si no tiene, poner null. NO DEJAR VACÍO" id="img-instrumento"/>
-            
-          </div>
-        </div>
-
-        <!-- Primer Input -->
+        <!-- ultimo Input -->
          
         <div class="field">
           <label class="label"> Disponible</label>
           <div class="control">
             <div class="select">
-              <select name="tipo" id="disponible-instrumento">
+              <select name="tipo" id="disponible-vendedores">
                 <option value="true">Disponible</option>
                 <option value="false">No Disponible</option>
               </select>

@@ -1,6 +1,9 @@
 // Get
 
+
 const tiendaDeMusicaBackendURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/productos/instrumentos";
+
+
 
 fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
     return respuesta.json();
@@ -72,7 +75,7 @@ fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
 
 
 function deleteInstrumento(id_instrumento){
-    const borrarInstrumentoURL = "http://localhost:3030/admin/instrumento/borrar/" + id_instrumento;
+    const borrarInstrumentoURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/admin/instrumento/borrar/" + id_instrumento;
 
     fetch(borrarInstrumentoURL, {
         method: 'DELETE'
