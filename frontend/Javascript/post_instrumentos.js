@@ -47,8 +47,6 @@ function agregarInstrumento(e) {
         disponible_instrumento: disponible_bool
     };
 
-    console.log(body);
-
     // mientras espera el try:
     const mensaje = document.getElementById("mensaje-respuesta");
     mensaje.textContent = "Procesando..."; 
