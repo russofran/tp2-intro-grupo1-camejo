@@ -99,34 +99,3 @@ document.querySelectorAll(".editar").forEach((btn) => {
         });
     });
 });
-
-
-
-// fetch(putActualizarInstrumentoURL, {
-//         method: "PUT",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify(body)
-//     }).then((respuesta) => {
-//         if (respuesta.status === 200) {
-//             mensaje.textContent = "Venta registrada con éxito ✔";
-//             mensaje.style.color = "green";
-//             window.location.replace("./index.html");
-//         } else if (respuesta.status === 400) {
-//             mensaje.textContent = "Click en 'ver precio' antes de comprar.";
-//             mensaje.style.color = "red";
-//             return
-//         }
-        
-//     });
-
-//     const newBotonEditar = document.createElement("a");
-//     newBotonEditar.className = "button is-danger";
-//     newBotonEditar.href = "/editarinstrumento.html?id=" + instrumento.id_instrumento;
-//     newBotonEditar.innerHTML = "Confirmar edición";
-
-//     const newEditar = document.createElement("td");
-//     newEditar.appendChild(newBotonEditar);
-//     newFila.appendChild(newEditar);
-        
-
-    

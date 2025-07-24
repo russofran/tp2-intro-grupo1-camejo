@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="website icon" type="png" href="./Img/favicon/favicon-16x16.png">
-  <title>Instrumento</title>
+  <title>Merc</title>
 </head>
 
 <body>
@@ -47,49 +47,39 @@
   </header>
 
   <!-- Titulo -->
-  <h1 class="title is-2 has-text-centered" id="nombre-instrumento">Introduzca valores nuevos</h1>
+  <h1 class="title is-2 has-text-centered" id="nombre-merchandising"></h1>
 
 
   <section class="section">
-    <table class="table is-striped is-hoverable is-fullwidth">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Tipo</th>
-                <th>Nombre</th>
-                <th>Marca</th>
-                <th>Modelo</th>
-                <th>Precio</th>
-            </tr>
-            <tr>
-                
-                    <th><input class="input" type="text" placeholder="Inhabilitado" disabled /></th>
-                
-                    <th><button type="button" class="editar" id="boton-tipo" data-campo="tipo_instrumento">Editar tipo</button></th>
-                
-                    <th><button type="button" class="editar" id="boton-nombre" data-campo="nombre_instrumento">Editar nombre</button></th>
-                
-                    <th><button type="button" class="editar" id="boton-marca" data-campo="marca_instrumento">Editar marca</button></th>
-                
-                    <th><button type="button" class="editar" id="boton-modelo" data-campo="modelo_instrumento">Editar modelo</button></th>
-                
-                    <th><button type="button" class="editar" id="boton-precio" data-campo="precio_instrumento">Editar precio</button></th>
-      
+    <div class="container">
+      <div class="columns is-multiline is-flex is-justify-content-center">
+        <!-- card que muestra el merch -->
 
-            </tr>
-        </thead>
-        <tbody id="instrumentos-table"> </tbody>
-    </table>
+        <div class="column is-one-quarter">
+          <div class="card" data-producto-id="Merchandising">
+            <div class="card-image">
+              <figure class="image is-5">
+                <img src="" id="img-card" alt="Merchandising">
+              </figure>
+            </div>
+            <div class="card-content">
+              <p class="title is-4 has-text-centered" id="precio-card"></p>
+              <div class="content">
+                <button class="button" id="boton-card">
+                  <span class="icon is-small" id="texto-boton-card">
+                    <i class="fas fa-check" id="icon-boton-card"></i>
+                  </span>
+                  <a href="" id="enlace-card-comprar"></a>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <div id="mensaje-respuesta" style="margin-top:10px"></div>
-
-    </section>
-    <script src="./Javascript/editar_instrumento.js"></script>
-
-
-
-
-
+  <script src="./Javascript/get_un_merch.js"></script>
 
   <!--Footer-->
   <footer class="footer has-background-light mt-6">

@@ -1,18 +1,14 @@
 // Get
 
-tablaInstrumentos();
+
+const tiendaDeMusicaBackendURL = "http://localhost:3030/productos/instrumentos";
 
 
-function tablaInstrumentos (){
 
-    document.getElementById("instrumentos-table").innerHTML = "";
-
-    const tiendaDeMusicaBackendURL = "http://localhost:3030/productos/instrumentos";
-
-    fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
-        return respuesta.json();
-    }).then((data) => {
-        // Aca trabajamos con los datos obtenidos desde la base de datos por medio de "data".
+fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
+    return respuesta.json();
+}).then((data) => {
+    // Aca trabajamos con los datos obtenidos desde la base de datos por medio de "data".
 
     const table = document.getElementById("instrumentos-table");
 
@@ -45,7 +41,7 @@ function tablaInstrumentos (){
 
         const newBotonVer = document.createElement("a");
         newBotonVer.className = "button is-info";
-        //newBotonVer.href = "/instrumento.html?id=" + instrumento.id_instrumento;
+        newBotonVer.href = "/instrumento.html?id=" + instrumento.id_instrumento;
         newBotonVer.innerHTML = "Ver";
 
         const newVer = document.createElement("td");
@@ -55,7 +51,6 @@ function tablaInstrumentos (){
         const newBotonBorrar = document.createElement("a");
         newBotonBorrar.className = "button is-danger";
         newBotonBorrar.onclick = function(){deleteInstrumento(instrumento.id_instrumento)}; 
-
         newBotonBorrar.innerHTML = "Borrar";
 
         const newBorrar = document.createElement("td");
@@ -74,15 +69,31 @@ function tablaInstrumentos (){
 
         table.appendChild(newFila);
     });
-});
 
-}
+});
 
 
 
 function deleteInstrumento(id_instrumento){
-    console.log("hola");
-    const tiendaDeMusicaBackendURL = "http://localhost:3030/productos/instrumentos/" + id_instrumento;
-    fetch(tiendaDeMusicaBackendURL, {method: 'DELETE'}).then(() => tablaInstrumentos()); 
+    const borrarInstrumentoURL = "http://localhost:3030/admin/instrumento/borrar/" + id_instrumento;
+
+    fetch(borrarInstrumentoURL, {
+        method: 'DELETE'
+    }).then((respuesta) => {
+
+        if (respuesta.status === 200) {
+            alert("Elemento eliminado con exito ✔");
+            window.location.replace("./instrumentos.html");
+            return
+        } else if (respuesta.status === 400) {
+            alert("Algo salió mal ✔");
+            window.location.replace("./instrumentos.html");
+            return
+        } else if (respuesta.status === 404) {
+            alert("El elemento seleccionado no existe, haga click en aceptar para recargar la página.");
+            window.location.replace("./instrumentos.html");
+            return
+        }
+    }); 
 
 }
