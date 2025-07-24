@@ -86,7 +86,7 @@ function deleteInstrumento(id_instrumento){
             window.location.replace("./instrumentos.html");
             return
         } else if (respuesta.status === 400) {
-            alert("Algo salió mal ✔");
+            alert("Algo salió mal");
             window.location.replace("./instrumentos.html");
             return
         } else if (respuesta.status === 404) {
