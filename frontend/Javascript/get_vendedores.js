@@ -1,7 +1,7 @@
 // Get
 
 
-const tiendaDeMusicaBackendURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/productos/merchandising";
+const tiendaDeMusicaBackendURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/admin/vendedores";
 
 
 
@@ -10,34 +10,42 @@ fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
 }).then((data) => {
     // Aca trabajamos con los datos obtenidos desde la base de datos por medio de "data".
 
-    const table = document.getElementById("merchandising-table");
+    const table = document.getElementById("vendedores-table");
 
-    data.forEach(merchandising => {
+    data.forEach(vendedor => {
         const newFila = document.createElement("tr");
 
         const newID = document.createElement("td");
-        newID.innerHTML = merchandising.id_merchandising;
+        newID.innerHTML = vendedor.id_vendedores;
         newFila.appendChild(newID);
 
-        const newTipo = document.createElement("td");
-        newTipo.innerHTML = merchandising.tipo_merchandising;
-        newFila.appendChild(newTipo);
+        const newTurno = document.createElement("td");
+        newTurno.innerHTML = vendedor.turno_vendedores;
+        newFila.appendChild(newTurno);
 
         const newNombre = document.createElement("td");
-        newNombre.innerHTML = merchandising.nombre_merchandising;
+        newNombre.innerHTML = vendedor.nombre_vendedores;
         newFila.appendChild(newNombre);
 
-        const newMarca = document.createElement("td");
-        newMarca.innerHTML = merchandising.marca_merchandising;
-        newFila.appendChild(newMarca);
+        const newVentas = document.createElement("td");
+        newVentas.innerHTML = vendedor.ventas_vendedores;
+        newFila.appendChild(newVentas);
 
-        const newPrecio = document.createElement("td");
-        newPrecio.innerHTML = merchandising.precio_merchandising;
-        newFila.appendChild(newPrecio);
+        const newSucursal = document.createElement("td");
+        newSucursal.innerHTML = vendedor.sucursal_vendedores;
+        newFila.appendChild(newSucursal);
+
+        const newCalificacion = document.createElement("td");
+        newCalificacion.innerHTML = vendedor.calificacion_vendedores;
+        newFila.appendChild(newCalificacion);
+
+        const newDisponible = document.createElement("td");
+        newDisponible.innerHTML = vendedor.disponible_vendedores;
+        newFila.appendChild(newDisponible);
 
         const newBotonVer = document.createElement("a");
         newBotonVer.className = "button is-info";
-        newBotonVer.href = "/merchandising.html?id=" + merchandising.id_merchandising;
+        newBotonVer.href = "/index.html";
         newBotonVer.innerHTML = "Ver";
 
         const newVer = document.createElement("td");
@@ -46,7 +54,7 @@ fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
 
         const newBotonBorrar = document.createElement("a");
         newBotonBorrar.className = "button is-danger";
-        newBotonBorrar.onclick = function(){deleteMerchandising(merchandising.id_merchandising)}; 
+        newBotonBorrar.onclick = function(){deleteVendedor(vendedor.id_vendedores)}; 
         newBotonBorrar.innerHTML = "Borrar";
 
         const newBorrar = document.createElement("td");
@@ -55,7 +63,7 @@ fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
 
         const newBotonEditar = document.createElement("a");
         newBotonEditar.className = "button";
-        newBotonEditar.href = "/editarmerchandising.html?id=" + merchandising.id_merchandising;
+        newBotonEditar.href = "/index.html" ;
         newBotonEditar.innerHTML = "Editar";
 
         const newEditar = document.createElement("td");
@@ -70,24 +78,24 @@ fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
 
 
 
-function deleteMerchandising(id_merchandising){
-    const borrarMerchandisingURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/admin/merchandising/borrar/" + id_merchandising;
+function deleteVendedor(id_vendedor){
+    const borrarVendedorURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/admin/vendedores/borrar/" + id_vendedor;
 
-    fetch(borrarMerchandisingURL, {
+    fetch(borrarVendedorURL, {
         method: 'DELETE'
     }).then((respuesta) => {
 
         if (respuesta.status === 200) {
             alert("Elemento eliminado con exito ✔");
-            window.location.replace("./merch.html");
+            window.location.replace("./index.html");
             return
         } else if (respuesta.status === 400) {
             alert("Algo salió mal");
-            window.location.replace("./merch.html");
+            window.location.replace("./vendedores.html");
             return
         } else if (respuesta.status === 404) {
             alert("El elemento seleccionado no existe, haga click en aceptar para recargar la página.");
-            window.location.replace("./merch.html");
+            window.location.replace("./vendedores.html");
             return
         }
     }); 
