@@ -17,7 +17,8 @@ function agregarInstrumento(e) {
     let disponible = document.getElementById("disponible-instrumento").value;
 
     // parseBoolean
-    let disponible_bool = (disponible === "true"); // true o false si no es true.
+    let disponible_bool = disponible === "true" || disponible === true; // asegura boolean real
+
     
     // Validación:
     if (!tipo_instrumento ||

@@ -1,7 +1,7 @@
 // Get
 
 
-const tiendaDeMusicaBackendURLPOST = "http:/localhost:3030/admin/staff/agregarVendedor";
+const tiendaDeMusicaBackendURLPOST = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/admin/staff/agregarVendedor";
 
 
 
@@ -16,7 +16,7 @@ function agregarVendedor(e) {
     let disponible = document.getElementById("disponible-vendedores").value;
     const ventas_vendedores = 0;
     // parseBoolean
-    let disponible_bool = (disponible === "true"); // true o false si no es true.
+    let disponible_bool = disponible === "true" || disponible === true; // asegura boolean real
     
     // Validación:
     if (!tipo_vendedores ||
@@ -56,7 +56,7 @@ function agregarVendedor(e) {
         body: JSON.stringify(body)
     }).then((respuesta) => {
         if (respuesta.status === 200) {
-            mensaje.textContent = "Merch registrado con éxito ✔";
+            mensaje.textContent = "vendedor agregado con éxito ✔";
             mensaje.style.color = "green";
             window.location.replace("./index.html");
         } else if (respuesta.status === 400) {
@@ -72,8 +72,3 @@ function agregarVendedor(e) {
 // Intentar cargar la venta_concretada en la base de datos.
 
 document.getElementById("formulario_agregar_vendedor").addEventListener("submit", agregarVendedor);
-
-
-const app = new Pool({
-    connectionString: process.env.DATABASE_URL
-})

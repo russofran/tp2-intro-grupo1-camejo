@@ -74,6 +74,7 @@ const {
 // funcion solo para manejar datos en carrito.html.
 
 async function obtenerTodo ( ) {
+    
     const instrumentos = await dbCliente.query(
         'SELECT id_instrumento as id, nombre_instrumento as nombre, precio_instrumento as precio FROM instrumentos WHERE disponible_instrumento = true'
     );
@@ -185,7 +186,7 @@ app.get('/admin/ventas_concretadas/:id', async (req, res) => {
 // POST TABLA INSTRUMENTOS
 // Agregar un instrumento
 app.post('/admin/productos/agregarInstrumento', async (req, res) => {
-    // En caso de que no mande nada en el INSERT
+  try {
     if (!req.body.tipo_instrumento ||
         req.body.nombre_instrumento === undefined ||
         !req.body.marca_instrumento ||
@@ -194,7 +195,7 @@ app.post('/admin/productos/agregarInstrumento', async (req, res) => {
         !req.body.imagen_instrumento ||
         req.body.disponible_instrumento === undefined) {
             return res.status(400).send('Error, falta un campo obligatorio.');
-        };
+    }
 
     const instrumento = await agregarInstrumento(
         req.body.tipo_instrumento,
@@ -207,11 +208,16 @@ app.post('/admin/productos/agregarInstrumento', async (req, res) => {
     );
 
     if (!instrumento) {
-        return res.status(500).json({ error: 'No se creó el instrumento.' }); 
-    };
-    
+        return res.status(500).json({ error: 'No se creó el instrumento.' });
+    }
+
     res.json(instrumento);
+  } catch (error) {
+    console.error('Error al insertar instrumento:', error);
+    res.status(500).json({ error: 'Error al crear instrumento', detalle: error.message });
+  }
 });
+
 
 /* curl --header "Content-Type: application/json" \
   --request POST \
@@ -224,89 +230,104 @@ app.post('/admin/productos/agregarInstrumento', async (req, res) => {
 // Agregar Vendedor
 app.post('/admin/staff/agregarVendedor', async (req, res) => {
     // En caso de que no mande nada en el INSERT
-    if (!req.body.turno_vendedores ||
-        !req.body.nombre_vendedores ||
-        req.body.ventas_vendedores === undefined ||
-        !req.body.sucursal_vendedores ||
-        req.body.calificacion_vendedores === undefined ||
-        req.body.disponible_vendedores === undefined) {
-            return res.status(400).send('Error, falta un campo obligatorio.');
+    try {
+        if (!req.body.turno_vendedores ||
+            !req.body.nombre_vendedores ||
+            req.body.ventas_vendedores === undefined ||
+            !req.body.sucursal_vendedores ||
+            req.body.calificacion_vendedores === undefined ||
+            req.body.disponible_vendedores === undefined) {
+                return res.status(400).send('Error, falta un campo obligatorio.');
+            };
+
+        const vendedor = await agregarVendedor(
+            req.body.turno_vendedores,
+            req.body.nombre_vendedores,
+            req.body.ventas_vendedores,
+            req.body.sucursal_vendedores,
+            req.body.calificacion_vendedores,
+            req.body.disponible_vendedores,
+        );
+
+        if (!vendedor) {
+            return res.status(500).json({ error: 'No se creó el vendedor.' }); 
         };
-
-    const vendedor = await agregarVendedor(
-        req.body.turno_vendedores,
-        req.body.nombre_vendedores,
-        req.body.ventas_vendedores,
-        req.body.sucursal_vendedores,
-        req.body.calificacion_vendedores,
-        req.body.disponible_vendedores,
-    );
-
-    if (!vendedor) {
-        return res.status(500).json({ error: 'No se creó el vendedor.' }); 
-    };
-    
-    res.json(vendedor);
+        
+        res.json(vendedor);
+    } catch (error) {
+    console.error('Error al insertar instrumento:', error);
+    res.status(500).json({ error: 'Error al crear el vendedor', detalle: error.message });
+  }
 });
 
 // POST TABLA Merchandising
 // agregar Merch
 app.post('/admin/productos/agregarMerchandising', async (req, res) => {
     // En caso de que no mande nada en el INSERT
-    if (!req.body.tipo_merchandising ||
-        !req.body.nombre_merchandising ||
-        !req.body.marca_merchandising ||
-        !req.body.imagen_merchandising ||
-        req.body.precio_merchandising === undefined ||
-        req.body.disponible_merchandising === undefined) {
-            return res.status(400).send('Error, falta un campo obligatorio.');
+    try {
+        if (!req.body.tipo_merchandising ||
+            !req.body.nombre_merchandising ||
+            !req.body.marca_merchandising ||
+            !req.body.imagen_merchandising ||
+            req.body.precio_merchandising === undefined ||
+            req.body.disponible_merchandising === undefined) {
+                return res.status(400).send('Error, falta un campo obligatorio.');
+            };
+
+        const merch = await agregarMerchandising(
+            req.body.tipo_merchandising,
+            req.body.nombre_merchandising,
+            req.body.marca_merchandising,
+            req.body.imagen_merchandising,
+            req.body.precio_merchandising,
+            req.body.disponible_merchandising,
+        );
+
+        if (!merch) {
+            return res.status(500).json({ error: 'No se creó el Merchandising.' }); 
         };
-
-    const merch = await agregarMerchandising(
-        req.body.tipo_merchandising,
-        req.body.nombre_merchandising,
-        req.body.marca_merchandising,
-        req.body.imagen_merchandising,
-        req.body.precio_merchandising,
-        req.body.disponible_merchandising,
-    );
-
-    if (!merch) {
-        return res.status(500).json({ error: 'No se creó el Merchandising.' }); 
-    };
-    
-    res.json(merch);
+        
+        res.json(merch);
+    } catch (error) {
+    console.error('Error al insertar instrumento:', error);
+    res.status(500).json({ error: 'Error al crear instrumento', detalle: error.message });
+  }
 });
 
 // POST TABLA VENTAS_CONCRETADAS
 // Agregar venta_concretada
 app.post('/carrito/venta_concretada', async (req, res) => {
     // En caso de que no mande nada en el INSERT
-    if (!req.body.tipo ||
-        !req.body.vendedor_id ||
-        (req.body.instrumento_id === undefined && req.body.merch_id === undefined) ||
-        req.body.precio_real_venta === undefined) {
-            return res.status(400).send('Error, falta un campo obligatorio.');
+    try {
+        if (!req.body.tipo ||
+            !req.body.vendedor_id ||
+            (req.body.instrumento_id === undefined && req.body.merch_id === undefined) ||
+            req.body.precio_real_venta === undefined) {
+                return res.status(400).send('Error, falta un campo obligatorio.');
+            };
+
+        const venta_concretada = await crearVentaConcretada(
+            req.body.tipo,
+            req.body.vendedor_id,
+            req.body.instrumento_id,
+            req.body.merch_id,
+            req.body.precio_real_venta,
+        );
+
+
+        if (!venta_concretada) {
+            return res.status(500).json({ error: 'No se creó la venta' });
         };
 
-    const venta_concretada = await crearVentaConcretada(
-        req.body.tipo,
-        req.body.vendedor_id,
-        req.body.instrumento_id,
-        req.body.merch_id,
-        req.body.precio_real_venta,
-    );
+        // Ventas de un vendedor
+        
+        await sumarVentaVendedor(req.body.vendedor_id);
 
-
-    if (!venta_concretada) {
-        return res.status(500).json({ error: 'No se creó la venta' });
-    };
-
-    // Ventas de un vendedor
-    
-    await sumarVentaVendedor(req.body.vendedor_id);
-
-    res.json(venta_concretada);
+        res.json(venta_concretada);
+    } catch (error) {
+    console.error('Error al crear la venta:', error);
+    res.status(500).json({ error: 'Error al crear la venta', detalle: error.message });
+  }
 });
 
 
@@ -349,36 +370,40 @@ app.put('/admin/ventas_concretadas/actualizar', async (req, res) => {
 // TABLA INSTRUMENTOS
 app.put('/admin/instrumentos/actualizar', async (req, res) => {
     // Validar que se manden 3 campos y que id sea >= 1.
-    if (req.body.id <= 0 || req.body.valor === undefined || !req.body.campo) {
-            return res.status(400).send('Hay un error en los campos.');
+    try {
+        if (req.body.id <= 0 || req.body.valor === undefined || !req.body.campo) {
+                return res.status(400).send('Hay un error en los campos.');
+            };
+        // Validar que no cree nuevas columnas.
+        const columnas_permitidas = [
+            'tipo_instrumento',
+            'nombre_instrumento',
+            'marca_instrumento',
+            'modelo_instrumento',
+            'precio_instrumento',
+            'imagen_instrumento',
+            'disponible_instrumento'];
+
+        if (!columnas_permitidas.includes(req.body.campo)) {
+            return res.status(400).json({ error: "Nombre de campo inválido." });
         };
-    // Validar que no cree nuevas columnas.
-    const columnas_permitidas = [
-        'tipo_instrumento',
-        'nombre_instrumento',
-        'marca_instrumento',
-        'modelo_instrumento',
-        'precio_instrumento',
-        'imagen_instrumento',
-        'disponible_instrumento'];
+        const reemplazar = await actualizarInstrumento(
+            req.body.id,
+            req.body.valor,
+            req.body.campo
+        );
+        
+        if (reemplazar === undefined) {
+            return res.status(500).json({ error: 'No se pudo actualizar la entidad "Instrumentos".' }) 
+        };
 
-    if (!columnas_permitidas.includes(req.body.campo)) {
-        return res.status(400).json({ error: "Nombre de campo inválido." });
-    };
-    const reemplazar = await actualizarInstrumento(
-        req.body.id,
-        req.body.valor,
-        req.body.campo
-    );
-    
-    if (reemplazar === undefined) {
-        return res.status(500).json({ error: 'No se pudo actualizar la entidad "Instrumentos".' }) 
-    };
+        res.json(reemplazar);
+    } catch (error) {
+    console.error('Error al actualizar el instrumento', error);
+    res.status(500).json({ error: 'Error al actualizar', detalle: error.message });
+  }
 
-    res.json(reemplazar);
-    
-
-    });
+});
 
 // TABLA VENDEDORES
 app.put('/admin/vendedores/actualizar', async (req, res) => {
@@ -453,25 +478,35 @@ app.put('/admin/merchandising/actualizar', async (req, res) => {
 // TABLA INSTRUMENTOS
 // Eliminar instrumento por id.
 app.delete('/admin/instrumento/borrar/:id', async (req, res) => {
-    const instrumento = await borrarInstrumento(req.params.id);
-    if (instrumento === undefined) {
-        return res.status(404).json({ error: "La id " + req.params.id + ' no existe'})
-    };
+    try {
+        const instrumento = await borrarInstrumento(req.params.id);
 
-    res.json({ status: "La id " + req.params.id + ' fue eliminada con éxito.'});
+        if (instrumento === undefined) {
+            return res.status(404).json({ error: "La id " + req.params.id + ' no existe'})
+        };
 
+        res.json({ status: "La id " + req.params.id + ' fue eliminada con éxito.'});
+    } catch (error) {
+    console.error('Error al borrar instrumento:', error);
+    res.status(500).json({ error: 'Error al borrar instrumento', detalle: error.message });
+  }
 });
 
 // TABLA Merchandising
 // Eliminar merch por id.
+
 app.delete('/admin/merchandising/borrar/:id', async (req, res) => {
-    const merchandising = await borrarMerchandising(req.params.id);
-    if (merchandising === undefined) {
-        return res.status(404).json({ error: "La id " + req.params.id + ' no existe'})
-    };
+    try {
+        const merchandising = await borrarMerchandising(req.params.id);
+        if (merchandising === undefined) {
+            return res.status(404).json({ error: "La id " + req.params.id + ' no existe'})
+        };
 
-    res.json({ status: "El Merchandising con La id " + req.params.id + ' fue eliminada con éxito.'});
-
+        res.json({ status: "El Merchandising con La id " + req.params.id + ' fue eliminada con éxito.'});
+    } catch (error) {
+    console.error('Error al borrar merchandising: ', error);
+    res.status(500).json({ error: 'Error al borrar merch:', detalle: error.message });
+  }
 });
 
 // TABLA VENDEDORES
