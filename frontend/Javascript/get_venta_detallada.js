@@ -2,7 +2,7 @@
 const urlParams = new URLSearchParams(window.location.search);
 const id_venta = urlParams.get('id');
 
-const tiendaDeMusicaBackendURL = "http://localhost:3030/admin/ventas_concretadas/" + id_venta;
+const tiendaDeMusicaBackendURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/admin/ventas_concretadas/" + id_venta;
 
 
 

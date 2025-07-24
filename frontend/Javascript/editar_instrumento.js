@@ -4,8 +4,8 @@ const urlParams = new URLSearchParams(window.location.search);
 const instrumento_param_id_edit = urlParams.get('id');
 
 
-const dataInstrumentoURL = "http://localhost:3030/productos/instrumentos/" + instrumento_param_id_edit;
-const putActualizarInstrumentoURL = "http://localhost:3030/admin/instrumentos/actualizar"
+const dataInstrumentoURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/productos/instrumentos/" + instrumento_param_id_edit;
+const putActualizarInstrumentoURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/admin/instrumentos/actualizar"
 
 fetch(dataInstrumentoURL).then((respuesta) => {
     if (respuesta.status === 404) {

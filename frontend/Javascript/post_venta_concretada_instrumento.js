@@ -1,9 +1,9 @@
 // Get
 
 
-const tiendaDeMusicaBackendURLPOST = "http://localhost:3030/carrito/venta_concretada";
+const tiendaDeMusicaBackendURLPOST = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/carrito/venta_concretada";
 
-const obtenerTodosLosDatos = "http://localhost:3030/admin/todo";
+const obtenerTodosLosDatos = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/admin/todo";
 
 fetch(obtenerTodosLosDatos).then((respuesta) => {
     return respuesta.json();

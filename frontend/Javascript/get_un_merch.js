@@ -4,7 +4,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const merchandising_param_id = urlParams.get('id');
 
 
-const tiendaDeMusicaBackendURL = "http://localhost:3030/productos/merchandising/" + merchandising_param_id;
+const tiendaDeMusicaBackendURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/productos/merchandising/" + merchandising_param_id;
 
 fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
     if (respuesta.status === 404) {
