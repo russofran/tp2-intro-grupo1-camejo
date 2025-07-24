@@ -3,7 +3,7 @@ services:
   postgres:
     image: postgres:17
     ports:
-      - "5432:5432"
+      - "3030:3030"
     restart: always
     container_name: postgres_db_tienda
     volumes:

@@ -9,7 +9,7 @@ const dbCliente = new Pool({
     user: 'postgres',
     password: 'postgres',
     host: 'localhost',
-    port: 5432,
+    port: 5433,
     database: 'tienda_de_musica',
 });
 
@@ -441,7 +441,7 @@ app.put('/admin/merchandising/actualizar', async (req, res) => {
 
 // TABLA INSTRUMENTOS
 // Eliminar instrumento por id.
-app.delete('/admin/instrumentos/borrar/:id', async (req, res) => {
+app.delete('/productos/instrumentos/:id', async (req, res) => {
     const instrumento = await borrarInstrumento(req.params.id);
     if (instrumento === undefined) {
         return res.status(404).json({ error: "La id " + req.params.id + ' no existe'})
