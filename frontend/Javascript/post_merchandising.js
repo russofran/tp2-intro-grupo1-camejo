@@ -1,7 +1,7 @@
 // Get
 
 
-const tiendaDeMusicaBackendURLPOST = "http://localhost:3030/admin/productos/agregarMerchandising";
+const tiendaDeMusicaBackendURLPOST = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/admin/productos/agregarMerchandising";
 
 
 
