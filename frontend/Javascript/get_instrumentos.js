@@ -1,12 +1,9 @@
 // Get
 
-<<<<<<< HEAD
 
 const tiendaDeMusicaBackendURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/productos/instrumentos";
 
 
-=======
->>>>>>> dev
 
 fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
     return respuesta.json();
