@@ -1,0 +1,19 @@
+{
+  "name": "tp2-intro-grupo1-camejo",
+  "version": "1.0.0",
+  "description": "API desarrollada en Node.js con Express y PostgreSQL. ---",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucasBru83/tp2-intro-grupo1-camejo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LucasBru83/tp2-intro-grupo1-camejo/issues"
+  },
+  "homepage": "https://github.com/LucasBru83/tp2-intro-grupo1-camejo#readme"
+}

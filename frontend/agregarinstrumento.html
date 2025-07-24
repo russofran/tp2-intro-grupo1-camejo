@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="website icon" type="png" href="./Img/favicon/favicon-16x16.png">
-    <title>Merchandising</title>
+    <title>Instrumento</title>
 </head>
 
 <body>
@@ -46,32 +46,113 @@
     </header>
 
     <!-- Titulo -->
-    <h1 class="title is-2 has-text-centered">Instrumentos</h1>
+    <h1 class="title is-2 has-text-centered" id="titulo-formulario">Ingrese la venta a concretar</h1>
   
 
     <section class="section">
-        <div class="container">
-          <div class="columns is-multiline">
-            <table class="table is-striped is-hoverable is-fullwidth">
-              <thead>
-                  <tr>
-                      <th>ID</th>
-                      <th>Tipo</th>
-                      <th>Nombre</th>
-                      <th>Marca</th>
-                      <th>Precio</th>
-                      <th>Ver</th>
-                      <th>Borrar</th>
-                      <th>Editar</th>
-                  </tr>
-              </thead>
-              <tbody id="merchandising-table"> </tbody>
-            </table>
-            <script src="./Javascript/get_merch.js"></script>
+      <!-- Formulario de compra -->
+      <form id="formulario_agregar_instrumento">
+        <!-- Primer Input -->
+         
+        <div class="field">
+          <label class="label">Tipo de venta</label>
+          <div class="control">
+            <div class="select">
+              <select name="tipo" id="tipo-instrumento">
+                <option value="Guitarra Eléctrica">Guitarra Electrica</option>
+                <option value="Guitarra Acústica">Guitarra Acústica</option>
+                <option value="Batería">Bateria</option>
+                <option value="Piano">Piano</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- Segundo Input -->
+
+        <div class="field">
+          <label class="label">Nombre Instrumento</label>
+          <div class="control">
+            
+            <input class="input" type="text" placeholder="Ingrese un nombre" id="nombre-instrumento"/>
             
           </div>
         </div>
+
+        <!-- Tercer Input-->
+
+        <div class="field">
+          <label class="label">Marca Instrumento</label>
+          <div class="control">
+            
+            <input class="input" type="text" placeholder="Ingrese un nombre" id="marca-instrumento"/>
+            
+          </div>
+        </div>
+
+        <!-- Cuarto Input-->
+
+        <div class="field">
+          <label class="label">Modelo Instrumento</label>
+          <div class="control">
+            
+            <input class="input" type="text" placeholder="Ingrese un modelo" id="modelo-instrumento"/>
+            
+          </div>
+        </div>
+
+        <!-- Quinto Input-->
+
+        <div class="field">
+          <label class="label"> Precio Instrumento</label>
+          <div class="control">
+            
+            <input class="input" type="text" placeholder="Ingrese Precio" id="precio-instrumento"/>
+            
+          </div>
+        </div>
+
+        <!-- sexto Input-->
+
+        <div class="field">
+          <label class="label"> Img Instrumento</label>
+          <div class="control">
+            
+            <input class="input" type="text" placeholder="Si no tiene, poner null. NO DEJAR VACÍO" id="img-instrumento"/>
+            
+          </div>
+        </div>
+
+        <!-- Primer Input -->
+         
+        <div class="field">
+          <label class="label"> Disponible</label>
+          <div class="control">
+            <div class="select">
+              <select name="tipo" id="disponible-instrumento">
+                <option value="true">Disponible</option>
+                <option value="false">No Disponible</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!--boton submit o cancel-->
+        <div class="field is-grouped">
+          <div class="control">
+            <button type="submit" class="button is-info" id="Agregar-boton">Agregar</button>
+          </div>
+          <div class="control">
+            <button type="reset" class="button is-link is-light" id="cancel-boton">Borrar campos</button>
+          </div>
+        </div>
+      </form>
+
+       <!-- mensaje alerta -->
+      <div id="mensaje-respuesta" style="margin-top:10px"></div>
+
     </section>
+
+    <script src="./Javascript/post_instrumentos.js"></script>
 
       <!--Footer-->
       <footer class="footer has-background-light mt-6">

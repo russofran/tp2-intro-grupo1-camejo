@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Vendedores</title>
+        <title>Venta detallada</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <link rel="website icon" type="png" href="./Img/favicon/favicon-16x16.png">
@@ -35,30 +35,26 @@
         </header>
 
         <section class="section">
-            <div class="container">
-                <h1 class="title">Vendedores del Negocio</h1>
-                <p class="subtitle">Información actualizada de todos los vendedores</p>
-
-                <table class="table is-striped is-hoverable is-fullwidth" id="tabla-vendedores">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Turno</th>
-                            <th>Nombre</th>
-                            <th>Ventas</th>
-                            <th>Sucursal</th>
-                            <th>Calificación</th>
-                            <th>Disponible</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!--Conexión backend...-->
-                    </tbody>
-                </table>
-
-                <a href="ventas.html" class="button is-primary mt-4">Ver ventas concretadas</a>
-            </div>
-        </section>
+        <div class="container">
+          <div class="columns is-multiline">
+            <table class="table is-striped is-hoverable is-fullwidth">
+              <thead>
+                  <tr>
+                      <th>ID</th>
+                      <th>Tipo</th>
+                      <th>Instrumento vendido</th>
+                      <th>Mech vendido</th>
+                      <th>Precio total</th>
+                      <th>Vendido por</th>
+                  </tr>
+              </thead>
+              <tbody id="ventas-table"> </tbody>
+            </table>
+            <script src="./Javascript/get_venta_detallada.js"></script>
+      
+          </div>
+        </div>
+      </section>
 
         <!--Footer-->
         <footer class="footer has-background-light mt-6">

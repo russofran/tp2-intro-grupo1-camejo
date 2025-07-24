@@ -97,17 +97,18 @@ async function actualizarVendedorDespedido (id, valor) {
 // Actualizar Ventas de cada usuario
 
 
-/* Pseudocodigo
-
-Query> Extraer lo necesario de la base de datos.
-- Tablas
-. id_vendedores
-. 
-
-*/
-
 // DELETE
 
+// Borrar un instrumento.
+async function borrarVentaConcretada (id) {
+    const resultado = await dbCliente.query('DELETE FROM ventas_concretadas WHERE id=$1', [id]);
+    if (resultado.rowCount === 0) {
+        return undefined
+    } else {
+        return resultado.rows;
+    }
+    
+};
 
 
 module.exports = {
@@ -115,5 +116,6 @@ module.exports = {
     obtenerUnaVenta,
     crearVentaConcretada,
     actualizarVentaConcretada,
-    actualizarVendedorDespedido
+    actualizarVendedorDespedido,
+    borrarVentaConcretada
 }

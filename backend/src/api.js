@@ -1,9 +1,20 @@
 // imports
 require('dotenv').config();
 require('./db/setup'); // Ejecuta init.sql automáticamente
+
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+
+// db
+const dbCliente = new Pool({
+    user: 'postgres',
+    password: 'postgres',
+    host: 'localhost',
+    port: 5432,
+    database: 'tienda_de_musica',
+});
+
 
 const app = express();
 const port = 3030;
@@ -11,12 +22,12 @@ const port = 3030;
 app.listen(port, '0.0.0.0', () => {
   console.log('Servidor corriendo en el puerto 3030');
 });
-
-app.use(express.json());
 app.use(cors());
 
-// Vincular la carpeta frontend
-app.use(express.static(path.join(__dirname, '../frontend')));
+app.use(express.json());
+
+
+
 
 // Funciones de db
 const {
@@ -32,7 +43,8 @@ const {
     obtenerMerchandising,
     agregarMerchandising,
     obtenerUnMerchandising,
-    actualizarMerchandising
+    actualizarMerchandising,
+    borrarMerchandising
 } = require('./db/merchandising')
 
 const {
@@ -50,12 +62,47 @@ const {
     obtenerVentas,
     obtenerUnaVenta,
     crearVentaConcretada,
-    actualizarVentaConcretada
+    actualizarVentaConcretada,
+    borrarVentaConcretada
 } = require('./db/ventas_concretadas')
 
+// funcion solo para manejar datos en carrito.html.
+
+async function obtenerTodo ( ) {
+    const instrumentos = await dbCliente.query(
+        'SELECT id_instrumento as id, nombre_instrumento as nombre, precio_instrumento as precio FROM instrumentos WHERE disponible_instrumento = true'
+    );
+    const vendedores = await dbCliente.query(
+        'SELECT id_vendedores as id, nombre_vendedores as nombre FROM vendedores WHERE disponible_vendedores = true'
+    );
+    const merchandising = await dbCliente.query(
+        'SELECT id_merchandising as id, nombre_merchandising as nombre, precio_merchandising as precio FROM merchandising WHERE disponible_merchandising = true'
+    );
+
+    // validación
+
+    if (instrumentos === undefined ||
+        vendedores === undefined ||
+        merchandising === undefined) {
+            res.status(500).json({ error: 'Error al obtener datos' });
+        }
+    
+    const resultado = {
+        instrumentos: instrumentos.rows,
+        merchandising: merchandising.rows,
+        vendedores: vendedores.rows
+    };
+    return resultado;
+};
 
 
 // endpoints
+// obtener todos los datos de instrumentos merch y vendedores.
+
+app.get('/admin/todo', async (req, res) => {
+    const dataTodo = await obtenerTodo();
+    res.json(dataTodo);
+});
 
 // GET. 
 
@@ -63,7 +110,7 @@ const {
 // Obtener todos los instrumentos.
 app.get('/productos/instrumentos', async (req, res) => {
     const instrumentos = await obtenerInstrumentos();
-    res.send(instrumentos);
+    res.json(instrumentos);
 });
 
 // Obtener un Instrumento.
@@ -72,7 +119,7 @@ app.get('/productos/instrumentos/:numero', async (req, res) => {
     if (instrumento === undefined) {
         res.sendStatus(404);
     };
-    res.send(instrumento);
+    res.json(instrumento);
 });
 
 // Obtener todos los instrumentos de un tipo en especifico.
@@ -81,7 +128,7 @@ app.get('/productos/instrumentos/:tipo', async (req, res) => {
     if (instrumentos === undefined) {
         res.sendStatus(404);
     };
-    res.send(instrumentos);
+    res.json(instrumentos);
 });
 
 
@@ -89,7 +136,7 @@ app.get('/productos/instrumentos/:tipo', async (req, res) => {
 // Obtener todo el merchandising.
 app.get('/productos/merchandising', async (req, res) => {
     const merchandising = await obtenerMerchandising();
-    res.send(merchandising);
+    res.json(merchandising);
 });
 
 // Obtener un Merchandising.
@@ -98,19 +145,19 @@ app.get('/productos/merchandising/:numero', async (req, res) => {
     if (merchandising === undefined) {
         res.sendStatus(404);
     };
-    res.send(merchandising);
+    res.json(merchandising);
 });
 // GET TABLA VENDEDORES.
 // Obtener todos los vendedores.
 app.get('/admin/vendedores', async (req, res) => {
     const vendedores = await obtenerVendedores();
-    res.send(vendedores);
+    res.json(vendedores);
 });
 
 // Obtener las ventas que hizo un vendedor
 app.get('/admin/vendedores/:id', async (req, res) => {
     const vendedores = await obtenerVentasVendedores(req.params.id);
-    res.send(vendedores);
+    res.json(vendedores);
 });
 
 
@@ -118,13 +165,13 @@ app.get('/admin/vendedores/:id', async (req, res) => {
 // Obtener ventas concretadas.
 app.get('/admin/ventas_concretadas', async (req, res) => {
     const ventas_concretadas = await obtenerVentas();
-    res.send(ventas_concretadas);
+    res.json(ventas_concretadas);
 });
 
 // Obtener una venta detallada.
 app.get('/admin/ventas_concretadas/:id', async (req, res) => {
     const venta_concretada = await obtenerUnaVenta(req.params.id);
-    res.send(venta_concretada);
+    res.json(venta_concretada);
 });
 
 
@@ -139,7 +186,7 @@ app.post('/admin/productos/agregarInstrumento', async (req, res) => {
         !req.body.marca_instrumento ||
         !req.body.modelo_instrumento ||
         req.body.precio_instrumento === undefined ||
-        !req.body.sucursal_instrumento ||
+        !req.body.imagen_instrumento ||
         req.body.disponible_instrumento === undefined) {
             return res.status(400).send('Error, falta un campo obligatorio.');
         };
@@ -150,7 +197,7 @@ app.post('/admin/productos/agregarInstrumento', async (req, res) => {
         req.body.marca_instrumento,
         req.body.modelo_instrumento,
         req.body.precio_instrumento,
-        req.body.sucursal_instrumento,
+        req.body.imagen_instrumento,
         req.body.disponible_instrumento,
     );
 
@@ -204,7 +251,7 @@ app.post('/admin/productos/agregarMerchandising', async (req, res) => {
     if (!req.body.tipo_merchandising ||
         !req.body.nombre_merchandising ||
         !req.body.marca_merchandising ||
-        !req.body.sucursal_merchandising ||
+        !req.body.imagen_merchandising ||
         req.body.precio_merchandising === undefined ||
         req.body.disponible_merchandising === undefined) {
             return res.status(400).send('Error, falta un campo obligatorio.');
@@ -214,7 +261,7 @@ app.post('/admin/productos/agregarMerchandising', async (req, res) => {
         req.body.tipo_merchandising,
         req.body.nombre_merchandising,
         req.body.marca_merchandising,
-        req.body.sucursal_merchandising,
+        req.body.imagen_merchandising,
         req.body.precio_merchandising,
         req.body.disponible_merchandising,
     );
@@ -249,6 +296,8 @@ app.post('/carrito/venta_concretada', async (req, res) => {
     if (!venta_concretada) {
         return res.status(500).json({ error: 'No se creó la venta' });
     };
+
+    // Ventas de un vendedor
     
     await sumarVentaVendedor(req.body.vendedor_id);
 
@@ -305,7 +354,7 @@ app.put('/admin/instrumentos/actualizar', async (req, res) => {
         'marca_instrumento',
         'modelo_instrumento',
         'precio_instrumento',
-        'sucursal_instrumento',
+        'imagen_instrumento',
         'disponible_instrumento'];
 
     if (!columnas_permitidas.includes(req.body.campo)) {
@@ -370,7 +419,7 @@ app.put('/admin/merchandising/actualizar', async (req, res) => {
         'tipo_merchandising',
         'nombre_merchandising',
         'marca_merchandising',
-        'sucursal_merchandising',
+        'imagen_merchandising',
         'precio_merchandising',
         'disponible_merchandising' ];
 
@@ -398,7 +447,7 @@ app.put('/admin/merchandising/actualizar', async (req, res) => {
 
 // TABLA INSTRUMENTOS
 // Eliminar instrumento por id.
-app.delete('/admin/instrumentos/borrar/:id', async (req, res) => {
+app.delete('/admin/instrumento/borrar/:id', async (req, res) => {
     const instrumento = await borrarInstrumento(req.params.id);
     if (instrumento === undefined) {
         return res.status(404).json({ error: "La id " + req.params.id + ' no existe'})
@@ -408,8 +457,20 @@ app.delete('/admin/instrumentos/borrar/:id', async (req, res) => {
 
 });
 
+// TABLA Merchandising
+// Eliminar merch por id.
+app.delete('/admin/merchandising/borrar/:id', async (req, res) => {
+    const merchandising = await borrarMerchandising(req.params.id);
+    if (merchandising === undefined) {
+        return res.status(404).json({ error: "La id " + req.params.id + ' no existe'})
+    };
+
+    res.json({ status: "El Merchandising con La id " + req.params.id + ' fue eliminada con éxito.'});
+
+});
+
 // TABLA VENDEDORES
-// Eliminar vendedor por id.
+// Eliminar vendedor por id y reemplazar su nombre en ventas_concretadas.
 app.delete('/admin/vendedores/borrar', async (req, res) => {
     if (req.body.id < 0 || !req.body.valor) {
         return res.status(400).send('Hay un error en los campos.');
@@ -424,11 +485,25 @@ app.delete('/admin/vendedores/borrar', async (req, res) => {
 
 });
 
+// TABLA VENTAS_CONCRETADAS.
+
+
+// Eliminar venta por id.
+app.delete('/admin/ventas/borrar/:id', async (req, res) => {
+    const venta = await borrarVentaConcretada(req.params.id);
+    if (venta === undefined) {
+        return res.status(404).json({ error: "La id " + req.params.id + ' no existe'})
+    };
+
+    res.json({ status: "La venta con la id " + req.params.id + ' fue eliminada con éxito.'});
+
+});
+
+
 
 // NOTAS
 
 /* chequear que la id no sea negativa (de todo)
 chequear que no cree un mismo elemento dos veces (salvo que lo interprete como que hay mas de un stock)
-
 
 */
