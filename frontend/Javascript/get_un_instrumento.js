@@ -1,12 +1,17 @@
 // Get
 
 const urlParams = new URLSearchParams(window.location.search);
-const id = urlParams.get('id');
+const instrumento_param_id = urlParams.get('id');
 
 
-const tiendaDeMusicaBackendURL = "http://localhost:3030/productos/instrumentos/" + id;
+const tiendaDeMusicaBackendURL = "http://localhost:3030/productos/instrumentos/" + instrumento_param_id;
 
 fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
+    if (respuesta.status === 404) {
+        alert("No existe una id: " + instrumento_param_id + " enlazada a algun instrumento, seleccione por favor otra.");
+        
+        return window.location.replace("./instrumentos.html");
+    }
     return respuesta.json();
 }).then((data) => {
     // Aca trabajamos con los datos obtenidos desde la base de datos por medio de "data".

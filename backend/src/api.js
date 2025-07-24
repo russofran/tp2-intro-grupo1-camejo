@@ -64,7 +64,7 @@ const {
     borrarVentaConcretada
 } = require('./db/ventas_concretadas')
 
-// funcion solo para manejar datos.
+// funcion solo para manejar datos en carrito.html.
 
 async function obtenerTodo ( ) {
     const instrumentos = await dbCliente.query(
@@ -76,6 +76,8 @@ async function obtenerTodo ( ) {
     const merchandising = await dbCliente.query(
         'SELECT id_merchandising as id, nombre_merchandising as nombre, precio_merchandising as precio FROM merchandising WHERE disponible_merchandising = true'
     );
+
+    // validación
 
     if (instrumentos === undefined ||
         vendedores === undefined ||
@@ -292,6 +294,8 @@ app.post('/carrito/venta_concretada', async (req, res) => {
     if (!venta_concretada) {
         return res.status(500).json({ error: 'No se creó la venta' });
     };
+
+    // Ventas de un vendedor
     
     await sumarVentaVendedor(req.body.vendedor_id);
 

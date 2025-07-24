@@ -56,7 +56,7 @@ fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
 
         const newBotonEditar = document.createElement("a");
         newBotonEditar.className = "button";
-        newBotonEditar.href = "/instrumento.html?id=" + instrumento.id_instrumento;
+        newBotonEditar.href = "/editarinstrumento.html?id=" + instrumento.id_instrumento;
         newBotonEditar.innerHTML = "Editar";
 
         const newEditar = document.createElement("td");
