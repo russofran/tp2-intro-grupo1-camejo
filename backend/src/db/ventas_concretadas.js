@@ -1,15 +1,31 @@
 const { Pool } = require('pg');
+const express = require('express');
+const app = express();
+
+app.use(express.json());
+// Enable CORS for frontend communication
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
 
 // Levantar Base de Datos (Necesaria Dependencia Postgresql instalada)
 
-const dbCliente = new Pool({
-    user: 'postgres',
-    password: 'postgres',
-    host: 'localhost',
-    port: 5432,
-    database: 'tienda_de_musica',
+require('dotenv').config();
+
+// Enable CORS for frontend communication
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
 });
 
+const dbCliente = new Pool({
+    connectionString: process.env.DATABASE_URL,
+});
 // GET
 
 // Solicita todas las ventas_concretadas.

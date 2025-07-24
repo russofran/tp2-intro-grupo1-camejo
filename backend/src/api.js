@@ -1,28 +1,35 @@
 // imports
-const { Pool } = require('pg');
+require('dotenv').config();
+require('./db/setup'); // Ejecuta init.sql automáticamente
+
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
 
-// db
-const dbCliente = new Pool({
-    user: 'postgres',
-    password: 'postgres',
-    host: 'localhost',
-    port: 5432,
-    database: 'tienda_de_musica',
-});
+const { Pool } = require('pg');
 
 
 const app = express();
 const port = 3030;
 
-app.listen(port, '0.0.0.0', () => {
-  console.log('Servidor corriendo en el puerto 3030');
-});
-app.use(cors());
-
 app.use(express.json());
+// Enable CORS for frontend communication
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
+
+
+app.listen(port, '0.0.0.0', () => {
+    console.log('Servidor corriendo en el puerto 3030');
+});
+
+
+const dbCliente = new Pool({
+    connectionString: process.env.DATABASE_URL,
+});
 
 
 

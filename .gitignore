@@ -1,5 +1,5 @@
 .volumes/
 volume_db
 tienda_musica
-./frontend
-./backend
+node_modules/
+
