@@ -2,12 +2,10 @@ const { Pool } = require('pg');
 
 // Levantar Base de Datos (Necesaria Dependencia Postgresql instalada)
 
+require('dotenv').config();
 const dbCliente = new Pool({
-    user: 'postgres',
-    password: 'postgres',
-    host: 'localhost',
-    port: 5432,
-    database: 'tienda_de_musica',
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }
 });
 
 // Querys a la db.

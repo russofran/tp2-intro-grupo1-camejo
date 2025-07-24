@@ -3,8 +3,7 @@
 const urlParams = new URLSearchParams(window.location.search);
 const instrumento_param_id = urlParams.get('id');
 
-
-const tiendaDeMusicaBackendURL = "http://localhost:3030/productos/instrumentos/" + instrumento_param_id;
+const tiendaDeMusicaBackendURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/productos/instrumentos/" + id;
 
 fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
     if (respuesta.status === 404) {
