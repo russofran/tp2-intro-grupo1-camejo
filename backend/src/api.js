@@ -445,7 +445,7 @@ app.put('/admin/merchandising/actualizar', async (req, res) => {
 
 // TABLA INSTRUMENTOS
 // Eliminar instrumento por id.
-app.delete('/admin/instrumentos/borrar/:id', async (req, res) => {
+app.delete('/admin/instrumento/borrar/:id', async (req, res) => {
     const instrumento = await borrarInstrumento(req.params.id);
     if (instrumento === undefined) {
         return res.status(404).json({ error: "La id " + req.params.id + ' no existe'})

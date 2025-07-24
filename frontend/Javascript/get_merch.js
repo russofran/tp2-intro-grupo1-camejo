@@ -1,51 +1,51 @@
 // Get
 
-tablaInstrumentos();
+tablaMerch();
 
 
-function tablaInstrumentos (){
+function tablaMerch (){
 
-    document.getElementById("instrumentos-table").innerHTML = "";
+    //document.getElementById("instrumentos-table").innerHTML = "";
 
-    const tiendaDeMusicaBackendURL = "http://localhost:3030/productos/instrumentos";
+    const tiendaDeMusicaBackendURL = "http://localhost:3030/productos/merchandising";
 
     fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
         return respuesta.json();
     }).then((data) => {
         // Aca trabajamos con los datos obtenidos desde la base de datos por medio de "data".
 
-    const table = document.getElementById("instrumentos-table");
+ //    const table = document.getElementById("instrumentos-table");!!!!
 
-    data.forEach(instrumento => {
+    data.forEach(merch => {
         const newFila = document.createElement("tr");
 
         const newID = document.createElement("td");
-        newID.innerHTML = instrumento.id_instrumento;
+        newID.innerHTML = merch.id_merchandising;
         newFila.appendChild(newID);
 
         const newTipo = document.createElement("td");
-        newTipo.innerHTML = instrumento.tipo_instrumento;
+        newTipo.innerHTML = merch.id_merchandising;
         newFila.appendChild(newTipo);
 
         const newNombre = document.createElement("td");
-        newNombre.innerHTML = instrumento.nombre_instrumento;
+        newNombre.innerHTML = merch.id_merchandising;
         newFila.appendChild(newNombre);
 
         const newMarca = document.createElement("td");
-        newMarca.innerHTML = instrumento.marca_instrumento;
+        newMarca.innerHTML = merch.id_merchandising;
         newFila.appendChild(newMarca);
 
         const newModelo = document.createElement("td");
-        newModelo.innerHTML = instrumento.modelo_instrumento;
+        newModelo.innerHTML = merch.id_merchandising;
         newFila.appendChild(newModelo);
 
         const newPrecio = document.createElement("td");
-        newPrecio.innerHTML = instrumento.precio_instrumento;
+        newPrecio.innerHTML = merch.id_merchandising;
         newFila.appendChild(newPrecio);
 
         const newBotonVer = document.createElement("a");
         newBotonVer.className = "button is-info";
-        //newBotonVer.href = "/instrumento.html?id=" + instrumento.id_instrumento;
+        //newBotonVer.href = "/instrumento.html?id=" + merch.id_merchandising;
         newBotonVer.innerHTML = "Ver";
 
         const newVer = document.createElement("td");
@@ -54,8 +54,8 @@ function tablaInstrumentos (){
 
         const newBotonBorrar = document.createElement("a");
         newBotonBorrar.className = "button is-danger";
-        newBotonBorrar.onclick = function(){deleteInstrumento(instrumento.id_instrumento)}; 
-
+        newBotonBorrar.onclick = function(){deleteMerch(merch.id_merchandising)}; 
+        //newBotonBorrar.href = "/instrumento.html?id=" + merch.id_merchandising;
         newBotonBorrar.innerHTML = "Borrar";
 
         const newBorrar = document.createElement("td");
@@ -64,7 +64,7 @@ function tablaInstrumentos (){
 
         const newBotonEditar = document.createElement("a");
         newBotonEditar.className = "button";
-        newBotonEditar.href = "/editarinstrumento.html?id=" + instrumento.id_instrumento;
+       // newBotonEditar.href = "/instrumento.html?id=" + merch.id_merchandising;
         newBotonEditar.innerHTML = "Editar";
 
         const newEditar = document.createElement("td");
@@ -78,11 +78,8 @@ function tablaInstrumentos (){
 
 }
 
-
-
-function deleteInstrumento(id_instrumento){
+function deleteMerch(id_merchandising){
     console.log("hola");
-    const tiendaDeMusicaBackendURL = "http://localhost:3030/productos/instrumentos/" + id_instrumento;
-    fetch(tiendaDeMusicaBackendURL, {method: 'DELETE'}).then(() => tablaInstrumentos()); 
-
+    const tiendaDeMusicaBackendURL = "http://localhost:3030/productos/merchandaising/" + id_merchandising;
+    fetch(tiendaDeMusicaBackendURL, {method: 'DELETE'}).then(() => tablaMerch());
 }
