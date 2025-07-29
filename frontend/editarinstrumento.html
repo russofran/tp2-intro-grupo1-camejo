@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="website icon" type="png" href="./Img/favicon/favicon-16x16.png">
+  <link rel="stylesheet" type="text/css" href="./css/style_form.css">
   <title>Instrumento</title>
 </head>
 
@@ -45,12 +46,11 @@
     </section>
 
   </header>
-
-  <!-- Titulo -->
-  <h1 class="title is-2 has-text-centered" id="nombre-instrumento">Introduzca valores nuevos</h1>
-
-
   <section class="section">
+    <!-- Titulo -->
+    <h2 class="title is-2" id="titulo-instrumento">Instrumento a modificar</h1>
+    
+    <!-- Encabezado de la tabla GET -->
     <table class="table is-striped is-hoverable is-fullwidth">
         <thead>
             <tr>
@@ -60,17 +60,35 @@
                 <th>Marca</th>
                 <th>Modelo</th>
                 <th>Precio</th>
+            </tr>
         </thead>
         <tbody id="instrumentos-table"> </tbody>
     </table>
+
+    <!-- Imagen del instrumento -->
+    <div id="div-imagen">
+      <label class="label">Imagen</label>
+
+      <figure class="image is-128x128">
+        <img src="" alt="instrumento" id="imagen-instrumento" />
+      </figure>
+
+    </div>
+
+    <h2 class="title is-2" id="titulo-formulario">Formulario de edición del instrumento</h2>
+    <h3 class="subtitle is-size-4" id="subtitulo-formulario">Introduzca en al menos un campo una modificación, luego pulse en "Cargar modificaciones".</h3>
+
+
+
+    <!-- Formulario editar instrumento -->
     <form id="formulario_editar_instrumento">
         <!-- Primer Input -->
-         
         <div class="field">
           <label class="label">Tipo de instrumento</label>
           <div class="control">
             <div class="select">
               <select name="tipo" id="tipo-instrumento">
+                <option value="">*dejar el mismo</option>
                 <option value="Guitarra electrica">Guitarra Electrica</option>
                 <option value="Guitarra acustica">Guitarra Acustica</option>
                 <option value="Bateria">Bateria</option>
@@ -142,8 +160,9 @@
           <div class="control">
             <div class="select">
               <select name="tipo" id="disponible-instrumento">
-                <option value="true">Disponible</option>
-                <option value="false">No Disponible</option>
+                <option value="">*dejar el mismo</option>
+                <option value="verdadero">Disponible</option>
+                <option value="falso">No Disponible</option>
               </select>
             </div>
           </div>
@@ -152,10 +171,10 @@
         <!--boton submit o cancel-->
         <div class="field is-grouped">
           <div class="control">
-            <button type="submit" class="button is-info" id="Agregar-boton">Agregar</button>
+            <button type="submit" class="button is-info" id="Agregar-boton">Cargar modificaciones</button>
           </div>
           <div class="control">
-            <button type="reset" class="button is-link is-light" id="cancel-boton">Borrar campos</button>
+            <button type="reset" class="button is-link is-light" id="cancel-boton">Limpiar</button>
           </div>
         </div>
       </form>

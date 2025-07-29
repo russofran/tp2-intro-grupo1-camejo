@@ -48,6 +48,10 @@ fetch(dataInstrumentoURL).then((respuesta) => {
     newPrecio.innerHTML = "$" + data.precio_instrumento;
     newFila.appendChild(newPrecio);
 
+    const newImagen = document.getElementById("imagen-instrumento");
+    newImagen.src = data.imagen_instrumento;
+    newImagen.style.margin = '5px';
+
     table.appendChild(newFila);
 
 });
@@ -63,9 +67,7 @@ function editarInstrumento(e) {
     const modelo_instrumento = document.getElementById("modelo-instrumento").value;
     const precio_instrumento = document.getElementById("precio-instrumento").value;
     const img_instrumento = document.getElementById("img-instrumento").value;
-    let disponible = document.getElementById("disponible-instrumento").value;
-    // parseBoolean
-    let disponible_bool = disponible === "true" || disponible === true; // asegura boolean real
+    const disponible = document.getElementById("disponible-instrumento").value;
     
 
 
@@ -77,7 +79,7 @@ function editarInstrumento(e) {
         modelo_instrumento: modelo_instrumento,
         precio_instrumento: Number(precio_instrumento),
         imagen_instrumento: img_instrumento,
-        disponible_instrumento: disponible_bool
+        disponible_instrumento: disponible
     };
 
     // mientras espera el try:
@@ -93,11 +95,17 @@ function editarInstrumento(e) {
 
     }).then((respuesta) => {
         if (respuesta.ok) {
+            mensaje.textContent = "Instrumento modificado con éxito ✔";
+            mensaje.style.color = "green";
             alert("Campo actualizado correctamente.");
             location.reload();
         } 
         if (respuesta.status === 500) {
             alert("Hubo un error en los campos. Haga click en aceptar para recargar la pagina.");
+            location.reload();
+        }
+        if (respuesta.status === 400) {
+            alert("Error. Parámetros incorrectos.");
             location.reload();
         }
     });

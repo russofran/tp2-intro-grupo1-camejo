@@ -104,11 +104,23 @@ async function actualizarInstrumento(id, tipo, nombre, marca, modelo, precio, im
         WHERE id_instrumento = $1
         RETURNING *;
     `;
-    // Si manda un campo vacío, no modificar.
 
-    const resultado = await dbCliente.query(query, [id, tipo_instrumento, nombre_instrumento, marca_instrumento, modelo_instrumento, precio_instrumento, imagen_instrumento, disponible_instrumento]);
+    const valores = [
+        id,
+        tipo_instrumento || null,
+        nombre_instrumento || null,
+        marca_instrumento || null,
+        modelo_instrumento || null,
+        precio_instrumento || null,
+        imagen_instrumento || null,
+        (disponible_instrumento === undefined ? null : disponible_instrumento),
+
+    ];
+
+
+    const resultado = await dbCliente.query(query, valores);
     return resultado.rows[0];
-}
+};
 
 // Borrar fila/s de una entidad (DELETE).
 
