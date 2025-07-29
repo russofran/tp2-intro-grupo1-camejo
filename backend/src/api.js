@@ -21,8 +21,12 @@ app.use(express.json());
 //     next();
 // });
 
-app.use(cors());
-app.options('*', cors());
+app.use(cors({
+  origin: 'https://tp2-intro-grupo1-camejo-despliegue.onrender.com',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept'],
+}));
+
 
 
 app.listen(port, '0.0.0.0', () => {

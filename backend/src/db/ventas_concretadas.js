@@ -1,6 +1,7 @@
 const { Pool } = require('pg');
 const express = require('express');
 require('dotenv').config();
+const cors = require('cors');
 const app = express();
 
 app.use(express.json());
@@ -12,8 +13,11 @@ app.use(express.json());
 //     next();
 // });
 
-app.use(cors());
-app.options('*', cors());
+app.use(cors({
+  origin: 'https://tp2-intro-grupo1-camejo-despliegue.onrender.com',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept'],
+}));
 
 
 // Levantar Base de Datos (Necesaria Dependencia Postgresql instalada)
