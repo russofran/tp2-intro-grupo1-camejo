@@ -374,34 +374,32 @@ app.put('/admin/ventas_concretadas/actualizar', async (req, res) => {
 
 // TABLA INSTRUMENTOS
 app.put('/admin/instrumentos/actualizar/:id', async (req, res) => {
-    // Validar que se manden 3 campos y que id sea >= 1.
     try {
-        if (!req.body.id_instrumento) {
+        if (!req.params.id || req.params.id <= 0) {
             return res.status(400).send('Error, falta indicar el id del instrumento');
         }
 
         const reemplazar = await actualizarInstrumento(
             req.params.id,
-            req.body.tipo_instrumento,
-            req.body.nombre_instrumento,
-            req.body.marca_instrumento,
-            req.body.modelo_instrumento,
-            req.body.precio_instrumento,
-            req.body.imagen_instrumento,
-            req.body.disponible_instrumento,
+            req.body.tipo_instrumento || null,
+            req.body.nombre_instrumento || null,
+            req.body.marca_instrumento || null,
+            req.body.modelo_instrumento || null,
+            req.body.precio_instrumento || null,
+            req.body.imagen_instrumento || null,
+            req.body.disponible_instrumento
         );
         
-        if (reemplazar === undefined) {
-            return res.status(500).json({ error: 'No se pudo actualizar la entidad "Instrumentos".' }) 
-        };
+        if (!reemplazar) {
+            return res.status(404).json({ error: 'Instrumento no encontrado.' });
+        }
 
         res.json(reemplazar);
         
     } catch (error) {
-    console.error('Error al actualizar el instrumento', error);
-    res.status(500).json({ error: 'Error al actualizar', detalle: error.message });
-  }
-
+        console.error('Error al actualizar el instrumento', error);
+        res.status(500).json({ error: 'Error al actualizar', detalle: error.message });
+    }
 });
 
 // TABLA VENDEDORES
