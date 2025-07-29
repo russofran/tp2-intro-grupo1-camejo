@@ -22,6 +22,9 @@ app.use((req, res, next) => {
 });
 
 
+
+
+
 app.listen(port, '0.0.0.0', () => {
     console.log('Servidor corriendo en el puerto 3030');
 });
@@ -255,7 +258,7 @@ app.post('/admin/staff/agregarVendedor', async (req, res) => {
         
         res.json(vendedor);
     } catch (error) {
-    console.error('Error al insertar instrumento:', error);
+    console.error('Error al insertar vendedor:', error);
     res.status(500).json({ error: 'Error al crear el vendedor', detalle: error.message });
   }
 });
@@ -336,7 +339,9 @@ app.post('/carrito/venta_concretada', async (req, res) => {
 // TABLA VENTAS CONCRETADAS
 app.put('/admin/ventas_concretadas/actualizar', async (req, res) => {
     // Validar que se manden 3 campos y que id sea >= 1.
-    if (req.body.id <= 0 || req.body.valor === undefined || !req.body.campo) {
+    if (req.body.id <= 0 ||
+        req.body.valor === undefined ||
+        !req.body.campo) {
             return res.status(400).send('Hay un error en los campos.');
         };
     // Validar que no cree nuevas columnas o no deseadas a modificar.
@@ -368,29 +373,22 @@ app.put('/admin/ventas_concretadas/actualizar', async (req, res) => {
     
 
 // TABLA INSTRUMENTOS
-app.put('/admin/instrumentos/actualizar', async (req, res) => {
+app.put('/admin/instrumentos/actualizar/:id', async (req, res) => {
     // Validar que se manden 3 campos y que id sea >= 1.
     try {
-        if (req.body.id <= 0 || req.body.valor === undefined || !req.body.campo) {
-                return res.status(400).send('Hay un error en los campos.');
-            };
-        // Validar que no cree nuevas columnas.
-        const columnas_permitidas = [
-            'tipo_instrumento',
-            'nombre_instrumento',
-            'marca_instrumento',
-            'modelo_instrumento',
-            'precio_instrumento',
-            'imagen_instrumento',
-            'disponible_instrumento'];
+        if (!req.body.id_instrumento) {
+            return res.status(400).send('Error, falta indicar el id del instrumento');
+        }
 
-        if (!columnas_permitidas.includes(req.body.campo)) {
-            return res.status(400).json({ error: "Nombre de campo inválido." });
-        };
         const reemplazar = await actualizarInstrumento(
-            req.body.id,
-            req.body.valor,
-            req.body.campo
+            req.params.id,
+            req.body.tipo_instrumento,
+            req.body.nombre_instrumento,
+            req.body.marca_instrumento,
+            req.body.modelo_instrumento,
+            req.body.precio_instrumento,
+            req.body.imagen_instrumento,
+            req.body.disponible_instrumento,
         );
         
         if (reemplazar === undefined) {
@@ -398,6 +396,7 @@ app.put('/admin/instrumentos/actualizar', async (req, res) => {
         };
 
         res.json(reemplazar);
+        
     } catch (error) {
     console.error('Error al actualizar el instrumento', error);
     res.status(500).json({ error: 'Error al actualizar', detalle: error.message });
