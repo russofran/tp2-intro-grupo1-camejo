@@ -1,19 +1,21 @@
 const { Pool } = require('pg');
 const express = require('express');
+require('dotenv').config();
 const app = express();
 app.use(express.json());
 // Enable CORS for frontend communication
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-});
+// app.use((req, res, next) => {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+//     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+//     next();
+// });
 
+app.use(cors());
+app.options('*', cors());
 
 // Levantar Base de Datos (Necesaria Dependencia Postgresql instalada)
 
-require('dotenv').config();
 const dbCliente = new Pool({
     connectionString: process.env.DATABASE_URL,
 });
