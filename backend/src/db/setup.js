@@ -1,18 +1,17 @@
 const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
+const cors = require('cors');
 const { Pool } = require('pg');
 const express = require('express');
 const app = express();
 app.use(express.json());
 // Enable CORS for frontend communication
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-});
-
+app.use(cors({
+  origin: 'https://tp2-intro-grupo1-camejo-despliegue.onrender.com',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept'],
+}));
 
 const dbCliente = new Pool({
   connectionString: process.env.DATABASE_URL,
