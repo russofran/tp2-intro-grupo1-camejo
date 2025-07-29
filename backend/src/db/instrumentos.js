@@ -69,15 +69,44 @@ curl --header "Content-Type: application/json" \
 */
 
 // Actualizar datos de una fila (PUT).
-async function actualizarInstrumento(id, valor, campo) {
+async function actualizarInstrumento(id, tipo, nombre, marca, modelo, precio, imagen, disponible) {
+    // undefined o el valor que llegue del input que no fue activado
+    function convertirNull(valor) {
+        return valor === undefined ? null : valor;
+    }
+ 
 
+    let tipo_instrumento = convertirNull(tipo);
+    let nombre_instrumento = convertirNull(nombre);
+    let marca_instrumento = convertirNull(marca);
+    let modelo_instrumento = convertirNull(modelo);
+    let precio_instrumento = convertirNull(precio);
+    let imagen_instrumento = convertirNull(imagen);
+    let disponible_instrumento = convertirNull(disponible);
+    
+    // validación
+    if (id === undefined) {
+        return undefined
+    };
+
+
+    // COALESCE(valor_1, valor_2) # Si valor_1 es null, poner valor 2. (Valor 2 es el valor existente) 
     const query = `
-        UPDATE ONLY instrumentos
-        SET ${campo} = $2
+        UPDATE instrumentos
+        SET
+            tipo_instrumento = COALESCE($2, tipo_instrumento),
+            nombre_instrumento = COALESCE($3, nombre_instrumento),
+            marca_instrumento = COALESCE($4, marca_instrumento),
+            modelo_instrumento = COALESCE($5, modelo_instrumento),
+            precio_instrumento = COALESCE($6, precio_instrumento),
+            imagen_instrumento = COALESCE($7, imagen_instrumento),
+            disponible_instrumento = COALESCE($8, disponible_instrumento)
         WHERE id_instrumento = $1
-        RETURNING *
+        RETURNING *;
     `;
-    const resultado = await dbCliente.query(query, [id, valor]);
+    // Si manda un campo vacío, no modificar.
+
+    const resultado = await dbCliente.query(query, [id, tipo_instrumento, nombre_instrumento, marca_instrumento, modelo_instrumento, precio_instrumento, imagen_instrumento, disponible_instrumento]);
     return resultado.rows[0];
 }
 
