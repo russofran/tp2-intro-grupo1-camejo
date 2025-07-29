@@ -1,8 +1,5 @@
 .PHONY: start-db run-backend
 
-install-container:
-	docker compose up --build
-
 start-db:
 	docker compose up --build postgres
 
@@ -10,7 +7,7 @@ stop-db:
 	docker compose down postgres_db_tienda
 
 start-backend:
-	cd backend/ && npm run dev || npm run dev_wsl
+	cd backend/ && npm run dev_wsl || npm run dev
 
 run-backend:
 	start-db start-backend

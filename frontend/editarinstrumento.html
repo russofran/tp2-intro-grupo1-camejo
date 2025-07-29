@@ -60,26 +60,105 @@
                 <th>Marca</th>
                 <th>Modelo</th>
                 <th>Precio</th>
-            </tr>
-            <tr>
-                
-                    <th><input class="input" type="text" placeholder="Inhabilitado" disabled /></th>
-                
-                    <th><button type="button" class="editar" id="boton-tipo" data-campo="tipo_instrumento">Editar tipo</button></th>
-                
-                    <th><button type="button" class="editar" id="boton-nombre" data-campo="nombre_instrumento">Editar nombre</button></th>
-                
-                    <th><button type="button" class="editar" id="boton-marca" data-campo="marca_instrumento">Editar marca</button></th>
-                
-                    <th><button type="button" class="editar" id="boton-modelo" data-campo="modelo_instrumento">Editar modelo</button></th>
-                
-                    <th><button type="button" class="editar" id="boton-precio" data-campo="precio_instrumento">Editar precio</button></th>
-      
-
-            </tr>
         </thead>
         <tbody id="instrumentos-table"> </tbody>
     </table>
+    <form id="formulario_editar_instrumento">
+        <!-- Primer Input -->
+         
+        <div class="field">
+          <label class="label">Tipo de instrumento</label>
+          <div class="control">
+            <div class="select">
+              <select name="tipo" id="tipo-instrumento">
+                <option value="Guitarra electrica">Guitarra Electrica</option>
+                <option value="Guitarra acustica">Guitarra Acustica</option>
+                <option value="Bateria">Bateria</option>
+                <option value="Piano">Piano</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- Segundo Input -->
+
+        <div class="field">
+          <label class="label">Nuevo Nombre del instrumento</label>
+          <div class="control">
+            
+            <input class="input" type="text" placeholder="Ingrese un nombre" id="nombre-instrumento"/>
+            
+          </div>
+        </div>
+
+        <!-- Segundo Input -->
+
+        <div class="field">
+          <label class="label">Nueva Marca del instrumento</label>
+          <div class="control">
+            
+            <input class="input" type="text" placeholder="Ingrese una marca" id="marca-instrumento"/>
+            
+          </div>
+        </div>
+
+        <!-- Cuarto Input-->
+
+        <div class="field">
+          <label class="label">Nuevo Modelo del instrumento</label>
+          <div class="control">
+            
+            <input class="input" type="text" placeholder="Ingrese una calificacion" id="modelo-instrumento"/>
+            
+          </div>
+        </div>
+
+        <!-- Cuarto Input-->
+
+        <div class="field">
+          <label class="label">Nuevo precio del instrumento</label>
+          <div class="control">
+            
+            <input class="input" type="text" placeholder="Ingrese un precio" id="precio-instrumento"/>
+            
+          </div>
+        </div>
+
+        <!-- Cuarto Input-->
+
+        <div class="field">
+          <label class="label">Nueva imagen del instrumento (URL)</label>
+          <div class="control">
+            
+            <input class="input" type="text" placeholder="Ingrese una url para la imagen" id="img-instrumento"/>
+            
+          </div>
+        </div>
+
+
+        <!-- ultimo Input -->
+         
+        <div class="field">
+          <label class="label"> Disponible</label>
+          <div class="control">
+            <div class="select">
+              <select name="tipo" id="disponible-instrumento">
+                <option value="true">Disponible</option>
+                <option value="false">No Disponible</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!--boton submit o cancel-->
+        <div class="field is-grouped">
+          <div class="control">
+            <button type="submit" class="button is-info" id="Agregar-boton">Agregar</button>
+          </div>
+          <div class="control">
+            <button type="reset" class="button is-link is-light" id="cancel-boton">Borrar campos</button>
+          </div>
+        </div>
+      </form>
 
     <div id="mensaje-respuesta" style="margin-top:10px"></div>
 
