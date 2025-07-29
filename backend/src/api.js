@@ -375,8 +375,41 @@ app.put('/admin/ventas_concretadas/actualizar', async (req, res) => {
 // TABLA INSTRUMENTOS
 app.put('/admin/instrumentos/actualizar/:id', async (req, res) => {
     try {
+        function contieneSoloNumeros(str) {
+            return !isNaN(Number(str)) && !isNaN(parseFloat(str));
+        }
+
+        // validación de que exista la id
         if (!req.params.id || req.params.id <= 0) {
             return res.status(400).send('Error, falta indicar el id del instrumento');
+        }
+
+        // precio contenga solo numeros
+        if (!contieneSoloNumeros(req.body.precio_instrumento)) {
+            return res.status(400).send('Error, el precio debe ser un numero');
+        }
+
+        // si tiene todos null>
+        console.log("req.body.disponible_instrumento", req.body.disponible_instrumento)
+        if (
+            !req.body.tipo_instrumento &&
+            !req.body.nombre_instrumento &&
+            !req.body.marca_instrumento &&
+            !req.body.modelo_instrumento &&
+            !req.body.precio_instrumento &&
+            !req.body.imagen_instrumento &&
+            !req.body.disponible_instrumento
+        ) {
+            return res.status(400).send('Debe ingresar algún parámetro');
+        };
+
+        let disponible = true;
+
+        // convertir a true o false disponible
+        if (req.body.disponible_instrumento === 'verdadero') {
+            disponible = true;
+        } {
+            disponible = false;
         }
 
         const reemplazar = await actualizarInstrumento(
@@ -387,7 +420,7 @@ app.put('/admin/instrumentos/actualizar/:id', async (req, res) => {
             req.body.modelo_instrumento || null,
             req.body.precio_instrumento || null,
             req.body.imagen_instrumento || null,
-            req.body.disponible_instrumento
+            disponible
         );
         
         if (!reemplazar) {
