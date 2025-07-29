@@ -5,7 +5,7 @@ const instrumento_param_id_edit = urlParams.get('id');
 
 
 const dataInstrumentoURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/productos/instrumentos/" + instrumento_param_id_edit;
-const putActualizarInstrumentoURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/admin/instrumentos/actualizar"
+const putActualizarInstrumentoURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/admin/instrumentos/actualizar/" + instrumento_param_id_edit;
 
 fetch(dataInstrumentoURL).then((respuesta) => {
     if (respuesta.status === 404) {
@@ -50,52 +50,60 @@ fetch(dataInstrumentoURL).then((respuesta) => {
 
     table.appendChild(newFila);
 
-    
-    const ingrese_tipo = document.getElementById("tipo-input");
-
-
-    
 });
 
 
 
+function editarInstrumento(e) {
+    e.preventDefault(); // Evita recargar la página.
 
-// Segun el boton que toque el campo a editar.
-document.querySelectorAll(".editar").forEach((btn) => {
-    btn.style.backgroundColor = "white";
-    btn.style.color = "black";          
-    btn.style.border = "3px solid blue";
-    btn.style.borderRadius = "10%";
-    btn.style.padding = "8px";
+    const tipo_instrumento = document.getElementById("tipo-instrumento").value;
+    const nombre_instrumento = document.getElementById("nombre-instrumento").value;
+    const marca_instrumento = document.getElementById("marca-instrumento").value;
+    const modelo_instrumento = document.getElementById("modelo-instrumento").value;
+    const precio_instrumento = document.getElementById("precio-instrumento").value;
+    const img_instrumento = document.getElementById("img-instrumento").value;
+    let disponible = document.getElementById("disponible-instrumento").value;
+    // parseBoolean
+    let disponible_bool = disponible === "true" || disponible === true; // asegura boolean real
+    
 
-    btn.addEventListener("click", () => {
-        const campo = btn.dataset.campo; // "precio_instrumento", "nombre_instrumento"...
-        const nuevoValor = prompt(`Ingrese el nuevo valor para ${campo}:`);
-        if (nuevoValor === null || nuevoValor === "") {
-            return alert("No se ingresó ningún valor.");
+
+    const body = {
+        id_instrumento: instrumento_param_id_edit,
+        tipo_instrumento: tipo_instrumento,
+        nombre_instrumento: nombre_instrumento,
+        marca_instrumento: marca_instrumento,
+        modelo_instrumento: modelo_instrumento,
+        precio_instrumento: Number(precio_instrumento),
+        imagen_instrumento: img_instrumento,
+        disponible_instrumento: disponible_bool
+    };
+
+    // mientras espera el try:
+    const mensaje = document.getElementById("mensaje-respuesta");
+    mensaje.textContent = "Procesando..."; 
+    mensaje.style.color = "blue";
+
+    // put
+    fetch(putActualizarInstrumentoURL, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+
+    }).then((respuesta) => {
+        if (respuesta.ok) {
+            alert("Campo actualizado correctamente.");
+            location.reload();
+        } 
+        if (respuesta.status === 500) {
+            alert("Hubo un error en los campos. Haga click en aceptar para recargar la pagina.");
+            location.reload();
         }
-
-        const body = {
-            id: instrumento_param_id_edit,
-            valor: nuevoValor,
-            campo: campo,
-        };
-
-        // put
-        fetch(putActualizarInstrumentoURL, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body)
-
-        }).then((respuesta) => {
-            if (respuesta.ok) {
-                alert("Campo actualizado correctamente.");
-                location.reload();
-            } 
-            if (respuesta.status === 500) {
-                alert("Hubo un error en los campos. Haga click en aceptar para recargar la pagina.");
-                location.reload();
-            }
-        });
     });
-});
+    
+};
+
+// Intentar cargar la venta_concretada en la base de datos.
+
+document.getElementById("formulario_editar_instrumento").addEventListener("submit", editarInstrumento);
