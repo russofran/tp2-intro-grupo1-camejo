@@ -107,17 +107,52 @@ async function agregarVendedor (
 
 
 // Actualizar datos de una fila (PUT).
-async function actualizarVendedor(id, valor, campo) {
+async function actualizarVendedor(id, turno, nombre, ventas, sucursal, calificacion, disponible) {
+    // undefined o el valor que llegue del input que no fue activado
+    function convertirNull(valor) {
+        return valor === undefined ? null : valor;
+    }
+ 
 
+    let turno_vendedores = convertirNull(turno);
+    let nombre_vendedores = convertirNull(nombre);
+    let sucursal_vendedores = convertirNull(sucursal);
+    let ventas_vendedores = convertirNull(ventas);
+    let calificacion_vendedores = convertirNull(calificacion);
+    
+    // validación
+    if (id === undefined) {
+        return undefined
+    };
+
+    // COALESCE(valor_1, valor_2) # Si valor_1 es null, poner valor 2. (Valor 2 es el valor existente) 
     const query = `
-        UPDATE ONLY vendedores
-        SET ${campo} = $2
+        UPDATE vendedores
+        SET
+            turno_vendedores = COALESCE($2, turno_vendedores),
+            nombre_vendedores = COALESCE($3, nombre_vendedores),
+            ventas_vendedores = COALESCE($4, ventas_vendedores),
+            sucursal_vendedores = COALESCE($5, sucursal_vendedores),
+            calificacion_vendedores = COALESCE($6, calificacion_vendedores),
+            disponible_vendedores = COALESCE($7, disponible_vendedores)
         WHERE id_vendedores = $1
-        RETURNING *
+        RETURNING *;
     `;
-    const resultado = await dbCliente.query(query, [id, valor]);
+
+    const valores = [
+        id,
+        turno_vendedores || null,
+        nombre_vendedores || null,
+        ventas_vendedores || null,
+        sucursal_vendedores || null,
+        calificacion_vendedores || null,
+        (disponible === undefined ? null : disponible)
+    ];
+
+
+    const resultado = await dbCliente.query(query, valores);
     return resultado.rows[0];
-}
+};
 
 // Sumar +1 en ventas_vendedores.
 async function sumarVentaVendedor(id) {
