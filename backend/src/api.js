@@ -66,7 +66,7 @@ const {
     obtenerVentasVendedores,
     actualizarVendedor,
     borrarVendedor,
-    sumarVentaVendedor
+    sumarVentaVendedor,
 
 } = require('./db/vendedores')
 
@@ -168,6 +168,14 @@ app.get('/productos/merchandising/:numero', async (req, res) => {
 app.get('/admin/vendedores', async (req, res) => {
     const vendedores = await obtenerVendedores();
     res.json(vendedores);
+});
+// Obtener un vendedor.
+app.get('/admin/vendedores/:numero', async (req, res) => {
+    let vendedor = await obtenerUnVendedor(req.params.numero);
+    if (vendedor === undefined) {
+        res.sendStatus(404);
+    };
+    res.json(vendedor);
 });
 
 // Obtener las ventas que hizo un vendedor
@@ -415,7 +423,7 @@ app.put('/admin/instrumentos/actualizar/:id', async (req, res) => {
         // convertir a true o false disponible
         if (req.body.disponible_instrumento === 'verdadero') {
             disponible = true;
-        } {
+        } else {
             disponible = false;
         }
 
@@ -443,37 +451,59 @@ app.put('/admin/instrumentos/actualizar/:id', async (req, res) => {
 });
 
 // TABLA VENDEDORES
-app.put('/admin/vendedores/actualizar', async (req, res) => {
-    // Validar que se manden 3 campos y que id sea >= 1.
-    if (req.body.id <= 0 || req.body.valor === undefined || !req.body.campo) {
-            return res.status(400).send('Hay un error en los campos.')
+app.put('/admin/vendedores/actualizar/:id', async (req, res) => {
+    try {
+
+        // validación de que exista la id
+        if (!req.params.id || req.params.id <= 0) {
+            return res.status(400).send('Error, falta indicar el id del vendedor o es menor o igual a 0.');
         };
-    // Validar que no cree nuevas columnas.
-    const columnas_permitidas = [
-        'turno_vendedores',
-        'nombre_vendedores',
-        'ventas_vendedores',
-        'calificacion_vendedores',
-        'sucursal_vendedores',
-        'disponible_vendedores' ];
 
-    if (!columnas_permitidas.includes(req.body.campo)) {
-        return res.status(400).json({ error: "Nombre de campo inválido." });
-    };
-    const reemplazar = await actualizarVendedor(
-        req.body.id,
-        req.body.valor,
-        req.body.campo
-    );
-    
-    if (reemplazar === undefined) {
-        return res.status(500).json({ error: 'No se pudo actualizar la entidad "Vendedores".' }) 
-    };
 
-    res.json(reemplazar);
-    
+        // si tiene todos null>
+        if (
+            !req.body.id_vendedores &&
+            !req.body.turno_vendedores &&
+            !req.body.nombre_vendedores &&
+            !req.body.ventas_vendedores &&
+            !req.body.sucursal_vendedores &&
+            !req.body.calificacion_vendedores &&
+            !req.body.disponible_vendedores
+        ) {
+            return res.status(400).send('Debe ingresar algún parámetro');
+        };
 
-    });
+        let disponible = true;
+
+        // convertir a true o false disponible
+        if (req.body.disponible_vendedores === "verdadero") {
+            disponible = true;
+        } else {
+            disponible = false;
+        };
+
+
+        const reemplazar = await actualizarVendedor(
+            req.params.id,
+            req.body.turno_vendedores || null,
+            req.body.nombre_vendedores || null,
+            req.body.ventas_vendedores || null,
+            req.body.sucursal_vendedores || null,
+            req.body.calificacion_vendedores || null,
+            disponible,
+        );
+        
+        if (!reemplazar) {
+            return res.status(404).json({ error: 'Vendedor no encontrado.' });
+        }
+
+        res.json(reemplazar);
+        
+    } catch (error) {
+        console.error('Error al actualizar el vendedor', error);
+        res.status(500).json({ error: 'Error al actualizar vendedor', detalle: error.message });
+    }
+});
 
 // TABLA MERCHANDISING
 app.put('/admin/merchandising/actualizar', async (req, res) => {
