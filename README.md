@@ -125,7 +125,7 @@ El proyecto debería instalar las siguientes dependencias
 - nodemon v3.1.10
 
 
-3. Siguiente paso iniciar la api rest:
+3. Siguiente paso, Levantar la api rest:
 3.a Cambiar el directorio a ./backend ejecutar en la terminal:
 ```bash
 cd /backend
@@ -137,7 +137,9 @@ npm run dev
 npm run dev_wsl
 
 # En su defecto:
-
+# 1. Darle permisos a node_modules
+chmod +x ./node_modules/.bin/nodemon
+# 2. Ejecutar 
 ./node_modules/.bin/nodemon src/api.js
 ```
 
