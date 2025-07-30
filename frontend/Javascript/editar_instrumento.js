@@ -109,7 +109,7 @@ function editarInstrumento(e) {
             location.reload();
         }
     });
-    
+
 };
 
 // Intentar cargar la venta_concretada en la base de datos.
