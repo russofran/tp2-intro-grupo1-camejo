@@ -9,7 +9,7 @@ app.use(express.json());
 // Enable CORS for frontend communication
 app.use(cors({
   origin: 'https://tp2-intro-grupo1-camejo-despliegue.onrender.com',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept'],
 }));
 
