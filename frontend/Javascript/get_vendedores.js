@@ -54,7 +54,7 @@ fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
 
         const newBotonBorrar = document.createElement("a");
         newBotonBorrar.className = "button is-danger";
-        newBotonBorrar.onclick = function(){deleteVendedor(vendedor.id_vendedores)}; 
+        newBotonBorrar.onclick = function(){deleteVendedor(vendedor.id_vendedores, vendedor.nombre_vendedores)}; 
         newBotonBorrar.innerHTML = "Borrar";
 
         const newBorrar = document.createElement("td");
@@ -77,27 +77,34 @@ fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
 });
 
 
+function deleteVendedor(id_vendedores, nombre_vendedores){
+    const borrarVendedorURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/admin/vendedores/borrar/" + id_vendedores;
 
-function deleteVendedor(id_vendedor){
-    const borrarVendedorURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/admin/vendedores/borrar/" + id_vendedor;
+    const body = {
+        valor_anterior: nombre_vendedores
+    };
 
     fetch(borrarVendedorURL, {
-        method: 'DELETE'
-    }).then((respuesta) => {
-
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+    }).then(respuesta => {
         if (respuesta.status === 200) {
-            alert("Elemento eliminado con exito ✔");
-            window.location.replace("./index.html");
+            alert("Vendedor eliminado con exito ✔");
+            window.location.replace("./vendedores.html");
             return
         } else if (respuesta.status === 400) {
             alert("Algo salió mal");
             window.location.replace("./vendedores.html");
             return
         } else if (respuesta.status === 404) {
-            alert("El elemento seleccionado no existe, haga click en aceptar para recargar la página.");
+            alert("El vendedor seleccionado no existe, haga click en aceptar para recargar la página.");
             window.location.replace("./vendedores.html");
             return
         }
-    }); 
+        return respuesta.json();
+    });
 
-}
+};
+
+

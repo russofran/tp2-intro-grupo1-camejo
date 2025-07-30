@@ -25,7 +25,7 @@ app.use(cors({
 const dbCliente = new Pool({
     connectionString: process.env.DATABASE_URL,
 });
-// GET
+
 
 // Solicita todas las ventas_concretadas.
 async function obtenerVentas ( ) {
@@ -36,26 +36,51 @@ async function obtenerVentas ( ) {
 // Solicitar una venta_concretada con detalles.
 
 async function obtenerUnaVenta (id) {
-    const resultado = await dbCliente.query(
-        'SELECT * FROM ventas_concretadas vc, instrumentos i, vendedores v, merchandising m ' +
-        'WHERE vc.id = $1', [id]
-    );
+    const query = `
+        SELECT vc.id,
+               vc.tipo,
+               vc.instrumento_borrado,
+               vc.merchandising_borrado,
+               vc.vendedor_despedido,
+               vc.precio_real_venta,
+               vc.fecha_venta,
+               i.id_instrumento,
+               i.nombre_instrumento,
+               i.modelo_instrumento,
+               m.id_merchandising,
+               m.tipo_merchandising,
+               m.nombre_merchandising,
+               v.id_vendedores,
+               v.nombre_vendedores
+        FROM ventas_concretadas vc
+        LEFT JOIN instrumentos i ON vc.instrumento_id = i.id_instrumento
+        LEFT JOIN merchandising m ON vc.merch_id = m.id_merchandising
+        LEFT JOIN vendedores v ON vc.vendedor_id = v.id_vendedores
+        WHERE vc.id = $1
+    `;
+    
+    const resultado = await dbCliente.query(query, [id]);
 
-    const venta_detallada = {};
+    if (resultado.rows.length === 0) return undefined; // Si no hay venta
 
-    // Formateo de salida.
-    venta_detallada[(resultado.rows[0].id)] = {
-        "tipo_venta": resultado.rows[0].tipo,
-        "instrumento_vendido": resultado.rows[0].nombre_instrumento,
-        "modelo instrumento": resultado.rows[0].modelo_instrumento,
-        "merch_vendido": resultado.rows[0].tipo_merchandising,
-        "modelo merch": resultado.rows[0].nombre_merchandising,
-        "vendedor": resultado.rows[0].nombre_vendedores,
-        "precio_total": resultado.rows[0].precio_real_venta
-    }
-      
-    return venta_detallada
-}
+    const row = resultado.rows[0];
+
+    const venta_detallada = {
+        id: row.id,
+        tipo_venta: row.tipo,
+        instrumento_vendido: row.nombre_instrumento,
+        instrumento_borrado: row.instrumento_borrado,
+        merchandising_vendido: row.nombre_merchandising,
+        merchandising_borrado: row.merchandising_borrado,
+        vendedor: row.nombre_vendedores,
+        vendedor_despedido: row.vendedor_despedido,
+        precio_real_venta: row.precio_real_venta,
+        fecha: row.fecha_venta
+    };
+
+    return venta_detallada;
+};
+
 
 // POST
 
@@ -96,9 +121,35 @@ async function actualizarVentaConcretada(id, valor, campo) {
     `;
     const resultado = await dbCliente.query(query, [id, valor]);
     return resultado.rows[0];
-}
+};
 
-async function actualizarVendedorDespedido (id, valor) {
+
+
+async function agregarInstrumentoBorrado (id, valor, client) {
+
+    const query = `
+        UPDATE ONLY ventas_concretadas
+        SET instrumento_borrado = $2
+        WHERE instrumento_id = $1
+        RETURNING *
+    `;
+    const resultado = await client.query(query, [id, valor]);
+    return resultado.rows;
+};
+
+async function agregarMerchandisingBorrado (id, valor, client) {
+
+    const query = `
+        UPDATE ONLY ventas_concretadas
+        SET merchandising_borrado = $2
+        WHERE merch_id = $1
+        RETURNING *
+    `;
+    const resultado = await client.query(query, [id, valor]);
+    return resultado.rows;
+};
+
+async function agregarVendedorDespedido (id, valor, client) {
 
     const query = `
         UPDATE ONLY ventas_concretadas
@@ -106,9 +157,9 @@ async function actualizarVendedorDespedido (id, valor) {
         WHERE vendedor_id = $1
         RETURNING *
     `;
-    const resultado = await dbCliente.query(query, [id, valor]);
-    return resultado.rows[0];
-}
+    const resultado = await client.query(query, [id, valor]);
+    return resultado.rows;
+};
 
 
 // Actualizar Ventas de cada usuario
@@ -133,6 +184,8 @@ module.exports = {
     obtenerUnaVenta,
     crearVentaConcretada,
     actualizarVentaConcretada,
-    actualizarVendedorDespedido,
-    borrarVentaConcretada
-}
+    borrarVentaConcretada,
+    agregarInstrumentoBorrado,
+    agregarMerchandisingBorrado,
+    agregarVendedorDespedido
+};

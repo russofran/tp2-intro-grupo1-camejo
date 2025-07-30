@@ -50,7 +50,7 @@ fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
 
         const newBotonBorrar = document.createElement("a");
         newBotonBorrar.className = "button is-danger";
-        newBotonBorrar.onclick = function(){deleteInstrumento(instrumento.id_instrumento)}; 
+        newBotonBorrar.onclick = function(){deleteInstrumento(instrumento.id_instrumento, instrumento.nombre_instrumento)}; 
         newBotonBorrar.innerHTML = "Borrar";
 
         const newBorrar = document.createElement("td");
@@ -68,19 +68,25 @@ fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
         
 
         table.appendChild(newFila);
+
     });
 
 });
 
 
 
-function deleteInstrumento(id_instrumento){
+function deleteInstrumento(id_instrumento, nombre_instrumento){
     const borrarInstrumentoURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/admin/instrumento/borrar/" + id_instrumento;
 
-    fetch(borrarInstrumentoURL, {
-        method: 'DELETE'
-    }).then((respuesta) => {
+    const body = {
+        valor_anterior: nombre_instrumento
+    };
 
+    fetch(borrarInstrumentoURL, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+    }).then(respuesta => {
         if (respuesta.status === 200) {
             alert("Elemento eliminado con exito ✔");
             window.location.replace("./instrumentos.html");
@@ -94,6 +100,9 @@ function deleteInstrumento(id_instrumento){
             window.location.replace("./instrumentos.html");
             return
         }
-    }); 
+        return respuesta.json();
+    });
 
-}
+};
+
+

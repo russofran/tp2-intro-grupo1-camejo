@@ -21,6 +21,7 @@ app.use(cors({
 const dbCliente = new Pool({
     connectionString: process.env.DATABASE_URL,
 });
+
 // Querys a la db.
 
 // Obtener Información (GET).
@@ -130,13 +131,12 @@ async function actualizarInstrumento(id, tipo, nombre, marca, modelo, precio, im
 // Borrar fila/s de una entidad (DELETE).
 
 // Borrar un instrumento.
-async function borrarInstrumento (id) {
-    const resultado = await dbCliente.query('DELETE FROM instrumentos WHERE id_instrumento=$1', [id]);
-
+async function borrarInstrumento (id, client) {
+    const resultado = await client.query('DELETE FROM instrumentos WHERE id_instrumento=$1', [id]);
     if (resultado.rowCount === 0) {
         return undefined
     } else {
-        return resultado.rows;
+        return 1;
     }
     
 };

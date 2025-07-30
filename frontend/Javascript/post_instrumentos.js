@@ -61,7 +61,7 @@ function agregarInstrumento(e) {
         if (respuesta.status === 200) {
             mensaje.textContent = "Instrumento registrado con éxito ✔";
             mensaje.style.color = "green";
-            window.location.replace("./index.html");
+            window.location.replace("./index-admin.html");
         } else if (respuesta.status === 400) {
             mensaje.textContent = "Bad Request";
             mensaje.style.color = "red";
