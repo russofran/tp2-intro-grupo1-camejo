@@ -76,17 +76,18 @@ async function actualizarMerchandising(id, valor, campo) {
 
 
 // DELETE
-// Borrar un merchandising.
-async function borrarMerchandising (id) {
-    const resultado = await dbCliente.query('DELETE FROM merchandising WHERE id_merchandising=$1', [id]);
 
+// Borrar un merch.
+async function borrarMerchandising (id, client) {
+    const resultado = await client.query('DELETE FROM merchandising WHERE id_merchandising=$1', [id]);
     if (resultado.rowCount === 0) {
         return undefined
     } else {
-        return resultado.rows;
+        return 1;
     }
     
 };
+
 
 
 
@@ -96,4 +97,4 @@ module.exports = {
     obtenerUnMerchandising,
     actualizarMerchandising,
     borrarMerchandising
-}
+};

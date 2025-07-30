@@ -46,7 +46,7 @@ fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
 
         const newBotonBorrar = document.createElement("a");
         newBotonBorrar.className = "button is-danger";
-        newBotonBorrar.onclick = function(){deleteMerchandising(merchandising.id_merchandising)}; 
+        newBotonBorrar.onclick = function(){deleteMerchandising(merchandising.id_merchandising, merchandising.nombre_merchandising)}; 
         newBotonBorrar.innerHTML = "Borrar";
 
         const newBorrar = document.createElement("td");
@@ -64,21 +64,26 @@ fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
         
 
         table.appendChild(newFila);
+
     });
 
 });
 
 
-
-function deleteMerchandising(id_merchandising){
+function deleteMerchandising(id_merchandising, nombre_merchandising){
     const borrarMerchandisingURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/admin/merchandising/borrar/" + id_merchandising;
 
-    fetch(borrarMerchandisingURL, {
-        method: 'DELETE'
-    }).then((respuesta) => {
+    const body = {
+        valor_anterior: nombre_merchandising
+    };
 
+    fetch(borrarMerchandisingURL, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+    }).then(respuesta => {
         if (respuesta.status === 200) {
-            alert("Elemento eliminado con exito ✔");
+            alert("Merch eliminado con exito ✔");
             window.location.replace("./merch.html");
             return
         } else if (respuesta.status === 400) {
@@ -90,6 +95,10 @@ function deleteMerchandising(id_merchandising){
             window.location.replace("./merch.html");
             return
         }
-    }); 
+        return respuesta.json();
+    });
 
-}
+};
+
+
+

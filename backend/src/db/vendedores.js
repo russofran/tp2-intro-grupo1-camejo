@@ -134,17 +134,15 @@ async function sumarVentaVendedor(id) {
 
 
 // DELETE
-async function borrarVendedor (id, valor) {
-    
-    await actualizarVendedorDespedido(id, valor);
-
-    const resultado = await dbCliente.query('DELETE FROM vendedores WHERE id_vendedores=$1', [id]);
-
+// Borrar un vendedor.
+async function borrarVendedor (id, client) {
+    const resultado = await client.query('DELETE FROM vendedores WHERE id_vendedores=$1', [id]);
     if (resultado.rowCount === 0) {
         return undefined
     } else {
-        return resultado.rows;
-    };
+        return 1;
+    }
+    
 };
 
 

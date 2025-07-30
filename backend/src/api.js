@@ -75,7 +75,10 @@ const {
     obtenerUnaVenta,
     crearVentaConcretada,
     actualizarVentaConcretada,
-    borrarVentaConcretada
+    borrarVentaConcretada,
+    agregarInstrumentoBorrado,
+    agregarMerchandisingBorrado,
+    agregarVendedorDespedido
 } = require('./db/ventas_concretadas')
 
 // funcion solo para manejar datos en carrito.html.
@@ -507,57 +510,148 @@ app.put('/admin/merchandising/actualizar', async (req, res) => {
 
 
 
-// DELETE
+// DELETE / PATCH
 
 // TABLA INSTRUMENTOS
-// Eliminar instrumento por id.
-app.delete('/admin/instrumento/borrar/:id', async (req, res) => {
-    try {
-        const instrumento = await borrarInstrumento(req.params.id);
 
-        if (instrumento === undefined) {
-            return res.status(404).json({ error: "La id " + req.params.id + ' no existe'})
+// Borrar y archivar instrumento en ventas_concretadas y en su respectiva tabla.
+app.patch('/admin/instrumento/borrar/:id', async (req, res) => {
+    const client = await dbCliente.connect();
+    try {
+        const { valor_anterior } = req.body;
+        const id = req.params.id;
+
+        if (!valor_anterior) {
+            return res.status(400);
+        }
+
+        // empieza la conexion patch
+
+        await client.query('BEGIN');
+
+        // query 1. Reemplazar en ventas_concretadas
+        const ventasActualizadas = await agregarInstrumentoBorrado(id, valor_anterior, client);
+
+        // query 2. Borrar instrumento
+        const instrumento = await borrarInstrumento(id, client);
+
+        if (!instrumento) {
+            // por error volver atras
+            await client.query('ROLLBACK');
+            return res.status(404).json({ error: `El instrumento con id ` + id + ` no existe` });
         };
 
-        res.json({ status: "La id " + req.params.id + ' fue eliminada con éxito.'});
+        // si pasa ambas querys hacer commit (confirmar)
+        await client.query('COMMIT');
+
+        res.json({
+            status: `Instrumento id ` + id + ` eliminado y reemplazado en ventas_concretadas`,
+            ventas_afectadas: ventasActualizadas.length
+        });
+
     } catch (error) {
-    console.error('Error al borrar instrumento:', error);
-    res.status(500).json({ error: 'Error al borrar instrumento', detalle: error.message });
-  }
+        await client.query('ROLLBACK');
+        console.error('Error al borrar y archivar el instrumento en sus ventas:', error);
+        res.status(500).json({ error: 'Error al borrar y archivar el instrumento en sus ventas', detalle: error.message });
+    } finally {
+        client.release();
+    }
 });
+
 
 // TABLA Merchandising
-// Eliminar merch por id.
 
-app.delete('/admin/merchandising/borrar/:id', async (req, res) => {
+// Borrar y archivar merch en ventas_concretadas y en su respectiva tabla.
+app.patch('/admin/merchandising/borrar/:id', async (req, res) => {
+    const client = await dbCliente.connect(); // variable que al activarse levanta una conexión fija con la db.
     try {
-        const merchandising = await borrarMerchandising(req.params.id);
-        if (merchandising === undefined) {
-            return res.status(404).json({ error: "La id " + req.params.id + ' no existe'})
+        const { valor_anterior } = req.body;
+        const id = req.params.id;
+
+        if (!valor_anterior) {
+            return res.status(400);
+        }
+
+        // empieza la conexion patch
+
+        await client.query('BEGIN');
+        console.log("merch", valor_anterior, id)
+
+        // query 1. Reemplazar en ventas_concretadas
+        const ventasActualizadas = await agregarMerchandisingBorrado(id, valor_anterior, client);
+
+        // query 2. Borrar instrumento
+        const merchandising = await borrarMerchandising(id, client);
+
+        if (!merchandising) {
+            // por error volver atras
+            await client.query('ROLLBACK');
+            return res.status(404).json({ error: `El merch con id ` + id + ` no existe` });
         };
 
-        res.json({ status: "El Merchandising con La id " + req.params.id + ' fue eliminada con éxito.'});
+        // si pasa ambas querys hacer commit (confirmar) y se realizan ambos cambios en la db respectivamente.
+        await client.query('COMMIT');
+
+        res.json({
+            status: `Merch id ` + id + ` eliminado y archivado en ventas_concretadas`,
+            ventas_afectadas: ventasActualizadas.length
+        });
+
     } catch (error) {
-    console.error('Error al borrar merchandising: ', error);
-    res.status(500).json({ error: 'Error al borrar merch:', detalle: error.message });
-  }
+        await client.query('ROLLBACK');
+        console.error('Error borrando y archivando el merch seleccionado:', error);
+        res.status(500).json({ error: 'Error borrando y archivando el merch seleccionado:', detalle: error.message });
+    } finally {
+        client.release(); // terminar la conexion unica a la db
+    }
 });
 
-// TABLA VENDEDORES
-// Eliminar vendedor por id y reemplazar su nombre en ventas_concretadas.
-app.delete('/admin/vendedores/borrar/:id', async (req, res) => {
-    try {
-        const vendedores = await borrarVendedores(req.params.id);
 
-        if (vendedores === undefined) {
-            return res.status(404).json({ error: "La id " + req.params.id + ' no existe'})
+// TABLA VENDEDORES
+
+// Borrar y archivar vendedor en ventas_concretadas y en su respectiva tabla.
+app.patch('/admin/vendedores/borrar/:id', async (req, res) => {
+    const client = await dbCliente.connect(); // variable que al activarse levanta una conexión fija con la db.
+    try {
+        const { valor_anterior } = req.body;
+        const id = req.params.id;
+
+        if (!valor_anterior) {
+            return res.status(400);
+        }
+
+        // empieza la conexion patch
+
+        await client.query('BEGIN');
+        console.log("vendedor", valor_anterior, id)
+
+        // query 1. Reemplazar en ventas_concretadas
+        const ventasActualizadas = await agregarVendedorDespedido(id, valor_anterior, client);
+
+        // query 2. Borrar instrumento
+        const vendedor = await borrarVendedor(id, client);
+
+        if (!vendedor) {
+            // por error volver atras
+            await client.query('ROLLBACK');
+            return res.status(404).json({ error: `El vendedor con id ` + id + ` no existe` });
         };
 
-        res.json({ status: "La id " + req.params.id + ' fue eliminada con éxito.'});
+        // si pasa ambas querys hacer commit (confirmar) y se realizan ambos cambios en la db respectivamente.
+        await client.query('COMMIT');
+
+        res.json({
+            status: `Vendedor id ` + id + ` eliminado y archivado en ventas_concretadas`,
+            ventas_afectadas: ventasActualizadas.length
+        });
+
     } catch (error) {
-    console.error('Error al borrar instrumento:', error);
-    res.status(500).json({ error: 'Error al borrar instrumento', detalle: error.message });
-  }
+        await client.query('ROLLBACK');
+        console.error('Error borrando y archivando el vendedor seleccionado:', error);
+        res.status(500).json({ error: 'Error borrando y archivando el vendedor seleccionado:', detalle: error.message });
+    } finally {
+        client.release(); // terminar la conexion unica a la db
+    }
 });
 
 // TABLA VENTAS_CONCRETADAS.

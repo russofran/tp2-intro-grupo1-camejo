@@ -11,39 +11,57 @@ fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
         alert("No existe una id: " + id_venta + " enlazada a alguna venta. Haga click en 'aceptar' para volver a ventas.");
         
         return window.location.replace("/ventas.html");
+        
     }
+
     return respuesta.json();
 }).then((data) => {
-    // Aca trabajamos con los datos obtenidos desde la base de datos por medio de "data".
 
-    const venta = data[id_venta];
+    // Aca trabajamos con los datos obtenidos desde la base de datos por medio de "data".
     const table = document.getElementById("ventas-table");
 
     const newFila = document.createElement("tr");
 
     const newID = document.createElement("td");
-    newID.innerHTML = id_venta;
+    newID.innerHTML = data.id;
     newFila.appendChild(newID);
 
     const newTipo = document.createElement("td");
-    newTipo.innerHTML = venta.tipo_venta;
+    newTipo.innerHTML = data.tipo_venta;
     newFila.appendChild(newTipo);
 
     const newNombreinstrumento = document.createElement("td");
-    newNombreinstrumento.innerHTML = venta.instrumento_vendido;
-    newFila.appendChild(newNombreinstrumento)
+    if (!data.instrumento_vendido) {
+        newNombreinstrumento.innerHTML = data.instrumento_borrado;
+    } else {
+        newNombreinstrumento.innerHTML = data.instrumento_vendido;
+    };
+    newFila.appendChild(newNombreinstrumento);
 
     const newNombreMerchandising = document.createElement("td");
-    newNombreMerchandising.innerHTML = venta.merch_vendido;
+    if (!data.merchandising_vendido) {
+        newNombreMerchandising.innerHTML = data.merchandising_borrado;
+    } else {
+        newNombreMerchandising.innerHTML = data.merchandising_vendido;
+    };
     newFila.appendChild(newNombreMerchandising)
 
     const newPrecio = document.createElement("td");
-    newPrecio.innerHTML = venta.precio_total;
+    newPrecio.innerHTML = data.precio_real_venta;
     newFila.appendChild(newPrecio);
 
     const newNombreVendedor = document.createElement("td");
-    newNombreVendedor.innerHTML = venta.vendedor;
+    if (!data.vendedor) {
+        newNombreVendedor.innerHTML = data.vendedor_despedido;
+    } else {
+        newNombreVendedor.innerHTML = data.vendedor;
+    };
     newFila.appendChild(newNombreVendedor);
+
+    const newFecha = document.createElement("td");
+    newFecha.innerHTML = data.fecha;
+    newFila.appendChild(newFecha);
+
 
     table.appendChild(newFila);
 

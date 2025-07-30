@@ -48,10 +48,15 @@ fetch(dataInstrumentoURL).then((respuesta) => {
     newPrecio.innerHTML = "$" + data.precio_instrumento;
     newFila.appendChild(newPrecio);
 
-    const newImagen = document.getElementById("imagen-instrumento");
+    const newImagen = document.createElement("img");
     newImagen.src = data.imagen_instrumento;
-    newImagen.style.margin = '5px';
+    newImagen.alt = "imagen instrumento";
 
+    const newColumnaImagen = document.createElement("td");
+    newColumnaImagen.appendChild(newImagen);
+    newFila.appendChild(newColumnaImagen);
+
+    
     table.appendChild(newFila);
 
 });
@@ -109,7 +114,7 @@ function editarInstrumento(e) {
             location.reload();
         }
     });
-
+    
 };
 
 // Intentar cargar la venta_concretada en la base de datos.
