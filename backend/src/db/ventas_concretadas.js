@@ -98,6 +98,8 @@ async function actualizarVentaConcretada(id, valor, campo) {
     return resultado.rows[0];
 }
 
+// Update en base a otra query
+
 async function actualizarVendedorDespedido (id, valor) {
 
     const query = `

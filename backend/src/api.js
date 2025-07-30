@@ -545,18 +545,19 @@ app.delete('/admin/merchandising/borrar/:id', async (req, res) => {
 
 // TABLA VENDEDORES
 // Eliminar vendedor por id y reemplazar su nombre en ventas_concretadas.
-app.delete('/admin/vendedores/borrar', async (req, res) => {
-    if (req.body.id < 0 || !req.body.valor) {
-        return res.status(400).send('Hay un error en los campos.');
-    }
+app.delete('/admin/vendedores/borrar/:id', async (req, res) => {
+    try {
+        const vendedores = await borrarVendedores(req.params.id);
 
-    const vendedor = await borrarVendedor(req.body.id, req.body.valor);
-    if (vendedor === undefined) {
-        return res.status(404).json({ error: "La id " + req.params.id + ' no existe'})
-    };
+        if (vendedores === undefined) {
+            return res.status(404).json({ error: "La id " + req.params.id + ' no existe'})
+        };
 
-    res.json({ status: "El vendedor " + req.body.valor + ' con la id ' + req.body.id + ' fue eliminada con éxito.'});
-
+        res.json({ status: "La id " + req.params.id + ' fue eliminada con éxito.'});
+    } catch (error) {
+    console.error('Error al borrar instrumento:', error);
+    res.status(500).json({ error: 'Error al borrar instrumento', detalle: error.message });
+  }
 });
 
 // TABLA VENTAS_CONCRETADAS.
