@@ -1,3 +1,17 @@
+# Índice
+1. Api - Tienda de música.
+2. Deploy Web.
+3. Deploy Local.
+4. Composición.
+5. Introducción (Entidades y secciones).
+6. Requisitos.
+7. Makefile.
+8. Composición de la base de datos.
+9. CRUD.
+10. Funcionamiento general de la página web.
+
+---
+
 # 🚀 API - Tienda de música
 
 API desarrollada en Node.js con Express para la conexión http entre el frontend (http server) y la base de datos PostgreSQL.
@@ -163,6 +177,8 @@ Puerto de la api rest: 3030 (backend).
 --- 
 
 # Composición de la base de datos (CRUD).
+
+_Todos los datos proporcionados en las tablas son de mera ayuda a la interpretación y no se asemejan con la base de datos real._
 
 ## 📋 Tablas
 
