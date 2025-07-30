@@ -4,8 +4,8 @@ const urlParams = new URLSearchParams(window.location.search);
 const vendedor_param_id_edit = urlParams.get('id');
 
 
-const dataVendedoresURL = "http://localhost:3030/admin/vendedores/" + vendedor_param_id_edit;
-const putActualizarVendedoresURL = "http://localhost:3030/admin/vendedores/actualizar/" + vendedor_param_id_edit;
+const dataVendedoresURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/admin/vendedores/" + vendedor_param_id_edit;
+const putActualizarVendedoresURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/admin/vendedores/actualizar/" + vendedor_param_id_edit;
 
 fetch(dataVendedoresURL).then((respuesta) => {
     if (respuesta.status === 404) {
