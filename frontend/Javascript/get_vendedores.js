@@ -45,7 +45,7 @@ fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
 
         const newBotonVer = document.createElement("a");
         newBotonVer.className = "button is-info";
-        newBotonVer.href = "/index.html";
+        newBotonVer.href = "vendedor.html?id=" + vendedor.id_vendedores;
         newBotonVer.innerHTML = "Ver";
 
         const newVer = document.createElement("td");

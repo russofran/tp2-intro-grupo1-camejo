@@ -179,7 +179,7 @@ app.get('/admin/vendedores/:numero', async (req, res) => {
 });
 
 // Obtener las ventas que hizo un vendedor
-app.get('/admin/vendedores/:id', async (req, res) => {
+app.get('/admin/ventas/vendedor/:id', async (req, res) => {
     const vendedores = await obtenerVentasVendedores(req.params.id);
     res.json(vendedores);
 });
