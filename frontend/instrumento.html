@@ -10,6 +10,8 @@
   <title>Instrumento</title>
 </head>
 
+  <script src="./Javascript/get_un_instrumento.js"></script>
+
 <body>
   <header>
     <!--Barra de navegación-->
@@ -47,39 +49,33 @@
   </header>
 
   <!-- Titulo -->
-  <h1 class="title is-2 has-text-centered" id="nombre-instrumento"></h1>
-
-
-  <section class="section">
-    <div class="container">
-      <div class="columns is-multiline is-flex is-justify-content-center">
-        <!-- Recuadros con categorias -->
-
-        <div class="column is-one-quarter">
-          <div class="card" data-producto-id="Guitarra">
-            <div class="card-image">
-              <figure class="image is-5">
-                <img src="" id="img-card" alt="Guitarra">
-              </figure>
-            </div>
-            <div class="card-content">
-              <p class="title is-4 has-text-centered" id="precio-card"></p>
-              <div class="content">
-                <button class="button" id="boton-card">
-                  <span class="icon is-small" id="texto-boton-card">
-                    <i class="fas fa-check" id="icon-boton-card"></i>
-                  </span>
-                  <a href="" id="enlace-card-comprar"></a>
-                </button>
+    <div class="container is-fluid">
+      <div class="content">
+        <div class="card">
+          <div class="card-content">
+            <div class="media">
+              <div class="media-left">
+                <figure class="image is-64x64">
+                  <img id="imagen-instrumento" alt="Instrumento" src="">
+                </figure>
+              </div>
+              <div class="media-content">
+                <p class="title is-4" id="nombre-instrumento"></p>
+                <p class="title is-2" id="precio-instrumento"></p>
+                <p class="subtitle is-6" id="tipo-instrumento"></p>
+                <p class="content" id="marca-instrumento"></p>
+                <p class="content" id="modelo-instrumento"></p>
               </div>
             </div>
+
           </div>
+
         </div>
+
       </div>
     </div>
-  </section>
 
-  <script src="./Javascript/get_un_instrumento.js"></script>
+
 
   <!--Footer-->
   <footer class="footer has-background-light mt-6">
