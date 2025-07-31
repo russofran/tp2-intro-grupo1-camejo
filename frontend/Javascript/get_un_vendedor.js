@@ -4,8 +4,8 @@ const urlParams = new URLSearchParams(window.location.search);
 const vendedor_param_id_edit = urlParams.get('id');
 
 
-const dataVendedorURL = "http://localhost:3030/admin/vendedores/" + vendedor_param_id_edit;
-const dataVentasURL = "http://localhost:3030/admin/ventas/vendedor/" + vendedor_param_id_edit;
+const dataVendedorURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/admin/vendedores/" + vendedor_param_id_edit;
+const dataVentasURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/admin/ventas/vendedor/" + vendedor_param_id_edit;
 
 async function obtenerVentas(id) {
 
