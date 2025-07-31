@@ -6,73 +6,133 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <title>Instrumento</title>
+  <link rel="website icon" type="png" href="./Img/favicon/favicon-16x16.png">
+  <link rel="stylesheet" type="text/css" href="./css/style_form.css">
+  <title>Merchandising</title>
 </head>
-
-  <script src="./Javascript/get_un_instrumento.js"></script>
 
 <body>
   <header>
-    <!--Barra de navegación-->
     <nav class="navbar is-light" role="navigation">
       <div class="navbar-brand">
-        <a class="navbar-item has-text-weight-bold is-size-4" href="index.html">Música para todos</a>
+        <a class="navbar-item has-text-weight-bold is-size-4" href="index-admin.html">Inicio</a>
       </div>
-
       <div class="navbar-menu is-flex is-align-items-center" style="flex: 1;">
-
         <div class="navbar-start">
           <a class="navbar-item" href="instrumentos.html">Instrumentos</a>
           <a class="navbar-item" href="vendedores.html">Vendedores</a>
           <a class="navbar-item" href="merch.html">Merch</a>
           <a class="navbar-item" href="ventas.html">Ventas concretadas</a>
         </div>
-
         <div class="navbar-end">
           <div class="navbar-item">
-            <span><i>Vista de administrador*</i></span>
+            <span><i><a href="index.html">Vista de cliente</a></i></span>
           </div>
         </div>
       </div>
     </nav>
 
-    <!--Imagen portada-->
     <section class="section">
       <div class="container">
         <figure class="image is-3by1">
-          <img src="Img/fondo_imagen.png" alt="Banner instrumentos">
+          <img src="Img/fondo_imagen.png" alt="Banner merch">
         </figure>
       </div>
     </section>
-
   </header>
 
-  <!-- Titulo -->
-    <div class="container is-fluid">
-      <div class="content">
-        <div class="card">
-          <div class="card-content">
-            <div class="media">
-              <div class="media-left">
-                <figure class="image is-64x64">
-                  <img id="imagen-instrumento" alt="Instrumento" src="">
-                </figure>
-              </div>
-              <div class="media-content">
-                <p class="title is-4" id="nombre-instrumento"></p>
-                <p class="title is-2" id="precio-instrumento"></p>
-                <p class="subtitle is-6" id="tipo-instrumento"></p>
-                <p class="content" id="marca-instrumento"></p>
-                <p class="content" id="modelo-instrumento"></p>
-              </div>
-            </div>
+  <section class="section">
+    <h2 class="title is-2">Merch a modificar</h2>
 
+    <table class="table is-striped is-hoverable is-fullwidth">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tipo</th>
+          <th>Nombre</th>
+          <th>Marca</th>
+          <th>Precio</th>
+          <th>Imagen</th>
+        </tr>
+      </thead>
+      <tbody id="merch-table"> </tbody>
+    </table>
+
+    <h2 class="title is-2">Formulario de edición de merch</h2>
+    <h3 class="subtitle is-size-4">Complete al menos un campo para editar el producto.</h3>
+
+    <form id="formulario_editar_merch">
+      <div class="field">
+        <label class="label">Tipo de producto</label>
+        <div class="control">
+          <div class="select">
+            <select id="tipo-merch">
+              <option value="">*dejar el mismo</option>
+              <option value="Remera">Remera</option>
+              <option value="Buzo">Buzo</option>
+              <option value="Gorra">Gorra</option>
+              <option value="Pua">Púa</option>
+            </select>
           </div>
-
         </div>
-
       </div>
-    </div>
+
+      <div class="field">
+        <label class="label">Nuevo nombre del producto</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Ingrese un nombre" id="nombre-merch" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Nueva marca del producto</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Ingrese una marca" id="marca-merch" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Nuevo precio</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Ingrese un precio" id="precio-merch" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Nueva imagen (URL)</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="URL de la imagen" id="img-merch" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Disponible</label>
+        <div class="control">
+          <div class="select">
+            <select id="disponible-merch">
+              <option value="">*dejar el mismo</option>
+              <option value="verdadero">Disponible</option>
+              <option value="falso">No Disponible</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="field is-grouped">
+        <div class="control">
+          <button type="submit" class="button is-info">Cargar modificaciones</button>
+        </div>
+        <div class="control">
+          <button type="reset" class="button is-link is-light">Limpiar</button>
+        </div>
+      </div>
+    </form>
+
+    <div id="mensaje-respuesta" style="margin-top:10px"></div>
+  </section>
+
+  <!-- Enlace a script JS -->
+  <script src="./Javascript/editar_merch.js"></script>
 
 
 

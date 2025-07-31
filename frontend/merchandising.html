@@ -1,88 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <title>Instrumento</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detalle Merchandising</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
-
-  <script src="./Javascript/get_un_instrumento.js"></script>
 
 <body>
   <header>
-    <!--Barra de navegación-->
     <nav class="navbar is-light" role="navigation">
       <div class="navbar-brand">
-        <a class="navbar-item has-text-weight-bold is-size-4" href="index.html">Música para todos</a>
+        <a class="navbar-item has-text-weight-bold is-size-4" href="index-admin.html">Inicio</a>
       </div>
 
       <div class="navbar-menu is-flex is-align-items-center" style="flex: 1;">
-
         <div class="navbar-start">
           <a class="navbar-item" href="instrumentos.html">Instrumentos</a>
           <a class="navbar-item" href="vendedores.html">Vendedores</a>
           <a class="navbar-item" href="merch.html">Merch</a>
           <a class="navbar-item" href="ventas.html">Ventas concretadas</a>
         </div>
-
         <div class="navbar-end">
           <div class="navbar-item">
-            <span><i>Vista de administrador*</i></span>
+            <span><i><a href="index.html">Vista de cliente</a></i></span>
           </div>
         </div>
       </div>
     </nav>
 
-    <!--Imagen portada-->
     <section class="section">
       <div class="container">
         <figure class="image is-3by1">
-          <img src="Img/fondo_imagen.png" alt="Banner instrumentos">
+          <img src="Img/fondo_imagen.png" alt="Banner Merchandising">
         </figure>
       </div>
     </section>
-
   </header>
 
-  <!-- Titulo -->
-    <div class="container is-fluid">
-      <div class="content">
-        <div class="card">
-          <div class="card-content">
-            <div class="media">
-              <div class="media-left">
-                <figure class="image is-64x64">
-                  <img id="imagen-instrumento" alt="Instrumento" src="">
-                </figure>
-              </div>
-              <div class="media-content">
-                <p class="title is-4" id="nombre-instrumento"></p>
-                <p class="title is-2" id="precio-instrumento"></p>
-                <p class="subtitle is-6" id="tipo-instrumento"></p>
-                <p class="content" id="marca-instrumento"></p>
-                <p class="content" id="modelo-instrumento"></p>
-              </div>
-            </div>
+  <!-- Título del producto -->
+  <h1 class="title is-2 has-text-centered" id="nombre-merchandising"></h1>
 
+  <!-- Tarjeta -->
+  <div class="container is-fluid">
+    <div class="content">
+      <div class="card">
+        <div class="card-content">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-64x64">
+                <img id="imagen-merch" alt="Merchandising" src="">
+              </figure>
+            </div>
+            <div class="media-content">
+              <p class="title is-4" id="nombre-merch"></p>
+              <p class="title is-2" id="precio-merch"></p>
+              <p class="subtitle is-6" id="tipo-merch"></p>
+              <p class="content" id="marca-merch"></p>
+            </div>
           </div>
 
         </div>
 
       </div>
+
     </div>
+  </div>
+
+  <script src="./Javascript/get_un_merch.js"></script>
 
 
 
 
-  <!--Footer-->
+
+
   <footer class="footer has-background-light mt-6">
     <div class="container">
       <div class="columns is-variable is-6">
 
-        <!--Mapa del sitio-->
         <div class="column">
           <p class="title is-6 has-text-dark">Mapa del sitio</p>
           <ul>
@@ -93,7 +89,6 @@
           </ul>
         </div>
 
-        <!--Redes sociales-->
         <div class="column">
           <p class="title is-6 has-text-dark">Redes sociales</p>
           <ul>
@@ -103,14 +98,12 @@
                 @Musicaparatodos
               </a>
             </li>
-
             <li>
               <a href="https://www.instagram.com/" class="has-text-dark">
                 <span class="icon"><i class="fab fa-instagram"></i></span>
                 @musica_para_todos
               </a>
             </li>
-
             <li>
               <a href="https://x.com/?lang=es" class="has-text-dark">
                 <span class="icon"><i class="fab fa-twitter"></i></span>
@@ -120,14 +113,12 @@
           </ul>
         </div>
 
-        <!--Contacto-->
         <div class="column">
           <p class="title is-6 has-text-dark">Contacto</p>
           <p class="mb-2 has-text-dark"><i class="fa fa-envelope"></i> Email: <i>service@musicaparatodos.com</i></p>
           <p class="mb-2 has-text-dark"><i class="fa fa-phone"></i> Teléfono: +54 11 1234-5678</p>
         </div>
 
-        <!--Ubicacion-->
         <div class="column">
           <p class="title is-6 has-text-dark">Ubicación</p>
           <a href="https://maps.google.com/?authuser=0" class="has-text-dark">
@@ -135,7 +126,6 @@
             Av. Paseo Colón 850
           </a>
         </div>
-
       </div>
 
       <div class="content hast-text-centered has-text-grey mt-4">
@@ -143,10 +133,5 @@
       </div>
     </div>
   </footer>
-
-
-
-
 </body>
-
 </html>

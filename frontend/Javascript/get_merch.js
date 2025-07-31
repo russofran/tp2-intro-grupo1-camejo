@@ -1,7 +1,13 @@
 // Get
 
+<<<<<<< Updated upstream
 tablaMerch();
 
+=======
+
+//const tiendaDeMusicaBackendURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/productos/merchandising";
+const tiendaDeMusicaBackendURL = "http://localhost:3030/productos/merchandising";
+>>>>>>> Stashed changes
 
 function tablaMerch (){
 
@@ -78,8 +84,43 @@ function tablaMerch (){
 
 }
 
+<<<<<<< Updated upstream
 function deleteMerch(id_merchandising){
     console.log("hola");
     const tiendaDeMusicaBackendURL = "http://localhost:3030/productos/merchandaising/" + id_merchandising;
     fetch(tiendaDeMusicaBackendURL, {method: 'DELETE'}).then(() => tablaMerch());
 }
+=======
+function deleteMerchandising(id_merchandising, nombre_merchandising){
+    const borrarMerchandisingURL = "http://localhost:3030/admin/merchandising/borrar/" + id_merchandising;
+
+    const body = {
+        valor_anterior: nombre_merchandising
+    };
+
+    fetch(borrarMerchandisingURL, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+    }).then(respuesta => {
+        if (respuesta.status === 200) {
+            alert("Merch eliminado con exito ✔");
+            window.location.replace("./merch.html");
+            return
+        } else if (respuesta.status === 400) {
+            alert("Algo salió mal");
+            window.location.replace("./merch.html");
+            return
+        } else if (respuesta.status === 404) {
+            alert("El elemento seleccionado no existe, haga click en aceptar para recargar la página.");
+            window.location.replace("./merch.html");
+            return
+        }
+        return respuesta.json();
+    });
+
+};
+
+
+
+>>>>>>> Stashed changes
