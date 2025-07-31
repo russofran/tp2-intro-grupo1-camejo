@@ -79,7 +79,41 @@ fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
         newVer.appendChild(newBotonVer);
         newFila.appendChild(newVer);
 
+        const newBotonBorrar = document.createElement("a");
+        newBotonBorrar.className = "button is-danger";
+        newBotonBorrar.onclick = function(){deleteVenta(venta.id)}; 
+        newBotonBorrar.innerHTML = "Borrar";
+
+        const newBorrar = document.createElement("td");
+        newBorrar.appendChild(newBotonBorrar);
+        newFila.appendChild(newBorrar);
+
         table.appendChild(newFila);
     });
 
 });
+
+
+function deleteVenta(id){
+    const borrarVentaURL = "https://tp2-intro-grupo1-camejo-deploy-backend.onrender.com/admin/ventas/borrar/" + id;
+
+    fetch(borrarVentaURL, {
+        method: 'DELETE'
+    }).then((respuesta) => {
+
+        if (respuesta.status === 200) {
+            alert("Elemento eliminado con exito ✔");
+            window.location.replace("./ventas.html");
+            return
+        } else if (respuesta.status === 400) {
+            alert("Algo salió mal");
+            window.location.replace("./ventas.html");
+            return
+        } else if (respuesta.status === 404) {
+            alert("El elemento seleccionado no existe, haga click en aceptar para recargar la página.");
+            window.location.replace("./ventas.html");
+            return
+        }
+    }); 
+
+}
