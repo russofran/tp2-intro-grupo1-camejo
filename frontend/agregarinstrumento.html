@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="website icon" type="png" href="./Img/favicon/favicon-16x16.png">
+    <title>Instrumento</title>
+</head>
+
+<body>
+    <header>
+          <!--Barra de navegación-->
+          <nav class="navbar is-light" role="navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item has-text-weight-bold is-size-4" href="index-admin.html">Inicio</a>
+            </div>
+
+            <div class="navbar-menu is-flex is-align-items-center" style="flex: 1;">
+
+              <div class="navbar-start">
+                <a class="navbar-item" href="instrumentos.html">Instrumentos</a>
+                <a class="navbar-item" href="vendedores.html">Vendedores</a>
+                <a class="navbar-item" href="merch.html">Merch</a>
+                <a class="navbar-item" href="ventas.html">Ventas concretadas</a>
+            </div>
+
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <span><i><a href="index.html">Vista de cliente</a></i></span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!--Imagen portada-->
+        <section class="section">
+            <div class="container">
+                <figure class="image is-3by1">
+                    <img src="Img/fondo_imagen.png" alt="Banner instrumentos">
+                </figure>
+            </div>
+        </section>
+
+    </header>
+
+    <!-- Titulo -->
+    <h1 class="title is-2 has-text-centered" id="titulo-formulario">Ingrese el instrumento a agregar</h1>
+  
+
+    <section class="section">
+      <!-- Formulario de compra -->
+      <form id="formulario_agregar_instrumento">
+        <!-- Primer Input -->
+         
+        <div class="field">
+          <label class="label">Tipo de instrumento</label>
+          <div class="control">
+            <div class="select">
+              <select name="tipo" id="tipo-instrumento">
+                <option value="Guitarra Eléctrica">Guitarra Electrica</option>
+                <option value="Guitarra Acústica">Guitarra Acústica</option>
+                <option value="Batería">Bateria</option>
+                <option value="Piano">Piano</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- Segundo Input -->
+
+        <div class="field">
+          <label class="label">Nombre Instrumento</label>
+          <div class="control">
+            
+            <input class="input" type="text" placeholder="Ingrese un nombre" id="nombre-instrumento"/>
+            
+          </div>
+        </div>
+
+        <!-- Tercer Input-->
+
+        <div class="field">
+          <label class="label">Marca Instrumento</label>
+          <div class="control">
+            
+            <input class="input" type="text" placeholder="Ingrese un nombre" id="marca-instrumento"/>
+            
+          </div>
+        </div>
+
+        <!-- Cuarto Input-->
+
+        <div class="field">
+          <label class="label">Modelo Instrumento</label>
+          <div class="control">
+            
+            <input class="input" type="text" placeholder="Ingrese un modelo" id="modelo-instrumento"/>
+            
+          </div>
+        </div>
+
+        <!-- Quinto Input-->
+
+        <div class="field">
+          <label class="label"> Precio Instrumento</label>
+          <div class="control">
+            
+            <input class="input" type="text" placeholder="Ingrese Precio" id="precio-instrumento"/>
+            
+          </div>
+        </div>
+
+        <!-- sexto Input-->
+
+        <div class="field">
+          <label class="label"> Img Instrumento</label>
+          <div class="control">
+            
+            <input class="input" type="text" placeholder="Si no tiene, poner null. NO DEJAR VACÍO" id="img-instrumento"/>
+            
+          </div>
+        </div>
+
+        <!-- Primer Input -->
+         
+        <div class="field">
+          <label class="label"> Disponible</label>
+          <div class="control">
+            <div class="select">
+              <select name="tipo" id="disponible-instrumento">
+                <option value="true">Disponible</option>
+                <option value="false">No Disponible</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!--boton submit o cancel-->
+        <div class="field is-grouped">
+          <div class="control">
+            <button type="submit" class="button is-info" id="Agregar-boton">Agregar</button>
+          </div>
+          <div class="control">
+            <button type="reset" class="button is-link is-light" id="cancel-boton">Borrar campos</button>
+          </div>
+        </div>
+      </form>
+
+       <!-- mensaje alerta -->
+      <div id="mensaje-respuesta" style="margin-top:10px"></div>
+
+    </section>
+
+    <script src="./Javascript/post_instrumentos.js"></script>
+
+      <!--Footer-->
+      <footer class="footer has-background-light mt-6">
+        <div class="container">
+          <div class="columns is-variable is-6">
+
+            <!--Mapa del sitio-->
+            <div class="column">
+              <p class="title is-6 has-text-dark">Mapa del sitio</p>
+                <ul>
+                  <li><a class="has-text-link" href="instrumentos.html">Instrumentos</a></li>
+                  <li><a class="has-text-link" href="merch.html">Merch</a></li>
+                  <li><a class="has-text-link" href="vendedores.html">Vendedores</a></li>
+                  <li><a class="has-text-link" href="ventas.html">Ventas</a></li>
+                </ul>
+            </div>
+
+            <!--Redes sociales-->
+            <div class="column">
+              <p class="title is-6 has-text-dark">Redes sociales</p>
+                <ul>
+                  <li>
+                    <a href="https://www.facebook.com/?locale=es_LA" class="has-text-dark">
+                      <span class="icon"><i class="fab fa-facebook has-text-dark"></i></span>
+                      @Musicaparatodos
+                    </a>
+                  </li>
+
+                  <li>
+                    <a href="https://www.instagram.com/" class="has-text-dark">
+                      <span class="icon"><i class="fab fa-instagram"></i></span>
+                      @musica_para_todos 
+                    </a>
+                  </li>
+
+                  <li>
+                    <a href="https://x.com/?lang=es" class="has-text-dark">
+                      <span class="icon"><i class="fab fa-twitter"></i></span>
+                      @musicaparatodos 
+                    </a>
+                  </li>
+                </ul>
+            </div>
+
+            <!--Contacto-->
+            <div class="column">
+              <p class="title is-6 has-text-dark">Contacto</p>
+              <p class="mb-2 has-text-dark"><i class ="fa fa-envelope"></i> Email: <i>service@musicaparatodos.com</i></p>
+              <p class="mb-2 has-text-dark"><i class="fa fa-phone"></i> Teléfono: +54 11 1234-5678</p>
+            </div>
+
+            <!--Ubicacion-->
+              <div class="column">
+                <p class="title is-6 has-text-dark">Ubicación</p>
+                  <a href="https://maps.google.com/?authuser=0" class="has-text-dark">
+                    <span class="icon"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+                    Av. Paseo Colón 850
+                  </a>
+              </div>
+
+          </div>
+                
+            <div class="content hast-text-centered has-text-grey mt-4">
+              <p>© 2025 Música para todos. Todos los derechos reservados</p>
+            </div>
+        </div>
+      </footer>     
+
+
+
+
+</body>
+
+</html>

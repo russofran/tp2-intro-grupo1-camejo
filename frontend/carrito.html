@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="website icon" type="png" href="./Img/favicon/favicon-16x16.png">
+    <title>Instrumento</title>
+</head>
+
+<body>
+    <header>
+          <!--Barra de navegación-->
+          <nav class="navbar is-light" role="navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item has-text-weight-bold is-size-4" href="index.html">Inicio</a>
+            </div>
+
+            <div class="navbar-menu is-flex is-align-items-center" style="flex: 1;">
+
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <span><i><a href="index-admin.html">Vista de administrador</a></i></span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!--Imagen portada-->
+        <section class="section">
+            <div class="container">
+                <figure class="image is-3by1">
+                    <img src="Img/fondo_imagen.png" alt="Banner instrumentos">
+                </figure>
+            </div>
+        </section>
+
+    </header>
+
+    <!-- Titulo -->
+    <h1 class="title is-2 has-text-centered" id="titulo-formulario">Ingrese la venta a concretar</h1>
+  
+
+    <section class="section">
+      <!-- Formulario de compra -->
+      <form id="formulario_venta_concretada">
+        <!-- Primer Input, seleccione tipo de venta -->
+        <div class="field">
+          <label class="label">Tipo de venta</label>
+          <div class="control">
+            <div class="select">
+              <select name="tipo" id="select-tipo">
+                <option value="Online">Online</option>
+                <option value="Local">Local</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- Segundo Input tipo select, seleccione vendedor -->
+        <div class="field">
+          <label class="label">Seleccione un vendedor</label>
+          <div class="control">
+            <div class="select">
+              <select name="tipo" id="select-vendedores">
+                <option value="null">Vendedores</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- Tercer Input tipo select, seleccione instrumento -->
+        <div class="field">
+          <label class="label">Seleccione un instrumento</label>
+          <div class="control">
+            <div class="select">
+              <select name="tipo" id="select-instrumento">
+                <option value="null">Ninguno</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- Cuarto Input tipo select, seleccione merchandising -->
+        <div class="field">
+          <label class="label">Seleccione un merchandising</label>
+          <div class="control">
+            <div class="select">
+              <select name="tipo" id="select-merchandising">
+                <option value="null">Ninguno</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Precio tipo span actualizado-->
+        <div class="field">
+          <label class="label">Precio [VER PRECIO ANTES DE COMPRAR]</label>
+          <div class="control">
+            <div class="span">
+              <p>Total: $<span id="precio-total">0</span></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sexto Input tipo boton submit o cancel.-->
+        <div class="field is-grouped">
+          <div class="control">
+            <button type="button" class="button is-info" id="price-boton">Ver Precio</button>
+          </div>
+          <div class="control">
+            <button type="submit" class="button is-link" id="submit-boton">Comprar</button>
+          </div>
+          <div class="control">
+            <button type="reset" class="button is-link is-light" id="cancel-boton">Borrar todo</button>
+          </div>
+        </div>
+      </form>
+      <div id="mensaje-respuesta" style="margin-top:10px"></div>
+
+    </section>
+
+    <script src="./Javascript/post_venta_concretada_instrumento.js"></script>
+
+      <!--Footer-->
+      <footer class="footer has-background-light mt-6">
+        <div class="container">
+          <div class="columns is-variable is-6">
+
+            <!--Redes sociales-->
+            <div class="column">
+              <p class="title is-6 has-text-dark">Redes sociales</p>
+                <ul>
+                  <li>
+                    <a href="https://www.facebook.com/?locale=es_LA" class="has-text-dark">
+                      <span class="icon"><i class="fab fa-facebook has-text-dark"></i></span>
+                      @Musicaparatodos
+                    </a>
+                  </li>
+
+                  <li>
+                    <a href="https://www.instagram.com/" class="has-text-dark">
+                      <span class="icon"><i class="fab fa-instagram"></i></span>
+                      @musica_para_todos 
+                    </a>
+                  </li>
+
+                  <li>
+                    <a href="https://x.com/?lang=es" class="has-text-dark">
+                      <span class="icon"><i class="fab fa-twitter"></i></span>
+                      @musicaparatodos 
+                    </a>
+                  </li>
+                </ul>
+            </div>
+
+            <!--Contacto-->
+            <div class="column">
+              <p class="title is-6 has-text-dark">Contacto</p>
+              <p class="mb-2 has-text-dark"><i class ="fa fa-envelope"></i> Email: <i>service@musicaparatodos.com</i></p>
+              <p class="mb-2 has-text-dark"><i class="fa fa-phone"></i> Teléfono: +54 11 1234-5678</p>
+            </div>
+
+            <!--Ubicacion-->
+              <div class="column">
+                <p class="title is-6 has-text-dark">Ubicación</p>
+                  <a href="https://maps.google.com/?authuser=0" class="has-text-dark">
+                    <span class="icon"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+                    Av. Paseo Colón 850
+                  </a>
+              </div>
+
+          </div>
+                
+            <div class="content hast-text-centered has-text-grey mt-4">
+              <p>© 2025 Música para todos. Todos los derechos reservados</p>
+            </div>
+        </div>
+      </footer>     
+
+
+
+
+</body>
+
+</html>

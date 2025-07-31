@@ -1,0 +1,23 @@
+{
+  "name": "tp2-intro-grupo1-camejo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "/src/api.js",
+  "scripts": {
+    "start": "node src/api.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon /src/api.js",
+    "dev_wsl": "./node_modules/.bin/nodemon src/api.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

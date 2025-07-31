@@ -1,0 +1,5 @@
+.volumes/
+volume_db
+tienda_musica
+node_modules/
+README.md
