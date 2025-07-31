@@ -16,25 +16,11 @@ fetch(tiendaDeMusicaBackendURL).then((respuesta) => {
 }).then((data) => {
     // Aca trabajamos con los datos obtenidos desde la base de datos por medio de "data".
     document.getElementById("nombre-instrumento").innerHTML = data.nombre_instrumento;
-    document.getElementById("precio-card").innerHTML = "$" + data.precio_instrumento;
-
-    if (!data.disponible_instrumento) {
-        document.getElementById("enlace-card-comprar").removeAttribute("href");
-        document.getElementById("img-card").removeAttribute("src");
-        const newBotonAgotado = document.getElementById("boton-card");
-        newBotonAgotado.className = "button is-danger is-outlined";
-        newBotonAgotado.innerHTML = "Agotado"
-
-    } else {
-        const newBotonComprar = document.getElementById("boton-card");
-        newBotonComprar.className = "button is-success";
-        document.getElementById("img-card").src = data.imagen_instrumento;
-
-        const enlaceCardComprar = document.getElementById("enlace-card-comprar");
-        enlaceCardComprar.innerHTML = "Comprar";
-        document.getElementById("enlace-card-comprar").href = "./carrito.html";
-    
-    };
+    document.getElementById("precio-instrumento").innerHTML = "$" + data.precio_instrumento;
+    document.getElementById("tipo-instrumento").innerHTML = data.tipo_instrumento;
+    document.getElementById("marca-instrumento").innerHTML = data.marca_instrumento;
+    document.getElementById("modelo-instrumento").innerHTML = data.modelo_instrumento;
+    document.getElementById("imagen-instrumento").src = data.imagen_instrumento;
 
 });
 
