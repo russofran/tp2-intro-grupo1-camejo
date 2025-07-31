@@ -506,37 +506,61 @@ app.put('/admin/vendedores/actualizar/:id', async (req, res) => {
 });
 
 // TABLA MERCHANDISING
-app.put('/admin/merchandising/actualizar', async (req, res) => {
-    // Validar que se manden 3 campos y que id sea >= 1.
-    if (req.body.id <= 0 || req.body.valor === undefined || !req.body.campo) {
-            return res.status(400).send('Hay un error en los campos.')
+app.put('/admin/merchandising/actualizar/:id', async (req, res) => {
+    try {
+
+        // validación de que exista la id
+        if (!req.params.id || req.params.id <= 0) {
+            return res.status(400).send('Error, falta indicar el id del vendedor o es menor o igual a 0.');
         };
-    // Validar que no cree nuevas columnas.
-    const columnas_permitidas = [
-        'tipo_merchandising',
-        'nombre_merchandising',
-        'marca_merchandising',
-        'imagen_merchandising',
-        'precio_merchandising',
-        'disponible_merchandising' ];
 
-    if (!columnas_permitidas.includes(req.body.campo)) {
-        return res.status(400).json({ error: "Nombre de campo inválido." });
-    };
-    const reemplazar = await actualizarMerchandising(
-        req.body.id,
-        req.body.valor,
-        req.body.campo
-    );
-    
-    if (reemplazar === undefined) {
-        return res.status(500).json({ error: 'No se pudo actualizar la entidad "Merchandising".' }) 
-    };
 
-    res.json(reemplazar);
-    
+        // si tiene todos null>
+        if (
+            !req.body.id_merchandising &&
+            !req.body.tipo_merchandising &&
+            !req.body.nombre_merchandising &&
+            !req.body.marca_merchandising &&
+            !req.body.imagen_merchandising &&
+            !req.body.precio_merchandising &&
+            !req.body.disponible_merchandising
+        ) {
+            return res.status(400).send('Debe ingresar algún parámetro');
+        };
 
-    });
+        let disponible = true;
+
+        // convertir a true o false disponible
+        if (req.body.disponible_merchandising === "verdadero") {
+            disponible = true;
+        } else {
+            disponible = false;
+        };
+
+
+        const reemplazar = await actualizarMerchandising(
+            req.params.id,
+            req.body.tipo_merchandising || null,
+            req.body.nombre_merchandising|| null,
+            req.body.marca_merchandising || null,
+            req.body.imagen_merchandising || null,
+            req.body.precio_merchandising || null,
+            disponible
+        );
+
+        console.log(reemplazar);
+        
+        if (!reemplazar) {
+            return res.status(404).json({ error: 'Vendedor no encontrado.' });
+        }
+
+        res.json(reemplazar);
+        
+    } catch (error) {
+        console.error('Error al actualizar el merch', error);
+        res.status(500).json({ error: 'Error al actualizar merch', detalle: error.message });
+    }
+});
 
 
 

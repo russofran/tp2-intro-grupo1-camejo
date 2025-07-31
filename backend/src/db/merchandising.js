@@ -62,17 +62,56 @@ async function agregarMerchandising (
 
 // PUT
 // Actualizar datos de una fila (PUT).
-async function actualizarMerchandising(id, valor, campo) {
+async function actualizarMerchandising(id, tipo, nombre, marca, imagen, precio, disponible) {
+    // undefined o el valor que llegue del input que no fue activado
+    function convertirNull(valor) {
+        return valor === undefined ? null : valor;
+    }
 
+    console.log(id, tipo, nombre, marca, imagen, precio, disponible)
+ 
+
+    let tipo_merchandising = convertirNull(tipo);
+    let nombre_merchandising = convertirNull(nombre);
+    let marca_merchandising = convertirNull(marca);
+    let imagen_merchandising = convertirNull(imagen);
+    let precio_merchandising = convertirNull(precio);
+    let disponible_merchandising = convertirNull(disponible);
+    
+    // validación
+    if (id === undefined) {
+        return undefined
+    };
+
+
+    // COALESCE(valor_1, valor_2) # Si valor_1 es null, poner valor 2. (Valor 2 es el valor existente) 
     const query = `
-        UPDATE ONLY merchandising
-        SET ${campo} = $2
+        UPDATE merchandising
+        SET
+            tipo_merchandising = COALESCE($2, tipo_merchandising),
+            nombre_merchandising = COALESCE($3, nombre_merchandising),
+            marca_merchandising = COALESCE($4, marca_merchandising),
+            imagen_merchandising = COALESCE($5, imagen_merchandising),
+            precio_merchandising = COALESCE($6, precio_merchandising),
+            disponible_merchandising = COALESCE($7, disponible_merchandising)
         WHERE id_merchandising = $1
-        RETURNING *
+        RETURNING *;
     `;
-    const resultado = await dbCliente.query(query, [id, valor]);
+
+    const valores = [
+        id,
+        tipo_merchandising || null,
+        nombre_merchandising || null,
+        marca_merchandising || null,
+        imagen_merchandising || null,
+        precio_merchandising || null,
+        (disponible_merchandising === undefined ? null : disponible_merchandising),
+    ];
+
+
+    const resultado = await dbCliente.query(query, valores);
     return resultado.rows[0];
-}
+};
 
 
 // DELETE
@@ -97,4 +136,4 @@ module.exports = {
     obtenerUnMerchandising,
     actualizarMerchandising,
     borrarMerchandising
-};
+}

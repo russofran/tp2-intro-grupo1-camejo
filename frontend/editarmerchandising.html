@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="website icon" type="png" href="./Img/favicon/favicon-16x16.png">
+  <link rel="stylesheet" type="text/css" href="./css/style_form.css">
+  <title>Merchandising</title>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar is-light" role="navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item has-text-weight-bold is-size-4" href="index-admin.html">Inicio</a>
+      </div>
+      <div class="navbar-menu is-flex is-align-items-center" style="flex: 1;">
+        <div class="navbar-start">
+          <a class="navbar-item" href="instrumentos.html">Instrumentos</a>
+          <a class="navbar-item" href="vendedores.html">Vendedores</a>
+          <a class="navbar-item" href="merch.html">Merch</a>
+          <a class="navbar-item" href="ventas.html">Ventas concretadas</a>
+        </div>
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <span><i><a href="index.html">Vista de cliente</a></i></span>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <section class="section">
+      <div class="container">
+        <figure class="image is-3by1">
+          <img src="Img/fondo_imagen.png" alt="Banner merch">
+        </figure>
+      </div>
+    </section>
+  </header>
+
+  <section class="section">
+    <h2 class="title is-2">Merch a modificar</h2>
+
+    <table class="table is-striped is-hoverable is-fullwidth">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tipo</th>
+          <th>Nombre</th>
+          <th>Marca</th>
+          <th>Precio</th>
+          <th>Imagen</th>
+        </tr>
+      </thead>
+      <tbody id="merch-table"> </tbody>
+    </table>
+
+    <h2 class="title is-2">Formulario de edición de merch</h2>
+    <h3 class="subtitle is-size-4">Complete al menos un campo para editar el producto.</h3>
+
+    <form id="formulario_editar_merch">
+      <div class="field">
+        <label class="label">Tipo de producto</label>
+        <div class="control">
+          <div class="select">
+            <select id="tipo-merch">
+              <option value="">*dejar el mismo</option>
+              <option value="Remera">Remera</option>
+              <option value="Buzo">Buzo</option>
+              <option value="Gorra">Gorra</option>
+              <option value="Pua">Púa</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Nuevo nombre del producto</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Ingrese un nombre" id="nombre-merch" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Nueva marca del producto</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Ingrese una marca" id="marca-merch" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Nuevo precio</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Ingrese un precio" id="precio-merch" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Nueva imagen (URL)</label>
+        <div class="control">
+          <input class="input is" type="text" placeholder="URL de la imagen" id="img-merch" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Disponible</label>
+        <div class="control">
+          <div class="select">
+            <select id="disponible-merch">
+              <option value="">*dejar el mismo</option>
+              <option value="verdadero">Disponible</option>
+              <option value="falso">No Disponible</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="field is-grouped">
+        <div class="control">
+          <button type="submit" class="button is-info">Cargar modificaciones</button>
+        </div>
+        <div class="control">
+          <button type="reset" class="button is-link is-light">Limpiar</button>
+        </div>
+      </div>
+    </form>
+
+    <div id="mensaje-respuesta" style="margin-top:10px"></div>
+  </section>
+
+  <!-- Enlace a script JS -->
+  <script src="./Javascript/editar_merch.js"></script>
+
+
+
+
+  <!--Footer-->
+  <footer class="footer has-background-light mt-6">
+    <div class="container">
+      <div class="columns is-variable is-6">
+
+        <!--Mapa del sitio-->
+        <div class="column">
+          <p class="title is-6 has-text-dark">Mapa del sitio</p>
+          <ul>
+            <li><a class="has-text-link" href="instrumentos.html">Instrumentos</a></li>
+            <li><a class="has-text-link" href="merch.html">Merch</a></li>
+            <li><a class="has-text-link" href="vendedores.html">Vendedores</a></li>
+            <li><a class="has-text-link" href="ventas.html">Ventas</a></li>
+          </ul>
+        </div>
+
+        <!--Redes sociales-->
+        <div class="column">
+          <p class="title is-6 has-text-dark">Redes sociales</p>
+          <ul>
+            <li>
+              <a href="https://www.facebook.com/?locale=es_LA" class="has-text-dark">
+                <span class="icon"><i class="fab fa-facebook has-text-dark"></i></span>
+                @Musicaparatodos
+              </a>
+            </li>
+
+            <li>
+              <a href="https://www.instagram.com/" class="has-text-dark">
+                <span class="icon"><i class="fab fa-instagram"></i></span>
+                @musica_para_todos
+              </a>
+            </li>
+
+            <li>
+              <a href="https://x.com/?lang=es" class="has-text-dark">
+                <span class="icon"><i class="fab fa-twitter"></i></span>
+                @musicaparatodos
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!--Contacto-->
+        <div class="column">
+          <p class="title is-6 has-text-dark">Contacto</p>
+          <p class="mb-2 has-text-dark"><i class="fa fa-envelope"></i> Email: <i>service@musicaparatodos.com</i></p>
+          <p class="mb-2 has-text-dark"><i class="fa fa-phone"></i> Teléfono: +54 11 1234-5678</p>
+        </div>
+
+        <!--Ubicacion-->
+        <div class="column">
+          <p class="title is-6 has-text-dark">Ubicación</p>
+          <a href="https://maps.google.com/?authuser=0" class="has-text-dark">
+            <span class="icon"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+            Av. Paseo Colón 850
+          </a>
+        </div>
+
+      </div>
+
+      <div class="content hast-text-centered has-text-grey mt-4">
+        <p>© 2025 Música para todos. Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+
+
+
+</body>
+
+</html>
