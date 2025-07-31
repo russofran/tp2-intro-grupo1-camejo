@@ -212,7 +212,98 @@ _Todos los datos proporcionados en las tablas son de mera ayuda a la interpretac
 __Los campos instrumento_borrado, merchandising_borrado y vendedor_despedido se completan automaticamente al borrar alguna entidad relacionada a esta tabla__
 
 
-# Funcionamiento de la página (Con imágenes)
+# Funcionamiento de la página
+
+## Cliente
+
+index.html
+Carrito.html
+El cliente puede realizar la carga (POST VENTAS_CONCRETADAS) desde el formulario correspondiente al template: **../carrito.html**
+Al realizar el formulario, al posible cliente solo se le mostrará los productos y vendedores disponibles según __si el campo "disponible" se encuentra en true, si el campo está en false, no se lo mostrará en el glosario__ de carrito.html.
+Cada vez que un cliente registre una compra de un instrumento / merchandising, al vendedor que registre se le sumará + 1 en el campo "ventas" mediante una query - put vendedores SET ventas = ventas + 1.
+
+foto form carrito
+
+## Administrador
+
+_El administrador, como se explicó en la introducción, se encarga del manejo de las tablas por completo._
+
+## CRUD por tablas
+
+### 1.1 - Instrumentos (GET Instrumentos)
+
+Desde la barra de navegación y desde el footer también se puede acceder a instrumentos.html para ver todos los objetos correspondientes a la entidad instrumentos.
+
+### 1.1.2 - Instrumentos (GET instrumento)
+
+Desde instrumentos.html se pueden ver un solo insturmento detalladamente.
+
+## 1.2 - Instrumentos (POST instrumento)
+
+Desde index-admin.html se puede cargar un instrumento mediante un formulario dentro de agregarinstrumento.html.
+
+### 1.3 - Instrumentos (PATCH: PUT ventas_concretadas & DELETE instrumentos)
+
+Desde instrumentos.html se puede borrar el instrumento seleccionado según la fila en la que se aprete el botón "borrar":
+Este botón primero actualiza el campo instrumento_borrado de todos los objetos de venta_concretada que contengan en el campo instrumento_id el id del instrumento a borrar y coloca su nombre en el campo instrumento_borrado.
+Luego de actualizar la tabla venta_concretada se procede a borrar el instrumento de la tabla.
+Si por alguna razón falla el actualizar en venta, no carga el delete instrumento.
+
+### 1.4 - Instrumentos (PUT instrumento)
+
+Según el instrumento que seleccionemos desde instrumentos.html podemos pulsar en "editar" y realizar, mediante un formulario, un pedido de update instrumento según el / los campos registrados, si no se modifica ningún campo, no realizará el pedido.
+
+### 2 - Vendedores (GET vendedores)
+
+Desde la barra de navegación y desde el footer también se puede acceder a vendedores.html para ver todos los objetos correspondientes a la entidad vendedores.
+
+### 2.1 - Vendedores (GET 1 vendedor por id)
+
+Desde vendedores.html se puede obtener una tabla con todos los campos que tenga el vendedor seleccionado.
+
+### 2.1.2 - Vendedores (GET ventas del vendedor seleccionado)
+
+Desde vendedor.html?id=num se puede obtener las ventas realizadas por dicho vendedor que traerá los datos correspondientes a cada venta y, si la venta todavía mantiene la relación con sus entidades relacionales (Es decir, no se borraron y se archivaron) la query está preparada para reemplazar el nombre del objeto según la id que tenga.
+
+### 2.2 - Vendedores (PATCH: PUT ventas_concretadas & DELETE vendedores)
+
+Desde vendedores.html se puede borrar el vendedor (por despido) seleccionado y archivarlo en las ventas de ventas_concretadas que esté registrado.
+
+### 2.3 - Vendedores (POST vendedor)
+
+Desde el index-admin.html se puede ir a "agregarvendedor.html" donde cargará un formulario representando a los campos correspondientes que puede tener un vendedor y al pulsar "agregar" se intentará agregar a la tabla vendedores.
+
+### 2.4 - Vendedores (PUT vendedor) 
+
+Desde vendedores.html se puede ir a "editarvendedor.html" donde le aparecerá un formulario representando a los campos correspondientes que puede tener un vendedor y si carga al menos 1 campo, este se modificará dejando al resto con el mismo valor que antes.
+
+### 3 - Merchandising (GET Merchandising)
+
+Desde la barra de navegación y desde el footer también se puede acceder a merchandising.html para ver todos los objetos correspondientes a la entidad merchandising.
+
+### 3.1 - Merchandising (GET 1 merchandising)
+
+Desde merch.html se puede ver con detalle un merch.
+
+### 3.2 Merchandising (POST merchandising)
+
+Desde index-admin.html se puede apretar en "agregar merchandising" y lo llevará a agregarMerchandising.html el cual tendrá un formulario con los campos correspondientes a merchandising, al cargar si todos los campos tienen el formato correcto, se cargará un nuevo merch en la tabla.
+
+### 3.3 - Merchandising (PATCH: PUT ventas_concretadas & DELETE merch)
+
+Desde merchandising.html se puede borrar un merch y a la vez archivarlo en los campos correspondientes de ventas_concretadas según corresponda.
+
+### 4 - Ventas Concretadas (GET ventas_concretadas)
+
+Desde la barra de navegación y desde el footer también se puede acceder a ventas.html para ver todos los objetos correspondientes a la entidad ventas_concretadas.
+
+### 4.1 - Ventas Concretadas (Get 1 venta)
+
+Esta función es especial porque la tabla ventas_concretadas contiene 3 claves foraneas haciendo referencia a instrumentos, merchandising (como productos) y vendedores (staff). Cuando vemos los detalles de una venta, la query obtiene mediante join de las tablas, los objetos que hace referencia esa FK, donde obtendremos solo el nombre de ese objeto y lo reemplazamos por el id.
+
+
+
+
 
 
 
